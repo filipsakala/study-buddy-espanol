@@ -11,6 +11,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "yarn --cwd packages/client dev"
+    "dev": "concurrently  \"yarn --cwd packages/client dev\" \"yarn --cwd packages/server dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
