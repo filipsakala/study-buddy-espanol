@@ -1,0 +1,16 @@
+{
+  "name": "study-buddy-espanol",
+  "version": "1.0.0",
+  "description": "Another app for studying Spanish",
+  "main": "index.js",
+  "repository": "git@github.com:filipsakala/study-buddy-espanol.git",
+  "author": "Filip Sakala <filip.sakala@vacuumlabs.com>",
+  "license": "GNU",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "yarn --cwd packages/client dev"
+  }
+}
