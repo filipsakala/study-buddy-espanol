@@ -52,12 +52,20 @@ import Body from "./layout/Body";
 // `
 // );
 
+const PageWrapper = styled("div")`
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
+`;
+
 const App = () => {
   return (
-    <>
+    <PageWrapper>
       <Header />
       <Body />
-    </>
+    </PageWrapper>
   );
 };
 

@@ -1,11 +1,9 @@
-import studyBuddy from "../assets/study_buddy.png";
-import studyBuddy2 from "../assets/study_buddy2.png";
+import Quiz from "../components/Quiz";
 
 const Body = () => {
   return (
     <div>
-      <img src={studyBuddy} className="logo" alt="Study buddy" />
-      <img src={studyBuddy2} className="logo" alt="Study sources" />
+      <Quiz />
     </div>
   );
 };
