@@ -4,7 +4,7 @@ import { EQuizStatus } from "../../../types/Quiz";
 import { Button } from "@mui/material";
 
 const QuizInitActions = () => {
-  const { status } = useContext(QuizContext);
+  const { status, startQuiz } = useContext(QuizContext);
 
   if (status !== EQuizStatus.INIT) {
     return null;
@@ -12,7 +12,7 @@ const QuizInitActions = () => {
 
   return (
     <>
-      <Button variant="contained" color="success">
+      <Button variant="contained" color="success" onClick={startQuiz}>
         Start Quiz
       </Button>
     </>

@@ -1,12 +1,15 @@
 import { createContext, useMemo } from "react";
 import { EQuizStatus } from "../types/Quiz";
+import useQuizActions from "./useQuizActions";
 
 export type TQuizContext = {
   status: EQuizStatus;
+  startQuiz: () => void;
 };
 
 export const QuizContext = createContext<TQuizContext>({
   status: EQuizStatus.INIT,
+  startQuiz: () => {},
 });
 
 type TQuizContextProvider = {
@@ -14,11 +17,14 @@ type TQuizContextProvider = {
 };
 
 export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
+  const { status, startQuiz } = useQuizActions();
+
   const contextValue = useMemo(
     () => ({
-      status: EQuizStatus.INIT,
+      status,
+      startQuiz,
     }),
-    []
+    [status, startQuiz]
   );
 
   return (
