@@ -7,6 +7,7 @@ import QuizActions from "./QuizActions";
 const StyledWrapper = styled("div")`
   display: flex;
   flex-direction: column;
+  flex: 1;
 `;
 
 const Quiz = () => {
