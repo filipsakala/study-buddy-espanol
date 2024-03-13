@@ -1,29 +1,27 @@
 import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
-import QuizInitActions from "./QuizInitActions";
-import { styled } from "@mui/material";
+import { styled } from "@mui/system";
+import QuizInitBody from "./QuizInitBody";
 
 const StyledWrapper = styled("div")`
   display: flex;
   gap: 5px;
 
-  width: 100%;
+  flex-grow: 1;
   align-items: center;
   justify-content: center;
   padding: 10px 0;
-
-  border-top: 1px solid gray;
 `;
 
-const QuizActions = () => {
+const QuizBody = () => {
   const { status } = useContext(QuizContext);
 
   return (
     <StyledWrapper>
-      {status === EQuizStatus.INIT && <QuizInitActions />}
+      {status === EQuizStatus.INIT && <QuizInitBody />}
     </StyledWrapper>
   );
 };
 
-export default QuizActions;
+export default QuizBody;
