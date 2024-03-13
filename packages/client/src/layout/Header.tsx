@@ -3,8 +3,7 @@ import { styled } from "@mui/system";
 
 const StyledHeader = styled("header")(
   ({ theme }) => `
-  width: 100%;
-  border: 1px solid gray;
+  border-bottom: 1px solid gray;
   padding: ${theme.spacing(2)};
   display: flex;
   align-items: center;
