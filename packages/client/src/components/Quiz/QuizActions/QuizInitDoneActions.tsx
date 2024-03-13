@@ -3,10 +3,10 @@ import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { Button } from "@mui/material";
 
-const QuizInitActions = () => {
+const QuizInitDoneActions = () => {
   const { status, startQuiz } = useContext(QuizContext);
 
-  if (status !== EQuizStatus.INIT) {
+  if (status !== EQuizStatus.INIT && status !== EQuizStatus.DONE) {
     return null;
   }
 
@@ -19,4 +19,4 @@ const QuizInitActions = () => {
   );
 };
 
-export default QuizInitActions;
+export default QuizInitDoneActions;

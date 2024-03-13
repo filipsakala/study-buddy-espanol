@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
-import QuizInitActions from "./QuizInitActions";
+import QuizInitDoneActions from "./QuizInitDoneActions";
 import { styled } from "@mui/material";
+import QuizInProgressActions from "./QuizInProgressActions";
 
 const StyledWrapper = styled("div")`
   display: flex;
@@ -21,7 +22,10 @@ const QuizActions = () => {
 
   return (
     <StyledWrapper>
-      {status === EQuizStatus.INIT && <QuizInitActions />}
+      {(status === EQuizStatus.INIT || status === EQuizStatus.DONE) && (
+        <QuizInitDoneActions />
+      )}
+      {status === EQuizStatus.IN_PROGRESS && <QuizInProgressActions />}
     </StyledWrapper>
   );
 };
