@@ -7,8 +7,3 @@ export type Question = {
   answers: string[]; // possible answers can be empty for open answer questions
   correctAnswer: string;
 };
-
-export type Answer = {
-  isAnswered: boolean;
-  isCorrect: boolean;
-};
