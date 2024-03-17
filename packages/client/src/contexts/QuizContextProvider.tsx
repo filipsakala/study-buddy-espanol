@@ -5,11 +5,15 @@ import useQuizActions from "./useQuizActions";
 export type TQuizContext = {
   status: EQuizStatus;
   startQuiz: () => void;
+  isApiLoading: boolean;
+  hasApiError: boolean;
 };
 
 export const QuizContext = createContext<TQuizContext>({
   status: EQuizStatus.INIT,
   startQuiz: () => {},
+  isApiLoading: false,
+  hasApiError: false,
 });
 
 type TQuizContextProvider = {
@@ -17,14 +21,16 @@ type TQuizContextProvider = {
 };
 
 export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
-  const { status, startQuiz } = useQuizActions();
+  const { status, startQuiz, hasApiError, isLoading } = useQuizActions();
 
   const contextValue = useMemo(
     () => ({
       status,
       startQuiz,
+      isApiLoading: isLoading,
+      hasApiError,
     }),
-    [status, startQuiz]
+    [status, startQuiz, isLoading, hasApiError]
   );
 
   return (

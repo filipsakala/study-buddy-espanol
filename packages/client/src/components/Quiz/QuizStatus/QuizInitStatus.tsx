@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
-import { EQuizStatus } from "../../../types/Quiz";
+import { EQuizStatus, QUIZ_QUESTION_COUNT } from "../../../types/Quiz";
 import { styled } from "@mui/system";
 import { FavoriteTwoTone as FavoriteIcon } from "@mui/icons-material";
 
@@ -23,16 +23,9 @@ const QuizInitStatus = () => {
 
   return (
     <ProgressWrapper>
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
-      <FavoriteIcon color="disabled" />
+      {[...Array(QUIZ_QUESTION_COUNT)].map((_, i) => (
+        <FavoriteIcon key={i} color="disabled" />
+      ))}
     </ProgressWrapper>
   );
 };

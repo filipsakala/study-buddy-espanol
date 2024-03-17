@@ -4,6 +4,7 @@ import { EQuizStatus } from "../../../types/Quiz";
 import QuizInitDoneActions from "./QuizInitDoneActions";
 import { styled } from "@mui/material";
 import QuizInProgressActions from "./QuizInProgressActions";
+import Alert from "../../Alert";
 
 const StyledWrapper = styled("div")`
   display: flex;
@@ -17,8 +18,14 @@ const StyledWrapper = styled("div")`
   border-top: 1px solid gray;
 `;
 
+const StyledAlert = styled(Alert)`
+  position: absolute !important;
+  bottom: 5px;
+  left: 0px;
+`;
+
 const QuizActions = () => {
-  const { status } = useContext(QuizContext);
+  const { status, hasApiError } = useContext(QuizContext);
 
   return (
     <StyledWrapper>
@@ -26,6 +33,10 @@ const QuizActions = () => {
         <QuizInitDoneActions />
       )}
       {status === EQuizStatus.IN_PROGRESS && <QuizInProgressActions />}
+      <StyledAlert
+        open={hasApiError}
+        message="Sorry! 🙏 There was an error while loading your request 😓 Try again later."
+      />
     </StyledWrapper>
   );
 };
