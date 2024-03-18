@@ -16,7 +16,7 @@ const StyledLogo = styled("img")`
 `;
 
 const StyledAppName = styled("span")`
-  font-size: 2em;
+  font-size: 1.5em;
   padding: 0 0.4em;
 `;
 
