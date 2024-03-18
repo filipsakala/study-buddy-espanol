@@ -1,4 +1,6 @@
-export type QuestionCategory = "TRANSLATE_WORD";
+export enum QuestionCategory {
+  TRANSLATE_WORD = "TRANSLATE_WORD",
+}
 
 export type Question = {
   icon?: string; // base64 encoded icon
@@ -12,3 +14,5 @@ export type Answer = {
   isAnswered: boolean;
   isCorrect: boolean;
 };
+
+export type AnsweredQuestion = Question | (Question & Answer);

@@ -28,7 +28,8 @@ const ProgressWrapper = styled("div")`
 `;
 
 const QuizInProgressDoneStatus = () => {
-  const { status } = useContext(QuizContext);
+  const { status, currentQuestionIndex, questions, score } =
+    useContext(QuizContext);
 
   if (status !== EQuizStatus.IN_PROGRESS && status !== EQuizStatus.DONE) {
     return null;
@@ -36,18 +37,25 @@ const QuizInProgressDoneStatus = () => {
 
   return (
     <StatusWrapper>
-      <div>Excersise 4</div>
+      {status === EQuizStatus.IN_PROGRESS && (
+        <div>Excersise {currentQuestionIndex + 1}</div>
+      )}
       <ProgressWrapper>
-        <FavoriteBorderIcon color="error" />
-        <HeartBrokenIcon color="error" />
-        <FavoriteBorderIcon color="error" />
-        <FavoriteIcon color="error" />
-        <FavoriteIcon color="disabled" />
-        <FavoriteIcon color="disabled" />
-        <FavoriteIcon color="disabled" />
-        <FavoriteIcon color="disabled" />
-        <FavoriteIcon color="disabled" />
-        <FavoriteIcon color="disabled" />
+        {questions.map((_, i) => {
+          // next questions
+          if (i > currentQuestionIndex) {
+            return <FavoriteIcon key={i} color="disabled" />;
+          }
+          if (score[i] === undefined && currentQuestionIndex === i) {
+            return <FavoriteIcon key={i} color="error" />;
+          }
+          if (score[i] < 0) {
+            return <HeartBrokenIcon key={i} color="error" />;
+          }
+          if (score[i] > 0) {
+            return <FavoriteBorderIcon key={i} color="error" />;
+          }
+        })}
       </ProgressWrapper>
     </StatusWrapper>
   );

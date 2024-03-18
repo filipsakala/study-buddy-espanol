@@ -12,16 +12,14 @@ const QuizInitDoneActions = () => {
   }
 
   return (
-    <>
-      <Button
-        variant="contained"
-        color="success"
-        disabled={isApiLoading}
-        onClick={startQuiz}
-      >
-        Start Quiz {isApiLoading && <HourglassTop />}
-      </Button>
-    </>
+    <Button
+      variant="contained"
+      color="success"
+      disabled={isApiLoading}
+      onClick={startQuiz}
+    >
+      Start Quiz {isApiLoading && <HourglassTop />}
+    </Button>
   );
 };
 

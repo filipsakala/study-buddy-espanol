@@ -4,18 +4,16 @@ import { EQuizStatus } from "../../../types/Quiz";
 import { Button } from "@mui/material";
 
 const QuizInProgressActions = () => {
-  const { status } = useContext(QuizContext);
+  const { status, answerQuestion } = useContext(QuizContext);
 
   if (status !== EQuizStatus.IN_PROGRESS) {
     return null;
   }
 
   return (
-    <>
-      <Button variant="contained" color="success">
-        Submit answer
-      </Button>
-    </>
+    <Button variant="contained" color="success" onClick={answerQuestion}>
+      Submit answer
+    </Button>
   );
 };
 

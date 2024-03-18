@@ -1,6 +1,13 @@
 import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
+import studyBuddy from "../../../assets/study_buddy.png";
+import { styled } from "@mui/system";
+
+const StyledImg = styled("img")`
+  max-height: 60vh;
+  max-width: 100%;
+`;
 
 const QuizInitBody = () => {
   const { status } = useContext(QuizContext);
@@ -9,7 +16,11 @@ const QuizInitBody = () => {
     return null;
   }
 
-  return <>Init body</>;
+  return (
+    <div>
+      <StyledImg src={studyBuddy} alt="Study buddy img" />
+    </div>
+  );
 };
 
 export default QuizInitBody;
