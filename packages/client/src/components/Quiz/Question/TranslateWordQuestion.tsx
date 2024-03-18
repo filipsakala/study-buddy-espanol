@@ -23,6 +23,10 @@ const StyledQuestionWrapper = styled("div")`
   border-radius: 4px;
 `;
 
+const StyledImg = styled("img")`
+  max-height: 150px;
+`;
+
 const TranslateWordQuestion = ({ question }: Props) => {
   const { currentAnswer, setCurrentAnswer, answerQuestion } =
     useContext(QuizContext);
@@ -31,7 +35,7 @@ const TranslateWordQuestion = ({ question }: Props) => {
     <>
       <h2>Translate this word</h2>
       <StyledQuestionWrapper>
-        {question.icon}
+        {question.icon && <StyledImg src={question.icon} loading="lazy" />}
         <h3>{question.question}</h3>
         <TextField
           autoFocus={true}
