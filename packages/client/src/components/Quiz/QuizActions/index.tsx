@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
-import QuizInitDoneActions from "./QuizInitDoneActions";
+import QuizInitActions from "./QuizInitActions";
 import { styled } from "@mui/material";
 import QuizInProgressActions from "./QuizInProgressActions";
 import Alert from "../../Alert";
@@ -29,10 +29,10 @@ const QuizActions = () => {
 
   return (
     <StyledWrapper>
-      {(status === EQuizStatus.INIT || status === EQuizStatus.DONE) && (
-        <QuizInitDoneActions />
+      {status === EQuizStatus.INIT && <QuizInitActions />}
+      {(status === EQuizStatus.IN_PROGRESS || status === EQuizStatus.DONE) && (
+        <QuizInProgressActions />
       )}
-      {status === EQuizStatus.IN_PROGRESS && <QuizInProgressActions />}
       <StyledAlert
         open={hasApiError}
         message="Sorry! 🙏 There was an error while loading your request 😓 Try again later."

@@ -7,7 +7,7 @@ import { HourglassTop } from "@mui/icons-material";
 const QuizInitDoneActions = () => {
   const { status, startQuiz, isApiLoading } = useContext(QuizContext);
 
-  if (status !== EQuizStatus.INIT && status !== EQuizStatus.DONE) {
+  if (status !== EQuizStatus.INIT) {
     return null;
   }
 
