@@ -11,7 +11,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently  \"yarn workspace client dev\" \"yarn workspace server dev\""
+    "dev": "concurrently  \"yarn workspace client dev\" \"yarn workspace server dev\"",
+    "build": "concurrently  \"yarn workspace client build\" \"yarn workspace server build\"",
+    "start": "concurrently  \"yarn workspace client start\" \"yarn workspace server start\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
