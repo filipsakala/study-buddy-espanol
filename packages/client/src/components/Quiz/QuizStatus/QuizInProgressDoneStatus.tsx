@@ -17,6 +17,16 @@ const StatusWrapper = styled("div")`
   justify-content: space-between;
 `;
 
+const LearnGroup = styled("div")`
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+`;
+
 const ProgressWrapper = styled("div")`
   display: flex;
   flex-grow: 1;
@@ -38,7 +48,10 @@ const QuizInProgressDoneStatus = () => {
   return (
     <StatusWrapper>
       {status === EQuizStatus.IN_PROGRESS && (
-        <div>Excersise {currentQuestionIndex + 1}</div>
+        <>
+          <div>Excersise {currentQuestionIndex + 1}</div>
+          <LearnGroup>{questions[currentQuestionIndex].learnGroup}</LearnGroup>
+        </>
       )}
       <ProgressWrapper>
         {questions.map((_, i) => {

@@ -2,26 +2,162 @@
   {
     "icon": "https://images.dog.ceo/breeds/hound-walker/n02089867_3023.jpg",
     "en": "dog",
-    "es": "perro"
+    "es": "perro",
+    "learnGroup": "animals"
+  },
+  { "en": "1", "es": "uno", "learnGroup": "numbers" },
+  { "en": "10", "es": "diez", "learnGroup": "numbers" },
+  { "en": "11", "es": "once", "learnGroup": "numbers" },
+  { "en": "12", "es": "doce", "learnGroup": "numbers" },
+  { "en": "13", "es": "trece", "learnGroup": "numbers" },
+  { "en": "14", "es": "catorce", "learnGroup": "numbers" },
+  { "en": "15", "es": "quince", "learnGroup": "numbers" },
+  { "en": "16", "es": "dieciséis", "learnGroup": "numbers" },
+  { "en": "17", "es": "diecisiete", "learnGroup": "numbers" },
+  { "en": "18", "es": "dieciocho", "learnGroup": "numbers" },
+  { "en": "19", "es": "diecinueve", "learnGroup": "numbers" },
+  { "en": "20", "es": "veinte", "learnGroup": "numbers" },
+  { "en": "31", "es": "treinta y uno", "learnGroup": "numbers" },
+  { "en": "100", "es": "cien", "learnGroup": "numbers" },
+  { "en": "101", "es": "ciento uno", "learnGroup": "numbers" },
+  { "en": "200", "es": "doscientos", "learnGroup": "numbers" },
+  { "en": "300", "es": "trescientos", "learnGroup": "numbers" },
+  { "en": "400", "es": "cuatrocientos", "learnGroup": "numbers" },
+  {
+    "en": "456 €",
+    "es": "cuatrocientos cincuenta y seis euros",
+    "learnGroup": "numbers"
+  },
+  { "en": "500", "es": "quinientos", "learnGroup": "numbers" },
+  {
+    "en": "578 $",
+    "es": "quinientos setenta y ocho dólares",
+    "learnGroup": "numbers"
+  },
+  { "en": "600", "es": "seiscientos", "learnGroup": "numbers" },
+  { "en": "700", "es": "setecientos", "learnGroup": "numbers" },
+  {
+    "en": "793 £",
+    "es": "setecientas noventa y tres libras",
+    "learnGroup": "numbers"
+  },
+  { "en": "800", "es": "ochocientos", "learnGroup": "numbers" },
+  {
+    "en": "876 £",
+    "es": "ochocientas setenta y seis libras",
+    "learnGroup": "numbers"
+  },
+  { "en": "900", "es": "novecientos", "learnGroup": "numbers" },
+  {
+    "en": "934 £",
+    "es": "novecientas treinta y cuatro libras",
+    "learnGroup": "numbers"
+  },
+  { "en": "1000", "es": "mil", "learnGroup": "numbers" },
+  { "en": "2000", "es": "dos mil", "learnGroup": "numbers" },
+  { "en": "100 000", "es": "cien mil", "learnGroup": "numbers" },
+  { "en": "1 000 000", "es": "millón", "learnGroup": "numbers" },
+  { "en": "jacket", "es": "chaqueta", "learnGroup": "clothes" },
+  { "en": "T-shirt", "es": "camiseta", "learnGroup": "clothes" },
+  { "en": "shirt", "es": "camisa", "learnGroup": "clothes" },
+  { "en": "pants", "es": "pantalones", "learnGroup": "clothes" },
+  { "en": "swimsuit", "es": "bañador", "learnGroup": "clothes" },
+  { "en": "underwear", "es": "ropa interior", "learnGroup": "clothes" },
+  { "en": "sandals", "es": "sandalias", "learnGroup": "clothes" },
+  { "en": "towel", "es": "toalla", "learnGroup": "clothes" },
+  { "en": "sunglasses", "es": "gafas de sol", "learnGroup": "clothes" },
+  {
+    "en": "sport shoes",
+    "es": "zapatillas deportivas",
+    "learnGroup": "clothes"
+  },
+  { "en": "sweater", "es": "jersey", "learnGroup": "clothes" },
+  { "en": "handbag/purse", "es": "bolso", "learnGroup": "clothes" },
+  { "en": "backpack", "es": "mochila", "learnGroup": "clothes" },
+  { "en": "jeans", "es": "vaqueros", "learnGroup": "clothes" },
+  { "en": "dress", "es": "vestido", "learnGroup": "clothes" },
+  { "en": "bracelet", "es": "pulsera", "learnGroup": "clothes" },
+  { "en": "scarf", "es": "bufanda", "learnGroup": "clothes" },
+  { "en": "(winter) cap", "es": "gorro", "learnGroup": "clothes" },
+  { "en": "hat", "es": "sombrero", "learnGroup": "clothes" },
+  { "en": "(baseball) cap", "es": "gorra", "learnGroup": "clothes" },
+  { "en": "skirt", "es": "falda", "learnGroup": "clothes" },
+  { "en": "coat", "es": "abrigo", "learnGroup": "clothes" },
+  { "en": "belt", "es": "cinturón", "learnGroup": "clothes" },
+  { "en": "socks", "es": "calcetines", "learnGroup": "clothes" },
+  {
+    "en": "contact lenses",
+    "es": "letes de contacto",
+    "learnGroup": "clothes"
+  },
+  { "en": "watches", "es": "reloj", "learnGroup": "clothes" },
+  { "en": "flip-flops", "es": "chanclas", "learnGroup": "clothes" },
+  { "en": "suit (jacket+pants)", "es": "traje", "learnGroup": "clothes" },
+  {
+    "en": "(T-shirt) with short sleeves",
+    "es": "de manga corta",
+    "learnGroup": "clothes"
+  },
+  { "en": "short pants", "es": "pantalones cortos", "learnGroup": "clothes" },
+  {
+    "en": "(T-shirt) with long sleeves",
+    "es": "de manga corta",
+    "learnGroup": "clothes"
   },
   {
-    "icon": "",
-    "en": "1",
-    "es": "1"
+    "en": "(T-shirt) without sleeves",
+    "es": "de tirantes",
+    "learnGroup": "clothes"
+  },
+  { "en": "(T-shirt) with stripes", "es": "de rayas", "learnGroup": "clothes" },
+  {
+    "en": "(T-shirt) with squares",
+    "es": "de cuadros",
+    "learnGroup": "clothes"
   },
   {
-    "icon": "",
-    "en": "2",
-    "es": "2"
+    "en": "(T-shirt) with patterns",
+    "es": "estampada",
+    "learnGroup": "clothes"
   },
+  { "en": "cotton", "es": "algodón", "learnGroup": "clothes" },
+  { "en": "simple (T-shirt)", "es": "sencilla", "learnGroup": "clothes" },
+  { "en": "umbrella", "es": "paraguas", "learnGroup": "clothes" },
+  { "en": "accesories", "es": "complemento", "learnGroup": "clothes" },
+  { "en": "medicine/pills", "es": "medicamento", "learnGroup": "vacation" },
+  { "en": "book", "es": "libro", "learnGroup": "vacation" },
   {
-    "icon": "",
-    "en": "3",
-    "es": "3"
+    "en": "phone charger",
+    "es": "cargador de móvil",
+    "learnGroup": "vacation"
   },
+  { "en": "ID card", "es": "carné de identidad", "learnGroup": "vacation" },
   {
-    "icon": "",
-    "en": "4",
-    "es": "4"
-  }
+    "en": "Driving license",
+    "es": "carné de conducir",
+    "learnGroup": "vacation"
+  },
+  { "en": "money", "es": "dinero", "learnGroup": "vacation" },
+  { "en": "(pay) in cash", "es": "en efectivo", "learnGroup": "vacation" },
+  { "en": "credit card", "es": "tarjeta de crédito", "learnGroup": "vacation" },
+  { "en": "(hair) comb", "es": "peine", "learnGroup": "vacation" },
+  { "en": "toothpaste", "es": "pasta de dientes", "learnGroup": "vacation" },
+  { "en": "sunscreen", "es": "crema solar", "learnGroup": "vacation" },
+  { "en": "toothbrush", "es": "cepillo de dientes", "learnGroup": "vacation" },
+  { "en": "shampoo", "es": "champú de baño", "learnGroup": "vacation" },
+  { "en": "shower gel", "es": "gel de baño", "learnGroup": "vacation" },
+  { "en": "hair dryer", "es": "secador de pelo", "learnGroup": "vacation" },
+  { "en": "rent (a car)", "es": "alquilar", "learnGroup": "vacation" },
+  { "en": "white", "es": "blanco", "learnGroup": "colors" },
+  { "en": "black", "es": "negro", "learnGroup": "colors" },
+  { "en": "yellow", "es": "amarillo", "learnGroup": "colors" },
+  { "en": "red", "es": "rojo", "learnGroup": "colors" },
+  { "en": "orange", "es": "naranja", "learnGroup": "colors" },
+  { "en": "pink", "es": "rosa", "learnGroup": "colors" },
+  { "en": "violet", "es": "lila", "learnGroup": "colors" },
+  { "en": "green", "es": "verde", "learnGroup": "colors" },
+  { "en": "blue", "es": "azul", "learnGroup": "colors" },
+  { "en": "gray", "es": "gris", "learnGroup": "colors" },
+  { "en": "brown", "es": "marrón", "learnGroup": "colors" },
+  { "en": "beige", "es": "beis", "learnGroup": "colors" }
 ]

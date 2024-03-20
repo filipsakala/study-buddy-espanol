@@ -1,4 +1,4 @@
-import { Question } from "../../types/Question";
+import { Question, QuestionLearnGroup } from "../../types/Question";
 import words from "../db/words.json";
 import getQuestionsIndexes from "./getQuestionsIndexes";
 
@@ -10,6 +10,7 @@ const transform = (question: DbQuestion): Question => {
     icon: question.icon,
     question: question.en,
     correctAnswer: question.es,
+    learnGroup: question.learnGroup as QuestionLearnGroup,
     category: "TRANSLATE_WORD",
     answers: [],
   };
