@@ -27,6 +27,7 @@ const useQuizActions = () => {
 
     setQuestions(apiQuestions);
     setCurrentQuestionIndex(0);
+    setScore([]);
     setStatus(EQuizStatus.IN_PROGRESS);
   }, []);
 

@@ -46,12 +46,15 @@ const QuizInProgressDoneStatus = () => {
           if (i > currentQuestionIndex) {
             return <FavoriteIcon key={i} color="disabled" />;
           }
+          // not answered
           if (score[i] === undefined && currentQuestionIndex === i) {
             return <FavoriteIcon key={i} color="error" />;
           }
+          // incorrect
           if (score[i] < 0) {
             return <HeartBrokenIcon key={i} color="error" />;
           }
+          // correct
           if (score[i] > 0) {
             return <FavoriteBorderIcon key={i} color="error" />;
           }

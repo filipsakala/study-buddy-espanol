@@ -4,6 +4,7 @@ import { EQuizStatus } from "../../../types/Quiz";
 import { styled } from "@mui/system";
 import QuizInitBody from "./QuizInitBody";
 import QuizInProgressBody from "./QuizInProgressBody";
+import QuizDoneBody from "./QuizDoneBody";
 
 const StyledWrapper = styled("div")`
   display: flex;
@@ -22,6 +23,7 @@ const QuizBody = () => {
     <StyledWrapper>
       {status === EQuizStatus.INIT && <QuizInitBody />}
       {status === EQuizStatus.IN_PROGRESS && <QuizInProgressBody />}
+      {status === EQuizStatus.DONE && <QuizDoneBody />}
     </StyledWrapper>
   );
 };
