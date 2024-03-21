@@ -11,5 +11,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/question", questionsApi);
 
 app.listen(port, () => {
-  console.log(`Multimedia Manager Server started at http://localhost:${port}`); //eslint-disable-line no-console
+  console.log(`Study Buddy Espanol Server started at http://localhost:${port}`); //eslint-disable-line no-console
 });
