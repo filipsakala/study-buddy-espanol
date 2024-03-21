@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "yarn serve -s dist"
+    "start": "PORT=3001 yarn serve -s dist"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
