@@ -15,7 +15,7 @@
     "build": "yarn concurrently  \"yarn workspace client build\" \"yarn workspace server build\"",
     "start": "yarn concurrently  \"yarn workspace client start\" \"yarn workspace server start\""
   },
-  "devDependencies": {
+  "dependencies": {
     "concurrently": "^8.2.2"
   }
 }
