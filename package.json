@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "yarn concurrently  \"yarn workspace client dev\" \"yarn workspace server dev\"",
     "build": "yarn concurrently  \"yarn workspace client build\" \"yarn workspace server build\"",
-    "start": "yarn concurrently  \"yarn workspace client start\" \"yarn workspace server start\""
+    "start": "yarn concurrently  \"yarn workspace client start\" \"yarn workspace server start\"",
+    "heroku-postbuild": "./scripts/heroku.build"
   },
   "dependencies": {
     "concurrently": "^8.2.2"
