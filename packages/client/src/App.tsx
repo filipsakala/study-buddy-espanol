@@ -9,6 +9,14 @@ const PageWrapper = styled("div")`
   min-width: 320px;
   min-height: 100vh;
   background: white;
+
+  @media screen and (max-width: 767px) {
+    _::-webkit-full-page-media,
+    _:future,
+    :root {
+      padding-bottom: 65px;
+    }
+  }
 `;
 
 const App = () => {

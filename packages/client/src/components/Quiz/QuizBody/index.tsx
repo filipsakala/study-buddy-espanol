@@ -13,7 +13,6 @@ const StyledWrapper = styled("div")`
   flex-grow: 1;
   align-items: center;
   justify-content: center;
-  padding: 10px 0;
 `;
 
 const QuizBody = () => {

@@ -5,7 +5,7 @@ import studyBuddy from "../../../assets/study_buddy.png";
 import { styled } from "@mui/system";
 
 const StyledImg = styled("img")`
-  max-height: 60vh;
+  max-height: 50vh;
   max-width: 100%;
 `;
 

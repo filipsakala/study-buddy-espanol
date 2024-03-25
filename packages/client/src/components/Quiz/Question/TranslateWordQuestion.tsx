@@ -15,9 +15,8 @@ const StyledQuestionWrapper = styled("div")`
   justify-content: center;
 
   min-width: 25vw;
-  min-height: 50vh;
+  min-height: 40vh;
 
-  gap: 5px;
   padding: 10px;
   border: 1px solid lightgray;
   border-radius: 4px;
