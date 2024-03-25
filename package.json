@@ -13,8 +13,8 @@
   "scripts": {
     "dev": "yarn concurrently  \"yarn workspace client dev\" \"yarn workspace server dev\"",
     "build": "yarn concurrently  \"yarn workspace client build\" \"yarn workspace server build\"",
-    "start": "yarn concurrently  \"yarn workspace client start\" \"yarn workspace server start\"",
-    "heroku-postbuild": "echo $BUILD_ENV && ./scripts/heroku.build"
+    "start": "yarn workspace $BUILD_ENV start",
+    "heroku-postbuild": "yarn workspace $BUILD_ENV build"
   },
   "dependencies": {
     "concurrently": "^8.2.2"
