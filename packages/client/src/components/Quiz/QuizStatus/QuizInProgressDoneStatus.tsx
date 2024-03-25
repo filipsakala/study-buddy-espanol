@@ -54,22 +54,22 @@ const QuizInProgressDoneStatus = () => {
         </>
       )}
       <ProgressWrapper>
-        {questions.map((_, i) => {
+        {questions.map(({ id }, i) => {
           // next questions
           if (i > currentQuestionIndex) {
-            return <FavoriteIcon key={i} color="disabled" />;
+            return <FavoriteIcon key={id} color="disabled" />;
           }
           // not answered
           if (score[i] === undefined && currentQuestionIndex === i) {
-            return <FavoriteIcon key={i} color="error" />;
+            return <FavoriteIcon key={id} color="error" />;
           }
           // incorrect
           if (score[i] < 0) {
-            return <HeartBrokenIcon key={i} color="error" />;
+            return <HeartBrokenIcon key={id} color="error" />;
           }
           // correct
           if (score[i] > 0) {
-            return <FavoriteBorderIcon key={i} color="error" />;
+            return <FavoriteBorderIcon key={id} color="error" />;
           }
         })}
       </ProgressWrapper>

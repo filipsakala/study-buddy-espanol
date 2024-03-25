@@ -60,8 +60,13 @@ const QuizInProgressActions = () => {
     >
       <div>
         {status === EQuizStatus.IN_PROGRESS && (
-          <Button variant="contained" color="success" onClick={answerQuestion}>
-            Submit answer
+          <Button
+            variant="contained"
+            color="success"
+            disabled={isApiLoading}
+            onClick={answerQuestion}
+          >
+            Submit answer {isApiLoading && <HourglassTop />}
           </Button>
         )}
         {status === EQuizStatus.DONE && (

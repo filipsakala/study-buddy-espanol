@@ -8,7 +8,20 @@ const useQuizApi = () => {
     return apiFetch<Question[]>(`/question?count=${QUIZ_QUESTION_COUNT}`);
   }, []);
 
-  return useMemo(() => ({ getQuestions }), [getQuestions]);
+  const answerQuestion = useCallback(
+    (questionId: string, answer: string): Promise<boolean | undefined> => {
+      return apiFetch<boolean | undefined>(`/answer`, "POST", {
+        questionId,
+        answer,
+      });
+    },
+    []
+  );
+
+  return useMemo(
+    () => ({ getQuestions, answerQuestion }),
+    [getQuestions, answerQuestion]
+  );
 };
 
 export default useQuizApi;

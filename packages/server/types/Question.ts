@@ -2,6 +2,7 @@ export type QuestionCategory = "TRANSLATE_WORD";
 export type QuestionLearnGroup = "animals" | "numbers" | "clothes" | "food";
 
 export type Question = {
+  id: string;
   icon?: string; // base64 encoded icon
   category: QuestionCategory;
   question: string;

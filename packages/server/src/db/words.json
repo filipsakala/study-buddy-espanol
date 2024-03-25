@@ -1,163 +1,388 @@
 [
   {
+    "id": "WORD-1",
     "icon": "https://images.dog.ceo/breeds/hound-walker/n02089867_3023.jpg",
     "en": "dog",
     "es": "perro",
     "learnGroup": "animals"
   },
-  { "en": "1", "es": "uno", "learnGroup": "numbers" },
-  { "en": "10", "es": "diez", "learnGroup": "numbers" },
-  { "en": "11", "es": "once", "learnGroup": "numbers" },
-  { "en": "12", "es": "doce", "learnGroup": "numbers" },
-  { "en": "13", "es": "trece", "learnGroup": "numbers" },
-  { "en": "14", "es": "catorce", "learnGroup": "numbers" },
-  { "en": "15", "es": "quince", "learnGroup": "numbers" },
-  { "en": "16", "es": "dieciséis", "learnGroup": "numbers" },
-  { "en": "17", "es": "diecisiete", "learnGroup": "numbers" },
-  { "en": "18", "es": "dieciocho", "learnGroup": "numbers" },
-  { "en": "19", "es": "diecinueve", "learnGroup": "numbers" },
-  { "en": "20", "es": "veinte", "learnGroup": "numbers" },
-  { "en": "31", "es": "treinta y uno", "learnGroup": "numbers" },
-  { "en": "100", "es": "cien", "learnGroup": "numbers" },
-  { "en": "101", "es": "ciento uno", "learnGroup": "numbers" },
-  { "en": "200", "es": "doscientos", "learnGroup": "numbers" },
-  { "en": "300", "es": "trescientos", "learnGroup": "numbers" },
-  { "en": "400", "es": "cuatrocientos", "learnGroup": "numbers" },
   {
+    "id": "WORD-2",
+    "en": "1",
+    "es": "uno",
+    "learnGroup": "numbers"
+  },
+  { "id": "WORD-3", "en": "10", "es": "diez", "learnGroup": "numbers" },
+  { "id": "WORD-4", "en": "11", "es": "once", "learnGroup": "numbers" },
+  { "id": "WORD-5", "en": "12", "es": "doce", "learnGroup": "numbers" },
+  { "id": "WORD-6", "en": "13", "es": "trece", "learnGroup": "numbers" },
+  { "id": "WORD-7", "en": "14", "es": "catorce", "learnGroup": "numbers" },
+  { "id": "WORD-8", "en": "15", "es": "quince", "learnGroup": "numbers" },
+  { "id": "WORD-9", "en": "16", "es": "dieciséis", "learnGroup": "numbers" },
+  { "id": "WORD-10", "en": "17", "es": "diecisiete", "learnGroup": "numbers" },
+  { "id": "WORD-11", "en": "18", "es": "dieciocho", "learnGroup": "numbers" },
+  { "id": "WORD-12", "en": "19", "es": "diecinueve", "learnGroup": "numbers" },
+  { "id": "WORD-13", "en": "20", "es": "veinte", "learnGroup": "numbers" },
+  {
+    "id": "WORD-14",
+    "en": "31",
+    "es": "treinta y uno",
+    "learnGroup": "numbers"
+  },
+  { "id": "WORD-15", "en": "100", "es": "cien", "learnGroup": "numbers" },
+  { "id": "WORD-16", "en": "101", "es": "ciento uno", "learnGroup": "numbers" },
+  { "id": "WORD-17", "en": "200", "es": "doscientos", "learnGroup": "numbers" },
+  {
+    "id": "WORD-18",
+    "en": "300",
+    "es": "trescientos",
+    "learnGroup": "numbers"
+  },
+  {
+    "id": "WORD-19",
+    "en": "400",
+    "es": "cuatrocientos",
+    "learnGroup": "numbers"
+  },
+  {
+    "id": "WORD-20",
     "en": "456 €",
     "es": "cuatrocientos cincuenta y seis euros",
     "learnGroup": "numbers"
   },
-  { "en": "500", "es": "quinientos", "learnGroup": "numbers" },
+  { "id": "WORD-21", "en": "500", "es": "quinientos", "learnGroup": "numbers" },
   {
+    "id": "WORD-22",
     "en": "578 $",
     "es": "quinientos setenta y ocho dólares",
     "learnGroup": "numbers"
   },
-  { "en": "600", "es": "seiscientos", "learnGroup": "numbers" },
-  { "en": "700", "es": "setecientos", "learnGroup": "numbers" },
   {
+    "id": "WORD-23",
+    "en": "600",
+    "es": "seiscientos",
+    "learnGroup": "numbers"
+  },
+  {
+    "id": "WORD-24",
+    "en": "700",
+    "es": "setecientos",
+    "learnGroup": "numbers"
+  },
+  {
+    "id": "WORD-25",
     "en": "793 £",
     "es": "setecientas noventa y tres libras",
     "learnGroup": "numbers"
   },
-  { "en": "800", "es": "ochocientos", "learnGroup": "numbers" },
   {
+    "id": "WORD-26",
+    "en": "800",
+    "es": "ochocientos",
+    "learnGroup": "numbers"
+  },
+  {
+    "id": "WORD-27",
     "en": "876 £",
     "es": "ochocientas setenta y seis libras",
     "learnGroup": "numbers"
   },
-  { "en": "900", "es": "novecientos", "learnGroup": "numbers" },
   {
+    "id": "WORD-28",
+    "en": "900",
+    "es": "novecientos",
+    "learnGroup": "numbers"
+  },
+  {
+    "id": "WORD-29",
     "en": "934 £",
     "es": "novecientas treinta y cuatro libras",
     "learnGroup": "numbers"
   },
-  { "en": "1000", "es": "mil", "learnGroup": "numbers" },
-  { "en": "2000", "es": "dos mil", "learnGroup": "numbers" },
-  { "en": "100 000", "es": "cien mil", "learnGroup": "numbers" },
-  { "en": "1 000 000", "es": "millón", "learnGroup": "numbers" },
-  { "en": "jacket", "es": "chaqueta", "learnGroup": "clothes" },
-  { "en": "T-shirt", "es": "camiseta", "learnGroup": "clothes" },
-  { "en": "shirt", "es": "camisa", "learnGroup": "clothes" },
-  { "en": "pants", "es": "pantalones", "learnGroup": "clothes" },
-  { "en": "swimsuit", "es": "bañador", "learnGroup": "clothes" },
-  { "en": "underwear", "es": "ropa interior", "learnGroup": "clothes" },
-  { "en": "sandals", "es": "sandalias", "learnGroup": "clothes" },
-  { "en": "towel", "es": "toalla", "learnGroup": "clothes" },
-  { "en": "sunglasses", "es": "gafas de sol", "learnGroup": "clothes" },
+  { "id": "WORD-30", "en": "1000", "es": "mil", "learnGroup": "numbers" },
+  { "id": "WORD-31", "en": "2000", "es": "dos mil", "learnGroup": "numbers" },
   {
+    "id": "WORD-32",
+    "en": "100 000",
+    "es": "cien mil",
+    "learnGroup": "numbers"
+  },
+  {
+    "id": "WORD-33",
+    "en": "1 000 000",
+    "es": "millón",
+    "learnGroup": "numbers"
+  },
+  {
+    "id": "WORD-34",
+    "en": "jacket",
+    "es": "chaqueta",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-35",
+    "en": "T-shirt",
+    "es": "camiseta",
+    "learnGroup": "clothes"
+  },
+  { "id": "WORD-36", "en": "shirt", "es": "camisa", "learnGroup": "clothes" },
+  {
+    "id": "WORD-37",
+    "en": "pants",
+    "es": "pantalones",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-38",
+    "en": "swimsuit",
+    "es": "bañador",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-39",
+    "en": "underwear",
+    "es": "ropa interior",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-40",
+    "en": "sandals",
+    "es": "sandalias",
+    "learnGroup": "clothes"
+  },
+  { "id": "WORD-41", "en": "towel", "es": "toalla", "learnGroup": "clothes" },
+  {
+    "id": "WORD-42",
+    "en": "sunglasses",
+    "es": "gafas de sol",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-43",
     "en": "sport shoes",
     "es": "zapatillas deportivas",
     "learnGroup": "clothes"
   },
-  { "en": "sweater", "es": "jersey", "learnGroup": "clothes" },
-  { "en": "handbag/purse", "es": "bolso", "learnGroup": "clothes" },
-  { "en": "backpack", "es": "mochila", "learnGroup": "clothes" },
-  { "en": "jeans", "es": "vaqueros", "learnGroup": "clothes" },
-  { "en": "dress", "es": "vestido", "learnGroup": "clothes" },
-  { "en": "bracelet", "es": "pulsera", "learnGroup": "clothes" },
-  { "en": "scarf", "es": "bufanda", "learnGroup": "clothes" },
-  { "en": "(winter) cap", "es": "gorro", "learnGroup": "clothes" },
-  { "en": "hat", "es": "sombrero", "learnGroup": "clothes" },
-  { "en": "(baseball) cap", "es": "gorra", "learnGroup": "clothes" },
-  { "en": "skirt", "es": "falda", "learnGroup": "clothes" },
-  { "en": "coat", "es": "abrigo", "learnGroup": "clothes" },
-  { "en": "belt", "es": "cinturón", "learnGroup": "clothes" },
-  { "en": "socks", "es": "calcetines", "learnGroup": "clothes" },
+  { "id": "WORD-44", "en": "sweater", "es": "jersey", "learnGroup": "clothes" },
   {
+    "id": "WORD-45",
+    "en": "handbag/purse",
+    "es": "bolso",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-46",
+    "en": "backpack",
+    "es": "mochila",
+    "learnGroup": "clothes"
+  },
+  { "id": "WORD-47", "en": "jeans", "es": "vaqueros", "learnGroup": "clothes" },
+  { "id": "WORD-48", "en": "dress", "es": "vestido", "learnGroup": "clothes" },
+  {
+    "id": "WORD-49",
+    "en": "bracelet",
+    "es": "pulsera",
+    "learnGroup": "clothes"
+  },
+  { "id": "WORD-50", "en": "scarf", "es": "bufanda", "learnGroup": "clothes" },
+  {
+    "id": "WORD-51",
+    "en": "(winter) cap",
+    "es": "gorro",
+    "learnGroup": "clothes"
+  },
+  { "id": "WORD-52", "en": "hat", "es": "sombrero", "learnGroup": "clothes" },
+  {
+    "id": "WORD-53",
+    "en": "(baseball) cap",
+    "es": "gorra",
+    "learnGroup": "clothes"
+  },
+  { "id": "WORD-54", "en": "skirt", "es": "falda", "learnGroup": "clothes" },
+  { "id": "WORD-55", "en": "coat", "es": "abrigo", "learnGroup": "clothes" },
+  { "id": "WORD-56", "en": "belt", "es": "cinturón", "learnGroup": "clothes" },
+  {
+    "id": "WORD-57",
+    "en": "socks",
+    "es": "calcetines",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-58",
     "en": "contact lenses",
     "es": "letes de contacto",
     "learnGroup": "clothes"
   },
-  { "en": "watches", "es": "reloj", "learnGroup": "clothes" },
-  { "en": "flip-flops", "es": "chanclas", "learnGroup": "clothes" },
-  { "en": "suit (jacket+pants)", "es": "traje", "learnGroup": "clothes" },
+  { "id": "WORD-59", "en": "watches", "es": "reloj", "learnGroup": "clothes" },
   {
+    "id": "WORD-60",
+    "en": "flip-flops",
+    "es": "chanclas",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-61",
+    "en": "suit (jacket+pants)",
+    "es": "traje",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-62",
     "en": "(T-shirt) with short sleeves",
     "es": "de manga corta",
     "learnGroup": "clothes"
   },
-  { "en": "short pants", "es": "pantalones cortos", "learnGroup": "clothes" },
   {
+    "id": "WORD-63",
+    "en": "short pants",
+    "es": "pantalones cortos",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-64",
     "en": "(T-shirt) with long sleeves",
     "es": "de manga corta",
     "learnGroup": "clothes"
   },
   {
+    "id": "WORD-65",
     "en": "(T-shirt) without sleeves",
     "es": "de tirantes",
     "learnGroup": "clothes"
   },
-  { "en": "(T-shirt) with stripes", "es": "de rayas", "learnGroup": "clothes" },
   {
+    "id": "WORD-66",
+    "en": "(T-shirt) with stripes",
+    "es": "de rayas",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-67",
     "en": "(T-shirt) with squares",
     "es": "de cuadros",
     "learnGroup": "clothes"
   },
   {
+    "id": "WORD-68",
     "en": "(T-shirt) with patterns",
     "es": "estampada",
     "learnGroup": "clothes"
   },
-  { "en": "cotton", "es": "algodón", "learnGroup": "clothes" },
-  { "en": "simple (T-shirt)", "es": "sencilla", "learnGroup": "clothes" },
-  { "en": "umbrella", "es": "paraguas", "learnGroup": "clothes" },
-  { "en": "accesories", "es": "complemento", "learnGroup": "clothes" },
-  { "en": "medicine/pills", "es": "medicamento", "learnGroup": "vacation" },
-  { "en": "book", "es": "libro", "learnGroup": "vacation" },
+  { "id": "WORD-69", "en": "cotton", "es": "algodón", "learnGroup": "clothes" },
   {
+    "id": "WORD-70",
+    "en": "simple (T-shirt)",
+    "es": "sencilla",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-71",
+    "en": "umbrella",
+    "es": "paraguas",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-72",
+    "en": "accesories",
+    "es": "complemento",
+    "learnGroup": "clothes"
+  },
+  {
+    "id": "WORD-73",
+    "en": "medicine/pills",
+    "es": "medicamento",
+    "learnGroup": "vacation"
+  },
+  { "id": "WORD-74", "en": "book", "es": "libro", "learnGroup": "vacation" },
+  {
+    "id": "WORD-75",
     "en": "phone charger",
     "es": "cargador de móvil",
     "learnGroup": "vacation"
   },
-  { "en": "ID card", "es": "carné de identidad", "learnGroup": "vacation" },
   {
+    "id": "WORD-76",
+    "en": "ID card",
+    "es": "carné de identidad",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-77",
     "en": "Driving license",
     "es": "carné de conducir",
     "learnGroup": "vacation"
   },
-  { "en": "money", "es": "dinero", "learnGroup": "vacation" },
-  { "en": "(pay) in cash", "es": "en efectivo", "learnGroup": "vacation" },
-  { "en": "credit card", "es": "tarjeta de crédito", "learnGroup": "vacation" },
-  { "en": "(hair) comb", "es": "peine", "learnGroup": "vacation" },
-  { "en": "toothpaste", "es": "pasta de dientes", "learnGroup": "vacation" },
-  { "en": "sunscreen", "es": "crema solar", "learnGroup": "vacation" },
-  { "en": "toothbrush", "es": "cepillo de dientes", "learnGroup": "vacation" },
-  { "en": "shampoo", "es": "champú de baño", "learnGroup": "vacation" },
-  { "en": "shower gel", "es": "gel de baño", "learnGroup": "vacation" },
-  { "en": "hair dryer", "es": "secador de pelo", "learnGroup": "vacation" },
-  { "en": "rent (a car)", "es": "alquilar", "learnGroup": "vacation" },
-  { "en": "white", "es": "blanco", "learnGroup": "colors" },
-  { "en": "black", "es": "negro", "learnGroup": "colors" },
-  { "en": "yellow", "es": "amarillo", "learnGroup": "colors" },
-  { "en": "red", "es": "rojo", "learnGroup": "colors" },
-  { "en": "orange", "es": "naranja", "learnGroup": "colors" },
-  { "en": "pink", "es": "rosa", "learnGroup": "colors" },
-  { "en": "violet", "es": "lila", "learnGroup": "colors" },
-  { "en": "green", "es": "verde", "learnGroup": "colors" },
-  { "en": "blue", "es": "azul", "learnGroup": "colors" },
-  { "en": "gray", "es": "gris", "learnGroup": "colors" },
-  { "en": "brown", "es": "marrón", "learnGroup": "colors" },
-  { "en": "beige", "es": "beis", "learnGroup": "colors" }
+  { "id": "WORD-78", "en": "money", "es": "dinero", "learnGroup": "vacation" },
+  {
+    "id": "WORD-79",
+    "en": "(pay) in cash",
+    "es": "en efectivo",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-80",
+    "en": "credit card",
+    "es": "tarjeta de crédito",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-81",
+    "en": "(hair) comb",
+    "es": "peine",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-82",
+    "en": "toothpaste",
+    "es": "pasta de dientes",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-83",
+    "en": "sunscreen",
+    "es": "crema solar",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-84",
+    "en": "toothbrush",
+    "es": "cepillo de dientes",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-85",
+    "en": "shampoo",
+    "es": "champú de baño",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-86",
+    "en": "shower gel",
+    "es": "gel de baño",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-87",
+    "en": "hair dryer",
+    "es": "secador de pelo",
+    "learnGroup": "vacation"
+  },
+  {
+    "id": "WORD-88",
+    "en": "rent (a car)",
+    "es": "alquilar",
+    "learnGroup": "vacation"
+  },
+  { "id": "WORD-89", "en": "white", "es": "blanco", "learnGroup": "colors" },
+  { "id": "WORD-90", "en": "black", "es": "negro", "learnGroup": "colors" },
+  { "id": "WORD-91", "en": "yellow", "es": "amarillo", "learnGroup": "colors" },
+  { "id": "WORD-92", "en": "red", "es": "rojo", "learnGroup": "colors" },
+  { "id": "WORD-93", "en": "orange", "es": "naranja", "learnGroup": "colors" },
+  { "id": "WORD-94", "en": "pink", "es": "rosa", "learnGroup": "colors" },
+  { "id": "WORD-95", "en": "violet", "es": "lila", "learnGroup": "colors" },
+  { "id": "WORD-96", "en": "green", "es": "verde", "learnGroup": "colors" },
+  { "id": "WORD-97", "en": "blue", "es": "azul", "learnGroup": "colors" },
+  { "id": "WORD-98", "en": "gray", "es": "gris", "learnGroup": "colors" },
+  { "id": "WORD-99", "en": "brown", "es": "marrón", "learnGroup": "colors" },
+  { "id": "WORD-100", "en": "beige", "es": "beis", "learnGroup": "colors" }
 ]

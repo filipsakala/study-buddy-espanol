@@ -10,6 +10,7 @@ export enum QuestionLearnGroup {
 }
 
 export type Question = {
+  id: string;
   icon?: string; // base64 encoded icon
   category: QuestionCategory;
   question: string;

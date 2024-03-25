@@ -1,11 +1,18 @@
 // Wrapper for all BE API calls
-const apiFetch = <T>(endpoint: string): Promise<T | undefined> => {
+const apiFetch = <T>(
+  endpoint: string,
+  method: "GET" | "POST" = "GET",
+  bodyObject?: any
+): Promise<T | undefined> => {
   return fetch(`${import.meta.env.VITE_API_URL}` + endpoint, {
-    method: "GET",
+    method,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
+    body:
+      (method !== "GET" && bodyObject && JSON.stringify(bodyObject)) ||
+      undefined,
   })
     .then(async (response) => {
       if (!response.ok) {

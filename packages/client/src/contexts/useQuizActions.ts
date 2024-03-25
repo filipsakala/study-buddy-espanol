@@ -4,7 +4,7 @@ import useQuizApi from "./useQuizApi";
 import { AnsweredQuestion } from "../types/Question";
 
 const useQuizActions = () => {
-  const { getQuestions } = useQuizApi();
+  const { getQuestions, answerQuestion: answerQuestionApi } = useQuizApi();
   const [status, setStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
   const [questions, setQuestions] = useState<AnsweredQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
@@ -31,7 +31,8 @@ const useQuizActions = () => {
     setStatus(EQuizStatus.IN_PROGRESS);
   }, []);
 
-  const answerQuestion = useCallback(() => {
+  const answerQuestion = useCallback(async () => {
+    setHasApiError(false);
     if (
       status !== EQuizStatus.IN_PROGRESS ||
       !questions ||
@@ -42,9 +43,18 @@ const useQuizActions = () => {
       return;
     }
 
-    // TODO: improve for different question types
-    const isCorrectAnswer =
-      questions[currentQuestionIndex].correctAnswer === currentAnswer;
+    setIsLoading(true);
+    const isCorrectAnswer = await answerQuestionApi(
+      questions[currentQuestionIndex].id,
+      currentAnswer
+    );
+    setIsLoading(false);
+
+    if (isCorrectAnswer === undefined) {
+      setHasApiError(true);
+      return;
+    }
+
     const questionScore = isCorrectAnswer ? 1 : -1;
     setScore((prev) => {
       const next = [...prev];

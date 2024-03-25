@@ -3,10 +3,11 @@ import words from "../db/words.json";
 import getQuestionsIndexes from "./getQuestionsIndexes";
 
 const DB_QUESTION_COUNT = words.length;
-type DbQuestion = (typeof words)[0];
+export type DbWordQuestion = (typeof words)[0];
 
-const transform = (question: DbQuestion): Question => {
+const transform = (question: DbWordQuestion): Question => {
   return {
+    id: question.id,
     icon: question.icon,
     question: question.en,
     correctAnswer: question.es,
