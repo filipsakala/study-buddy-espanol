@@ -9,6 +9,7 @@ import Alert from "../../Alert";
 const StyledWrapper = styled("div")`
   display: flex;
   gap: 5px;
+  flex-grow: 1;
 
   width: 100%;
   align-items: center;
