@@ -55,7 +55,7 @@ const QuizInProgressActions = () => {
       title={tooltipText}
       TransitionComponent={Zoom}
       TransitionProps={{ timeout: 100 }}
-      placement="top"
+      placement="bottom"
       arrow
     >
       <div>
