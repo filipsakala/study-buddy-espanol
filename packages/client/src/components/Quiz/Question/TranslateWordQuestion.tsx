@@ -44,6 +44,7 @@ const TranslateWordQuestion = ({ question }: Props) => {
             }
           }}
           onBlur={(e) => e.target.focus()}
+          focused
         />
       </StyledQuestionWrapper>
     </>
