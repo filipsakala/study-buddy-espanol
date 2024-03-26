@@ -49,8 +49,13 @@ const QuizInProgressDoneStatus = () => {
     <StatusWrapper>
       {status === EQuizStatus.IN_PROGRESS && (
         <>
-          <div>Excersise {currentQuestionIndex + 1}</div>
-          <LearnGroup>{questions[currentQuestionIndex].learnGroup}</LearnGroup>
+          <div>
+            Excersise {currentQuestionIndex + 1} (
+            {questions[currentQuestionIndex].learnGroup})
+          </div>
+          <LearnGroup>
+            <b>Translate this word</b>
+          </LearnGroup>
         </>
       )}
       <ProgressWrapper>

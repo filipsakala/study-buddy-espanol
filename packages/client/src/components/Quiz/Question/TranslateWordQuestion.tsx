@@ -15,9 +15,8 @@ const StyledQuestionWrapper = styled("div")`
   justify-content: center;
 
   min-width: 25vw;
-  min-height: 40vh;
 
-  padding: 10px;
+  padding: 10px 10px 20px 10px;
   border: 1px solid lightgray;
   border-radius: 4px;
 `;
@@ -32,7 +31,6 @@ const TranslateWordQuestion = ({ question }: Props) => {
 
   return (
     <>
-      <h2>Translate this word</h2>
       <StyledQuestionWrapper>
         {question.icon && <StyledImg src={question.icon} loading="lazy" />}
         <h3>{question.question}</h3>

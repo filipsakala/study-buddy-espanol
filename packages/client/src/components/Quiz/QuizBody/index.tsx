@@ -10,9 +10,9 @@ const StyledWrapper = styled("div")`
   display: flex;
   gap: 5px;
 
-  flex-grow: 1;
   align-items: center;
   justify-content: center;
+  padding: 15px;
 `;
 
 const QuizBody = () => {
