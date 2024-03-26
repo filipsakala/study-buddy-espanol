@@ -7,6 +7,8 @@ const StyledHeader = styled("header")(
   padding: ${theme.spacing(2)};
   display: flex;
   align-items: center;
+  height: 30px;
+  padding:25px;
 `
 );
 
