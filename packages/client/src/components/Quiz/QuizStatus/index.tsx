@@ -19,7 +19,6 @@ const QuizStatus = () => {
 
   if (status === EQuizStatus.INIT) {
     return;
-    s;
   }
 
   return (

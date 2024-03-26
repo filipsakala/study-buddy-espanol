@@ -16,6 +16,7 @@ const StyledWrapper = styled("div")`
   padding: 10px 0;
 
   border-top: 1px solid gray;
+  flex-grow: 1;
 `;
 
 const StyledAlert = styled(Alert)`
