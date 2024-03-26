@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { styled } from "@mui/system";
-import QuizInProgressDoneStatus from "./QuizInProgressDoneStatus";
+import QuizInProgressStatus from "./QuizInProgressStatus";
 
 const StyledWrapper = styled("div")`
   display: flex;
@@ -17,13 +17,13 @@ const StyledWrapper = styled("div")`
 const QuizStatus = () => {
   const { status } = useContext(QuizContext);
 
-  if (status === EQuizStatus.INIT) {
+  if (status === EQuizStatus.INIT || status === EQuizStatus.DONE) {
     return;
   }
 
   return (
     <StyledWrapper>
-      <QuizInProgressDoneStatus />
+      <QuizInProgressStatus />
     </StyledWrapper>
   );
 };

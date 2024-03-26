@@ -37,27 +37,23 @@ const ProgressWrapper = styled("div")`
   flex-grow: 1;
 `;
 
-const QuizInProgressDoneStatus = () => {
+const QuizInProgressStatus = () => {
   const { status, currentQuestionIndex, questions, score } =
     useContext(QuizContext);
 
-  if (status !== EQuizStatus.IN_PROGRESS && status !== EQuizStatus.DONE) {
+  if (status !== EQuizStatus.IN_PROGRESS) {
     return null;
   }
 
   return (
     <StatusWrapper>
-      {status === EQuizStatus.IN_PROGRESS && (
-        <>
-          <div>
-            Excersise {currentQuestionIndex + 1} (
-            {questions[currentQuestionIndex].learnGroup})
-          </div>
-          <LearnGroup>
-            <b>Translate this word</b>
-          </LearnGroup>
-        </>
-      )}
+      <div>
+        Excersise {currentQuestionIndex + 1} (
+        {questions[currentQuestionIndex].learnGroup})
+      </div>
+      <LearnGroup>
+        <b>Translate this word</b>
+      </LearnGroup>
       <ProgressWrapper>
         {questions.map(({ id }, i) => {
           // next questions
@@ -86,4 +82,4 @@ const QuizInProgressDoneStatus = () => {
   );
 };
 
-export default QuizInProgressDoneStatus;
+export default QuizInProgressStatus;
