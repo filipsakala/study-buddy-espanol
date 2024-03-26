@@ -7,6 +7,7 @@ export type TQuizContext = {
   status: EQuizStatus;
   startQuiz: () => void;
   answerQuestion: () => void;
+  getQuestionHelp: () => void;
   currentAnswer: string;
   setCurrentAnswer: (answer: string) => void;
   isApiLoading: boolean;
@@ -14,12 +15,14 @@ export type TQuizContext = {
   questions: AnsweredQuestion[];
   currentQuestionIndex: number;
   score: number[];
+  help: string[];
 };
 
 export const QuizContext = createContext<TQuizContext>({
   status: EQuizStatus.INIT,
   startQuiz: () => {},
   answerQuestion: () => {},
+  getQuestionHelp: () => {},
   currentAnswer: "",
   setCurrentAnswer: () => {},
   isApiLoading: false,
@@ -27,6 +30,7 @@ export const QuizContext = createContext<TQuizContext>({
   questions: [],
   currentQuestionIndex: 0,
   score: [],
+  help: [],
 });
 
 type TQuizContextProvider = {
@@ -38,6 +42,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
     status,
     startQuiz,
     answerQuestion,
+    getQuestionHelp,
     currentAnswer,
     setCurrentAnswer,
     isLoading,
@@ -45,6 +50,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
     questions,
     currentQuestionIndex,
     score,
+    help,
   } = useQuizActions();
 
   const contextValue = useMemo(
@@ -52,6 +58,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
       status,
       startQuiz,
       answerQuestion,
+      getQuestionHelp,
       currentAnswer,
       setCurrentAnswer,
       isApiLoading: isLoading,
@@ -59,6 +66,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
       questions,
       currentQuestionIndex,
       score,
+      help,
     }),
     [
       status,
@@ -71,6 +79,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
       questions,
       currentQuestionIndex,
       score,
+      help,
     ]
   );
 

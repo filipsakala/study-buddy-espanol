@@ -1,8 +1,10 @@
-import { TextField } from "@mui/material";
+import { IconButton, TextField } from "@mui/material";
 import { AnsweredQuestion } from "../../../types/Question";
 import { styled } from "@mui/system";
-import { useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
+import { Help } from "@mui/icons-material";
+import TranslateWordHelp from "./TranslateWordHelp";
 
 type Props = {
   question: AnsweredQuestion;
@@ -26,14 +28,20 @@ const StyledImg = styled("img")`
 `;
 
 const TranslateWordQuestion = ({ question }: Props) => {
-  const { currentAnswer, setCurrentAnswer, answerQuestion } =
+  const { currentAnswer, setCurrentAnswer, answerQuestion, getQuestionHelp } =
     useContext(QuizContext);
 
   return (
     <>
       <StyledQuestionWrapper>
         {question.icon && <StyledImg src={question.icon} loading="lazy" />}
-        <h3>{question.question}</h3>
+        <h3>
+          {question.question}
+          <IconButton onClick={getQuestionHelp}>
+            <Help />
+          </IconButton>
+        </h3>
+        <TranslateWordHelp />
         <TextField
           autoFocus={true}
           value={currentAnswer}

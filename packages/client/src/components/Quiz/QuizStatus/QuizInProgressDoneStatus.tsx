@@ -72,8 +72,12 @@ const QuizInProgressDoneStatus = () => {
           if (score[i] < 0) {
             return <HeartBrokenIcon key={id} color="error" />;
           }
+          // correct with help
+          if (score[i] === 1) {
+            return <FavoriteBorderIcon key={id} color="warning" />;
+          }
           // correct
-          if (score[i] > 0) {
+          if (score[i] > 1) {
             return <FavoriteBorderIcon key={id} color="error" />;
           }
         })}

@@ -12,6 +12,7 @@ const useQuizActions = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasApiError, setHasApiError] = useState<boolean>(false);
   const [currentAnswer, setCurrentAnswer] = useState<string>("");
+  const [help, setHelp] = useState<string[]>([]);
 
   const startQuiz = useCallback(async () => {
     setHasApiError(false);
@@ -29,6 +30,7 @@ const useQuizActions = () => {
     setCurrentQuestionIndex(0);
     setScore([]);
     setStatus(EQuizStatus.IN_PROGRESS);
+    setHelp([]);
   }, []);
 
   const answerQuestion = useCallback(async () => {
@@ -55,7 +57,8 @@ const useQuizActions = () => {
       return;
     }
 
-    const questionScore = isCorrectAnswer ? 1 : -1;
+    const hasHelp = Boolean(help.length);
+    const questionScore = isCorrectAnswer ? (hasHelp ? 1 : 2) : -1;
     setScore((prev) => {
       const next = [...prev];
       next[currentQuestionIndex] = questionScore;
@@ -71,7 +74,52 @@ const useQuizActions = () => {
     }
 
     setCurrentQuestionIndex((prev) => prev + 1);
+    setHelp([]);
   }, [status, questions, isLoading, currentQuestionIndex, currentAnswer]);
+
+  const getQuestionHelp = useCallback(() => {
+    const currentQuestion = questions[currentQuestionIndex];
+
+    // just show number of letters
+    if (!help.length) {
+      setHelp(
+        [...Array(currentQuestion.correctAnswer.length)].map((_, i) => {
+          // duplicate spaces between words
+          if (currentQuestion.correctAnswer[i] === " ") {
+            return " ";
+          }
+          return "";
+        })
+      );
+      return;
+    }
+
+    const emptyIndexes = help.reduce(
+      (prevIndexes: number[], currentHelp, currentIndex) => {
+        const nextIndexes = [...prevIndexes];
+
+        if (!currentHelp) {
+          nextIndexes.push(currentIndex);
+        }
+
+        return nextIndexes;
+      },
+      []
+    );
+
+    if (!emptyIndexes.length) {
+      return;
+    }
+
+    const randomIndexInRange = Math.floor(Math.random() * emptyIndexes.length);
+    const randomEmptyIndex = emptyIndexes[randomIndexInRange];
+
+    setHelp((prev) => {
+      const next = [...prev];
+      next[randomEmptyIndex] = currentQuestion.correctAnswer[randomEmptyIndex];
+      return next;
+    });
+  }, [help, questions, currentQuestionIndex]);
 
   return useMemo(
     () => ({
@@ -81,10 +129,12 @@ const useQuizActions = () => {
       status,
       startQuiz,
       answerQuestion,
+      getQuestionHelp,
       currentAnswer,
       setCurrentAnswer,
       currentQuestionIndex,
       score,
+      help,
     }),
     [
       isLoading,
@@ -93,10 +143,12 @@ const useQuizActions = () => {
       status,
       startQuiz,
       answerQuestion,
+      getQuestionHelp,
       currentAnswer,
       setCurrentAnswer,
       currentQuestionIndex,
       score,
+      help,
     ]
   );
 };

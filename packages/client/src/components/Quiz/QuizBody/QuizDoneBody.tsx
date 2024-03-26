@@ -71,8 +71,10 @@ const QuizDoneBody = () => {
       <StyledImg src={studyBuddy} alt="Study buddy img" />
       <ScoreWrapper>
         {score.map((score, i) => {
-          if (score > 0)
+          if (score > 1)
             return <StyledFavorite key={i} color="error" fontSize="large" />;
+          else if (score === 1)
+            return <StyledFavorite key={i} color="warning" fontSize="large" />;
           else return <HeartBroken key={i} color="error" fontSize="large" />;
         })}
       </ScoreWrapper>
