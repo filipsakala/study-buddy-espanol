@@ -56,14 +56,42 @@ const useQuizApi = () => {
     [isLoading]
   );
 
+  const getAnswerSound = useCallback(
+    async (questionId: string): Promise<string | undefined> => {
+      // some request already fired
+      if (isLoading) {
+        return;
+      }
+
+      setHasError(false);
+      setIsLoading(true);
+      const data = await apiFetch<string | undefined>(
+        `/question/sound`,
+        "POST",
+        {
+          questionId,
+        }
+      );
+      setIsLoading(false);
+
+      if (data === undefined) {
+        setHasError(true);
+      }
+
+      return data;
+    },
+    [isLoading]
+  );
+
   return useMemo(
     () => ({
       isApiLoading: isLoading,
       hasApiError: hasError,
       getQuestionsApiCall: getQuestions,
       answerQuestionApiCall: answerQuestion,
+      getAnswerSoundApiCall: getAnswerSound,
     }),
-    [isLoading, hasError, getQuestions, answerQuestion]
+    [isLoading, hasError, getQuestions, answerQuestion, getAnswerSound]
   );
 };
 

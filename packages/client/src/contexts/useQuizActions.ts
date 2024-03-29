@@ -10,6 +10,7 @@ const useQuizActions = () => {
     hasApiError,
     getQuestionsApiCall,
     answerQuestionApiCall,
+    getAnswerSoundApiCall,
   } = useQuizApi();
   const [status, setStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
   const [questions, setQuestions] = useState<AnsweredQuestion[]>([]);
@@ -103,6 +104,16 @@ const useQuizActions = () => {
     [currentQuestionIndex]
   );
 
+  const playAnswerAudio = useCallback(
+    async (questionId: string) => {
+      const audioBase64 = await getAnswerSoundApiCall(questionId);
+
+      let audio = new Audio("data:audio/wav;base64," + audioBase64);
+      audio.play();
+    },
+    [getAnswerSoundApiCall]
+  );
+
   return useMemo(
     () => ({
       isApiLoading,
@@ -118,6 +129,7 @@ const useQuizActions = () => {
       currentQuestionIndex,
       score,
       help,
+      playAnswerAudio,
     }),
     [
       isApiLoading,
@@ -133,6 +145,7 @@ const useQuizActions = () => {
       currentQuestionIndex,
       score,
       help,
+      playAnswerAudio,
     ]
   );
 };

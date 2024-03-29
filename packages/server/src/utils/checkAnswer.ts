@@ -2,7 +2,7 @@ import words from "../db/words.json";
 import { QuestionDoesNotExistError } from "../errors";
 import { DbWordQuestion } from "./getTranslateWordQuestion";
 
-const getQuestion = (questionId: string): DbWordQuestion | undefined => {
+export const getQuestion = (questionId: string): DbWordQuestion | undefined => {
   return words.find(({ id }) => id === questionId);
 };
 

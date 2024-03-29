@@ -17,6 +17,7 @@ export type TQuizContext = {
   currentQuestionIndex: number;
   score: number[];
   help: string[];
+  playAnswerAudio: (questionId: string) => void;
 };
 
 export const QuizContext = createContext<TQuizContext>({
@@ -33,6 +34,7 @@ export const QuizContext = createContext<TQuizContext>({
   currentQuestionIndex: 0,
   score: [],
   help: [],
+  playAnswerAudio: () => {},
 });
 
 type TQuizContextProvider = {
@@ -54,6 +56,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
     currentQuestionIndex,
     score,
     help,
+    playAnswerAudio,
   } = useQuizActions();
 
   const contextValue = useMemo(
@@ -71,6 +74,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
       currentQuestionIndex,
       score,
       help,
+      playAnswerAudio,
     }),
     [
       status,
@@ -85,6 +89,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
       currentQuestionIndex,
       score,
       help,
+      playAnswerAudio,
     ]
   );
 

@@ -9,6 +9,7 @@
     "build": "rm -rf dist && tsc"
   },
   "dependencies": {
+    "google-tts-api": "^2.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "esm": "^3.2.25",

@@ -1,10 +1,11 @@
 import { useContext, useMemo } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
-import { Favorite, HeartBroken } from "@mui/icons-material";
+import { Favorite, HeartBroken, RecordVoiceOver } from "@mui/icons-material";
 import { styled } from "@mui/system";
 import studyBuddy from "../../../assets/study_buddy2-300.png";
 import {
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -18,14 +19,6 @@ const Wrapper = styled("div")`
   align-items: center;
   justify-content: center;
   gap: 15px;
-`;
-
-const ScoreWrapper = styled(`div`)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 75%;
 `;
 
 const StyledFavorite = styled(Favorite)`
@@ -53,9 +46,16 @@ const StyledImg = styled("img")`
   max-width: 100%;
 `;
 
+const ScoreHeart = ({ score }: { score: number }) => {
+  if (score > 1) return <StyledFavorite color="error" fontSize="large" />;
+  else if (score === 1)
+    return <StyledFavorite color="warning" fontSize="large" />;
+  else return <HeartBroken color="error" fontSize="large" />;
+};
+
 const QuizDoneBody = () => {
-  const { status, score, questions, answers } = useContext(QuizContext);
-  const hasIncorrectAnswers = score.some((v) => v < 0);
+  const { status, score, questions, answers, playAnswerAudio } =
+    useContext(QuizContext);
 
   const correctAnswerCount = useMemo(() => {
     return score.reduce((prev, current) => {
@@ -77,45 +77,37 @@ const QuizDoneBody = () => {
         Your score is {correctAnswerCount} out of {score.length}
       </h2>
       <StyledImg src={studyBuddy} alt="Study buddy img" />
-      <ScoreWrapper>
-        {score.map((score, i) => {
-          if (score > 1)
-            return <StyledFavorite key={i} color="error" fontSize="large" />;
-          else if (score === 1)
-            return <StyledFavorite key={i} color="warning" fontSize="large" />;
-          else return <HeartBroken key={i} color="error" fontSize="large" />;
-        })}
-      </ScoreWrapper>
-      {hasIncorrectAnswers && (
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Excersise</TableCell>
-              <TableCell>Question</TableCell>
-              <TableCell>Your answer</TableCell>
-              <TableCell>Correct</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {answers.map((answer, i) => {
-              const question = questions[i];
-              const isCorrect = score[i] > 0;
-              if (isCorrect) {
-                return null;
-              }
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Excersise</TableCell>
+            <TableCell>Question</TableCell>
+            <TableCell>Your answer</TableCell>
+            <TableCell>Correct</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {answers.map((answer, i) => {
+            const question = questions[i];
 
-              return (
-                <TableRow key={i}>
-                  <TableCell>{i + 1}</TableCell>
-                  <TableCell>{question.question}</TableCell>
-                  <TableCell>{answer}</TableCell>
-                  <TableCell>{question.correctAnswer}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      )}
+            return (
+              <TableRow key={i}>
+                <TableCell>
+                  <ScoreHeart score={score[i]} />
+                </TableCell>
+                <TableCell>{question.question}</TableCell>
+                <TableCell>{answer}</TableCell>
+                <TableCell>
+                  {question.correctAnswer}
+                  <IconButton onClick={() => playAnswerAudio(question.id)}>
+                    <RecordVoiceOver />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
     </Wrapper>
   );
 };
