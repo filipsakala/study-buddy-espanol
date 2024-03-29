@@ -241,7 +241,7 @@
   {
     "id": "WORD-64",
     "en": "T-shirt with long sleeve",
-    "es": "camiseta de manga corta",
+    "es": "camiseta de manga larga",
     "learnGroup": "clothes"
   },
   {
@@ -647,7 +647,7 @@
   { "id": "WORD-170", "en": "ice cream", "es": "helado", "learnGroup": "food" },
   { "id": "WORD-171", "en": "cheese", "es": "queso", "learnGroup": "food" },
   { "id": "WORD-172", "en": "fruits", "es": "frutas", "learnGroup": "food" },
-  { "id": "WORD-173", "en": "apple", "es": "mañana", "learnGroup": "food" },
+  { "id": "WORD-173", "en": "apple", "es": "manzana", "learnGroup": "food" },
   { "id": "WORD-174", "en": "banana", "es": "plátano", "learnGroup": "food" },
   { "id": "WORD-175", "en": "lemon", "es": "limón", "learnGroup": "food" },
   { "id": "WORD-176", "en": "orange", "es": "naranja", "learnGroup": "food" },

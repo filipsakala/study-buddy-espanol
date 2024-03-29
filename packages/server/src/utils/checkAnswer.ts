@@ -7,8 +7,13 @@ const getQuestion = (questionId: string): DbWordQuestion | undefined => {
 };
 
 // removes spaces from the beginning and the end of a string (trim)
+// replaces accents, removes unprintable ranges
 const normalizeAnswer = (answer: string): string => {
-  return answer.trim().toLocaleLowerCase();
+  return answer
+    .trim()
+    .toLocaleLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 };
 
 const checkAnswer = (questionId: string, answer: string): boolean => {
@@ -18,9 +23,10 @@ const checkAnswer = (questionId: string, answer: string): boolean => {
     throw new QuestionDoesNotExistError("Question does not exist");
   }
 
+  const normalizedCorrectAnswer = normalizeAnswer(question.es);
   const normalizedAnswer = normalizeAnswer(answer);
 
-  return question.es === normalizedAnswer;
+  return normalizedCorrectAnswer === normalizedAnswer;
 };
 
 export default checkAnswer;
