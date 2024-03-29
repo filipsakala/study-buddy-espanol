@@ -15,7 +15,7 @@ const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(() => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    fontSize: "1.5rem",
+    fontSize: "1rem",
   },
 }));
 
