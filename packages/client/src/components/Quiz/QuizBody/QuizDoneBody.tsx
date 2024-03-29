@@ -3,7 +3,7 @@ import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { Favorite, HeartBroken } from "@mui/icons-material";
 import { styled } from "@mui/system";
-import studyBuddy from "../../../assets/study_buddy2.png";
+import studyBuddy from "../../../assets/study_buddy2-300.png";
 import {
   Table,
   TableBody,
