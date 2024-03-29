@@ -4,25 +4,23 @@ import useQuizApi from "./useQuizApi";
 import { AnsweredQuestion } from "../types/Question";
 
 const useQuizActions = () => {
-  const { getQuestions, answerQuestion: answerQuestionApi } = useQuizApi();
+  const {
+    isApiLoading,
+    hasApiError,
+    getQuestionsApiCall,
+    answerQuestionApiCall,
+  } = useQuizApi();
   const [status, setStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
   const [questions, setQuestions] = useState<AnsweredQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [score, setScore] = useState<number[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [hasApiError, setHasApiError] = useState<boolean>(false);
   const [answers, setAnswers] = useState<string[]>([]);
   const [help, setHelp] = useState<string[]>([]);
 
   const startQuiz = useCallback(async () => {
-    setHasApiError(false);
-    setIsLoading(true);
-    const apiQuestions = await getQuestions();
-    setIsLoading(false);
+    const apiQuestions = await getQuestionsApiCall();
 
-    // probably some error status
     if (!apiQuestions) {
-      setHasApiError(true);
       return;
     }
 
@@ -36,26 +34,21 @@ const useQuizActions = () => {
 
   const answerQuestion = useCallback(async () => {
     const currentAnswer = answers[currentQuestionIndex];
-    setHasApiError(false);
     if (
       status !== EQuizStatus.IN_PROGRESS ||
       !questions ||
-      isLoading ||
       currentQuestionIndex > questions.length ||
       !currentAnswer
     ) {
       return;
     }
 
-    setIsLoading(true);
-    const isCorrectAnswer = await answerQuestionApi(
+    const isCorrectAnswer = await answerQuestionApiCall(
       questions[currentQuestionIndex].id,
       currentAnswer
     );
-    setIsLoading(false);
 
     if (isCorrectAnswer === undefined) {
-      setHasApiError(true);
       return;
     }
 
@@ -75,7 +68,7 @@ const useQuizActions = () => {
 
     setCurrentQuestionIndex((prev) => prev + 1);
     setHelp([]);
-  }, [status, questions, isLoading, currentQuestionIndex, answers]);
+  }, [status, questions, currentQuestionIndex, answers]);
 
   const getQuestionHelp = useCallback(() => {
     const currentQuestion = questions[currentQuestionIndex];
@@ -139,7 +132,7 @@ const useQuizActions = () => {
 
   return useMemo(
     () => ({
-      isLoading,
+      isApiLoading,
       hasApiError,
       questions,
       status,
@@ -154,7 +147,7 @@ const useQuizActions = () => {
       help,
     }),
     [
-      isLoading,
+      isApiLoading,
       hasApiError,
       questions,
       status,
