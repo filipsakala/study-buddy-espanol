@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
-import studyBuddy from "../../../assets/study_buddy-300.png";
+import studyBuddy from "../../../assets/study_buddy-450.png";
 import { styled } from "@mui/system";
 
 const StyledImg = styled("img")`

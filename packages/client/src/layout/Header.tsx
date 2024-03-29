@@ -25,7 +25,7 @@ const StyledAppName = styled("span")`
 const Header = () => {
   return (
     <StyledHeader>
-      <StyledLogo src="/logo-30.png" alt="Study buddy" />
+      <StyledLogo src="/logo-60.png" alt="Study buddy" />
       <StyledAppName>Study Buddy Español</StyledAppName>
       <Chip variant="outlined" label="Curso A1" />
     </StyledHeader>
