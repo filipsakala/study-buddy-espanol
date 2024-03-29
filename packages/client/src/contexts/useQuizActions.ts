@@ -11,7 +11,7 @@ const useQuizActions = () => {
   const [score, setScore] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasApiError, setHasApiError] = useState<boolean>(false);
-  const [currentAnswer, setCurrentAnswer] = useState<string>("");
+  const [answers, setAnswers] = useState<string[]>([]);
   const [help, setHelp] = useState<string[]>([]);
 
   const startQuiz = useCallback(async () => {
@@ -28,12 +28,14 @@ const useQuizActions = () => {
 
     setQuestions(apiQuestions);
     setCurrentQuestionIndex(0);
+    setAnswers([]);
     setScore([]);
     setStatus(EQuizStatus.IN_PROGRESS);
     setHelp([]);
   }, []);
 
   const answerQuestion = useCallback(async () => {
+    const currentAnswer = answers[currentQuestionIndex];
     setHasApiError(false);
     if (
       status !== EQuizStatus.IN_PROGRESS ||
@@ -64,8 +66,6 @@ const useQuizActions = () => {
       next[currentQuestionIndex] = questionScore;
       return next;
     });
-    // reset current state of answering
-    setCurrentAnswer("");
 
     // last question
     if (currentQuestionIndex + 1 === questions.length) {
@@ -75,7 +75,7 @@ const useQuizActions = () => {
 
     setCurrentQuestionIndex((prev) => prev + 1);
     setHelp([]);
-  }, [status, questions, isLoading, currentQuestionIndex, currentAnswer]);
+  }, [status, questions, isLoading, currentQuestionIndex, answers]);
 
   const getQuestionHelp = useCallback(() => {
     const currentQuestion = questions[currentQuestionIndex];
@@ -121,6 +121,22 @@ const useQuizActions = () => {
     });
   }, [help, questions, currentQuestionIndex]);
 
+  const currentAnswer = useMemo(
+    () => answers[currentQuestionIndex] || "",
+    [currentQuestionIndex, answers]
+  );
+
+  const setCurrentAnswer = useCallback(
+    (answer: string) => {
+      setAnswers((prev) => {
+        const next = [...prev];
+        next[currentQuestionIndex] = answer;
+        return next;
+      });
+    },
+    [currentQuestionIndex]
+  );
+
   return useMemo(
     () => ({
       isLoading,
@@ -131,6 +147,7 @@ const useQuizActions = () => {
       answerQuestion,
       getQuestionHelp,
       currentAnswer,
+      answers,
       setCurrentAnswer,
       currentQuestionIndex,
       score,
@@ -145,6 +162,7 @@ const useQuizActions = () => {
       answerQuestion,
       getQuestionHelp,
       currentAnswer,
+      answers,
       setCurrentAnswer,
       currentQuestionIndex,
       score,

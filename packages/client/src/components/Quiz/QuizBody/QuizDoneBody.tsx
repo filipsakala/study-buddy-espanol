@@ -4,6 +4,13 @@ import { EQuizStatus } from "../../../types/Quiz";
 import { Favorite, HeartBroken } from "@mui/icons-material";
 import { styled } from "@mui/system";
 import studyBuddy from "../../../assets/study_buddy2.png";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 const Wrapper = styled("div")`
   display: flex;
@@ -47,7 +54,8 @@ const StyledImg = styled("img")`
 `;
 
 const QuizDoneBody = () => {
-  const { status, score } = useContext(QuizContext);
+  const { status, score, questions, answers } = useContext(QuizContext);
+  const hasIncorrectAnswers = score.some((v) => v < 0);
 
   const correctAnswerCount = useMemo(() => {
     return score.reduce((prev, current) => {
@@ -78,6 +86,36 @@ const QuizDoneBody = () => {
           else return <HeartBroken key={i} color="error" fontSize="large" />;
         })}
       </ScoreWrapper>
+      {hasIncorrectAnswers && (
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Excersise</TableCell>
+              <TableCell>Question</TableCell>
+              <TableCell>Your answer</TableCell>
+              <TableCell>Correct</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {answers.map((answer, i) => {
+              const question = questions[i];
+              const isCorrect = score[i] > 0;
+              if (isCorrect) {
+                return null;
+              }
+
+              return (
+                <TableRow key={i}>
+                  <TableCell>{i + 1}</TableCell>
+                  <TableCell>{question.question}</TableCell>
+                  <TableCell>{answer}</TableCell>
+                  <TableCell>{question.correctAnswer}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      )}
     </Wrapper>
   );
 };

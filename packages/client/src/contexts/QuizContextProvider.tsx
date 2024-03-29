@@ -9,6 +9,7 @@ export type TQuizContext = {
   answerQuestion: () => void;
   getQuestionHelp: () => void;
   currentAnswer: string;
+  answers: string[];
   setCurrentAnswer: (answer: string) => void;
   isApiLoading: boolean;
   hasApiError: boolean;
@@ -24,6 +25,7 @@ export const QuizContext = createContext<TQuizContext>({
   answerQuestion: () => {},
   getQuestionHelp: () => {},
   currentAnswer: "",
+  answers: [],
   setCurrentAnswer: () => {},
   isApiLoading: false,
   hasApiError: false,
@@ -44,6 +46,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
     answerQuestion,
     getQuestionHelp,
     currentAnswer,
+    answers,
     setCurrentAnswer,
     isLoading,
     hasApiError,
@@ -60,6 +63,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
       answerQuestion,
       getQuestionHelp,
       currentAnswer,
+      answers,
       setCurrentAnswer,
       isApiLoading: isLoading,
       hasApiError,
@@ -73,6 +77,7 @@ export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
       startQuiz,
       answerQuestion,
       currentAnswer,
+      answers,
       setCurrentAnswer,
       isLoading,
       hasApiError,
