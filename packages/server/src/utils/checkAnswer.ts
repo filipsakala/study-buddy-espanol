@@ -1,10 +1,7 @@
-import words from "../db/words.json";
+import db from "../../db";
+import { DbWordQuestion } from "../../types/Question";
 import { QuestionDoesNotExistError } from "../errors";
-import { DbWordQuestion } from "./getTranslateWordQuestion";
-
-export const getQuestion = (questionId: string): DbWordQuestion | undefined => {
-  return words.find(({ id }) => id === questionId);
-};
+import getQuestion from "./getQuestion";
 
 // removes spaces from the beginning and the end of a string (trim)
 // replaces accents, removes unprintable ranges
@@ -16,8 +13,13 @@ const normalizeAnswer = (answer: string): string => {
     .replace(/[\u0300-\u036f]/g, "");
 };
 
-const checkAnswer = (questionId: string, answer: string): boolean => {
-  const question: DbWordQuestion | undefined = getQuestion(questionId);
+const checkAnswer = async (
+  questionId: number,
+  answer: string
+): Promise<boolean> => {
+  const question: DbWordQuestion | null | undefined = await getQuestion(
+    questionId
+  );
 
   if (!question) {
     throw new QuestionDoesNotExistError("Question does not exist");

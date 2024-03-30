@@ -1,10 +1,8 @@
 import express from "express";
-import { Question } from "../types/Question";
-import getTranslateWordQuestion, {
-  DbWordQuestion,
-} from "./utils/getTranslateWordQuestion";
-import { getQuestion } from "./utils/checkAnswer";
-import { getAudioBase64, getAudioUrl } from "google-tts-api";
+import { DbWordQuestion, Question } from "../types/Question";
+import getTranslateWordQuestion from "./utils/getTranslateWordQuestion";
+import { getAudioBase64 } from "google-tts-api";
+import getQuestion from "./utils/getQuestion";
 
 const router = express.Router();
 
@@ -17,7 +15,9 @@ router.get("/", async (req, res) => {
   }
 
   try {
-    const questions: Question[] = getTranslateWordQuestion(Number(count) || 0);
+    const questions: Question[] = await getTranslateWordQuestion(
+      Number(count) || 0
+    );
 
     res.status(200).json(questions);
   } catch (error) {
@@ -35,7 +35,9 @@ router.post("/sound", async (req, res) => {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });
     return;
   }
-  const question: DbWordQuestion | undefined = getQuestion(String(questionId));
+  const question: DbWordQuestion | null | undefined = await getQuestion(
+    questionId
+  );
 
   if (!question) {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });

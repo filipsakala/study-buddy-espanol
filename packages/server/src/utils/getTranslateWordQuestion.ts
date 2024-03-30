@@ -1,9 +1,9 @@
-import { Question, QuestionLearnGroup } from "../../types/Question";
-import words from "../db/words.json";
-import getQuestionsIndexes from "./getQuestionsIndexes";
-
-const DB_QUESTION_COUNT = words.length;
-export type DbWordQuestion = (typeof words)[0];
+import db from "../../db";
+import {
+  DbWordQuestion,
+  Question,
+  QuestionLearnGroup,
+} from "../../types/Question";
 
 const transform = (question: DbWordQuestion): Question => {
   return {
@@ -11,16 +11,19 @@ const transform = (question: DbWordQuestion): Question => {
     icon: question.icon,
     question: question.en,
     correctAnswer: question.es,
-    learnGroup: question.learnGroup as QuestionLearnGroup,
+    learnGroup: question.learn_group as QuestionLearnGroup,
     category: "TRANSLATE_WORD",
     answers: [],
   };
 };
 
-const getTranslateWordQuestion = (count: number): Question[] => {
-  const questionIndexes = getQuestionsIndexes(count, DB_QUESTION_COUNT);
+const getTranslateWordQuestion = async (count: number): Promise<Question[]> => {
+  const dbQuestions = await db.query(
+    "SELECT * FROM words ORDER BY random() LIMIT $1",
+    count
+  );
 
-  return questionIndexes.map((index) => transform(words[index]));
+  return dbQuestions.map((dbQuestion: DbWordQuestion) => transform(dbQuestion));
 };
 
 export default getTranslateWordQuestion;
