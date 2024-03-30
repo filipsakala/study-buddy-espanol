@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const result = checkAnswer(questionId, answer);
+    const result = await checkAnswer(questionId, answer);
 
     res.status(200).json(result);
   } catch (error) {
