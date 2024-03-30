@@ -10,7 +10,7 @@ export enum QuestionLearnGroup {
 }
 
 export type Question = {
-  id: string;
+  id: number;
   icon?: string; // base64 encoded icon
   category: QuestionCategory;
   question: string;
@@ -18,10 +18,3 @@ export type Question = {
   correctAnswer: string;
   learnGroup: QuestionLearnGroup;
 };
-
-export type Answer = {
-  isAnswered: boolean;
-  isCorrect: boolean;
-};
-
-export type AnsweredQuestion = Question | (Question & Answer);

@@ -1,5 +1,5 @@
 import { IconButton, TextField } from "@mui/material";
-import { AnsweredQuestion } from "../../../types/Question";
+import { Question } from "../../../types/Question";
 import { styled } from "@mui/system";
 import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
@@ -7,7 +7,7 @@ import { Help } from "@mui/icons-material";
 import TranslateWordHelp from "./TranslateWordHelp";
 
 type Props = {
-  question: AnsweredQuestion;
+  question: Question;
 };
 
 const StyledQuestionWrapper = styled("div")`

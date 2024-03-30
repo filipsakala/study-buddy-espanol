@@ -1,7 +1,7 @@
 import { createContext, useMemo } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizActions from "./useQuizActions";
-import { AnsweredQuestion } from "../types/Question";
+import { Question } from "../types/Question";
 
 export type TQuizContext = {
   status: EQuizStatus;
@@ -13,11 +13,11 @@ export type TQuizContext = {
   setCurrentAnswer: (answer: string) => void;
   isApiLoading: boolean;
   hasApiError: boolean;
-  questions: AnsweredQuestion[];
+  questions: Question[];
   currentQuestionIndex: number;
   score: number[];
   help: string[];
-  playAnswerAudio: (questionId: string) => void;
+  playAnswerAudio: (questionId: number) => void;
 };
 
 export const QuizContext = createContext<TQuizContext>({

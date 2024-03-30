@@ -31,7 +31,7 @@ const useQuizApi = () => {
 
   const answerQuestion = useCallback(
     async (
-      questionId: string,
+      questionId: number,
       answer: string
     ): Promise<boolean | undefined> => {
       // some request already fired
@@ -57,7 +57,7 @@ const useQuizApi = () => {
   );
 
   const getAnswerSound = useCallback(
-    async (questionId: string): Promise<string | undefined> => {
+    async (questionId: number): Promise<string | undefined> => {
       // some request already fired
       if (isLoading) {
         return;

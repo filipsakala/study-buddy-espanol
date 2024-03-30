@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizApi from "./useQuizApi";
-import { AnsweredQuestion } from "../types/Question";
+import { Question } from "../types/Question";
 import useHelp from "./useHelp";
 
 const useQuizActions = () => {
@@ -13,7 +13,7 @@ const useQuizActions = () => {
     getAnswerSoundApiCall,
   } = useQuizApi();
   const [status, setStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
-  const [questions, setQuestions] = useState<AnsweredQuestion[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [score, setScore] = useState<number[]>([]);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -105,7 +105,7 @@ const useQuizActions = () => {
   );
 
   const playAnswerAudio = useCallback(
-    async (questionId: string) => {
+    async (questionId: number) => {
       const audioBase64 = await getAnswerSoundApiCall(questionId);
 
       let audio = new Audio("data:audio/wav;base64," + audioBase64);
