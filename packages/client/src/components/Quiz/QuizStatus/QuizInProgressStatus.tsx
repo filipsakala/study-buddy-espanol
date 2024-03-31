@@ -17,26 +17,6 @@ const StatusWrapper = styled("div")`
   justify-content: space-between;
 `;
 
-const LearnGroup = styled("div")`
-  display: flex;
-  flex-grow: 1;
-  flex-wrap: wrap;
-
-  align-items: center;
-  justify-content: flex-end;
-  flex-grow: 1;
-`;
-
-const ProgressWrapper = styled("div")`
-  display: flex;
-  flex-grow: 1;
-  flex-wrap: wrap;
-
-  align-items: center;
-  justify-content: flex-end;
-  flex-grow: 1;
-`;
-
 const QuizInProgressStatus = () => {
   const { status, currentQuestionIndex, questions, score } =
     useContext(QuizContext);
@@ -51,10 +31,10 @@ const QuizInProgressStatus = () => {
         Excersise {currentQuestionIndex + 1} (
         {questions[currentQuestionIndex].learnGroup})
       </div>
-      <LearnGroup>
+      <div>
         <b>Translate this word</b>
-      </LearnGroup>
-      <ProgressWrapper>
+      </div>
+      <div>
         {questions.map(({ id }, i) => {
           // next questions
           if (i > currentQuestionIndex) {
@@ -77,7 +57,7 @@ const QuizInProgressStatus = () => {
             return <FavoriteBorderIcon key={id} color="error" />;
           }
         })}
-      </ProgressWrapper>
+      </div>
     </StatusWrapper>
   );
 };

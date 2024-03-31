@@ -6,18 +6,20 @@ import { styled } from "@mui/material";
 import QuizInProgressActions from "./QuizInProgressActions";
 import Alert from "../../Alert";
 
-const StyledWrapper = styled("div")`
-  display: flex;
-  gap: 5px;
+const StyledWrapper = styled("div")(
+  ({ theme }) => `
+display: flex;
+gap: 5px;
 
-  width: 100%;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 10px 0;
+width: 100%;
+align-items: flex-start;
+justify-content: center;
+padding: 10px 0;
 
-  border-top: 1px solid gray;
-  flex-grow: 1;
-`;
+border-top: 1px solid ${theme.palette.divider};
+flex-grow: 1;
+`
+);
 
 const StyledAlert = styled(Alert)`
   position: absolute !important;

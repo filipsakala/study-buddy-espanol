@@ -16,11 +16,7 @@ const QuizInitBody = () => {
     return null;
   }
 
-  return (
-    <div>
-      <StyledImg src={studyBuddy} alt="Study buddy img" />
-    </div>
-  );
+  return <StyledImg src={studyBuddy} alt="Study buddy img" />;
 };
 
 export default QuizInitBody;

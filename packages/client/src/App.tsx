@@ -2,13 +2,15 @@ import { styled } from "@mui/material";
 import Header from "./layout/Header";
 import Body from "./layout/Body";
 
-const PageWrapper = styled("div")`
+const PageWrapper = styled("div")(
+  ({ theme }) => `
   margin: 0;
   display: flex;
   flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
-  background: white;
+  background: ${theme.palette.background.default};
+  color: ${theme.palette.text.primary};
 
   @media screen and (max-width: 767px) {
     _::-webkit-full-page-media,
@@ -17,7 +19,8 @@ const PageWrapper = styled("div")`
       padding-bottom: 65px;
     }
   }
-`;
+`
+);
 
 const App = () => {
   return (

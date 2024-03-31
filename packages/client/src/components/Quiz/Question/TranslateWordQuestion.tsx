@@ -1,6 +1,5 @@
-import { IconButton, TextField } from "@mui/material";
+import { IconButton, TextField, styled } from "@mui/material";
 import { Question } from "../../../types/Question";
-import { styled } from "@mui/system";
 import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { Help } from "@mui/icons-material";
@@ -10,22 +9,35 @@ type Props = {
   question: Question;
 };
 
-const StyledQuestionWrapper = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+const StyledQuestionWrapper = styled("div")(
+  ({ theme }) => `
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 
-  min-width: 25vw;
+min-width: 25vw;
 
-  padding: 10px 10px 20px 10px;
-  border: 1px solid lightgray;
-  border-radius: 4px;
-`;
+padding: 10px 10px 20px 10px;
+border: 1px solid ${theme.palette.divider};
+border-radius: 4px;
+`
+);
 
 const StyledImg = styled("img")`
-  max-height: 150px;
+  width: 128px;
+  height: 128px;
 `;
+
+const ImagePlaceholder = styled("div")(
+  ({ theme }) => `
+  width: 128px;
+  height: 128px;
+
+  // invert black in the dark mode
+  ${theme.palette.mode === "dark" && "filter: invert(1) hue-rotate(180deg);"}
+`
+);
 
 const TranslateWordQuestion = ({ question }: Props) => {
   const { currentAnswer, setCurrentAnswer, answerQuestion, getQuestionHelp } =
@@ -34,7 +46,11 @@ const TranslateWordQuestion = ({ question }: Props) => {
   return (
     <>
       <StyledQuestionWrapper>
-        {question.icon && <StyledImg src={question.icon} loading="lazy" />}
+        {question.icon && (
+          <ImagePlaceholder>
+            <StyledImg src={question.icon} loading="lazy" />
+          </ImagePlaceholder>
+        )}
         <h3>
           {question.question}
           <IconButton onClick={getQuestionHelp}>
