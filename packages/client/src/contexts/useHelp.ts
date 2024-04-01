@@ -41,7 +41,7 @@ const useHelp = (
     const correctAnswer = currentQuestion.correctAnswer;
     // just show number of letters for given answer
     if (!help.length) {
-      setHelp(produceSpacedArray(correctAnswer));
+      setHelp(produceSpacedArray(correctAnswer as string));
       return;
     }
     // all indexes already filled, nothing to do

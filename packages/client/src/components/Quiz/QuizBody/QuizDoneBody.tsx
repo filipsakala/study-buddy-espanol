@@ -12,6 +12,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { QuestionCategory } from "../../../types/Question";
 
 const Wrapper = styled("div")`
   display: flex;
@@ -77,7 +78,15 @@ const QuizDoneBody = () => {
         Your score is {correctAnswerCount} out of {score.length}
       </h2>
       <StyledImg src={studyBuddy} alt="Study buddy img" />
-      <Table size="small">
+      <Table
+        size="small"
+        style={{
+          width: "95%",
+          display: "block",
+          overflowX: "auto",
+          whiteSpace: "pre",
+        }}
+      >
         <TableHead>
           <TableRow>
             <TableCell>Excersise</TableCell>
@@ -89,19 +98,59 @@ const QuizDoneBody = () => {
         <TableBody>
           {answers.map((answer, i) => {
             const question = questions[i];
+            const isTranslateWord =
+              question.category === QuestionCategory.TRANSLATE_WORD;
+            const questionTextsById = isTranslateWord
+              ? {}
+              : (question.question as string[]).reduce(
+                  (prev: Record<number, string>, text, i) => {
+                    const questionId = (question.id as number[])[i];
+                    prev[questionId] = text;
+                    return prev;
+                  },
+                  {}
+                );
+            const answerTextsById = isTranslateWord
+              ? {}
+              : (question.correctAnswer as string[]).reduce(
+                  (prev: Record<number, string>, text, i) => {
+                    const questionId = (question.id as number[])[i];
+                    prev[questionId] = text;
+                    return prev;
+                  },
+                  {}
+                );
+
+            const questionText = isTranslateWord
+              ? question.question
+              : (question.question as string[]).join(", \r\n");
+            const answerText = isTranslateWord
+              ? answer
+              : (answer as number[][])
+                  .map(
+                    ([q, a]) => `${questionTextsById[q]}:${answerTextsById[a]}`
+                  )
+                  .join(", \r\n");
+            const correctAnswerText = isTranslateWord
+              ? question.correctAnswer
+              : (question.correctAnswer as string[]).join(", \r\n");
 
             return (
               <TableRow key={i}>
                 <TableCell>
                   <ScoreHeart score={score[i]} />
                 </TableCell>
-                <TableCell>{question.question}</TableCell>
-                <TableCell>{answer}</TableCell>
+                <TableCell>{questionText}</TableCell>
+                <TableCell>{answerText}</TableCell>
                 <TableCell>
-                  {question.correctAnswer}
-                  <IconButton onClick={() => playAnswerAudio(question.id)}>
-                    <RecordVoiceOver />
-                  </IconButton>
+                  {correctAnswerText}
+                  {isTranslateWord && (
+                    <IconButton
+                      onClick={() => playAnswerAudio(question.id as number)}
+                    >
+                      <RecordVoiceOver />
+                    </IconButton>
+                  )}
                 </TableCell>
               </TableRow>
             );

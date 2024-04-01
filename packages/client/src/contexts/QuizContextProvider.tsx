@@ -8,9 +8,9 @@ export type TQuizContext = {
   startQuiz: () => void;
   answerQuestion: () => void;
   getQuestionHelp: () => void;
-  currentAnswer: string;
-  answers: string[];
-  setCurrentAnswer: (answer: string) => void;
+  currentAnswer: string | number[][];
+  answers: (string | number[][])[];
+  setCurrentAnswer: (answer: string | number[][]) => void;
   isApiLoading: boolean;
   hasApiError: boolean;
   questions: Question[];

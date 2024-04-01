@@ -44,34 +44,32 @@ const TranslateWordQuestion = ({ question }: Props) => {
     useContext(QuizContext);
 
   return (
-    <>
-      <StyledQuestionWrapper>
-        {question.icon && (
-          <ImagePlaceholder>
-            <StyledImg src={question.icon} loading="lazy" />
-          </ImagePlaceholder>
-        )}
-        <h3>
-          {question.question}
-          <IconButton onClick={getQuestionHelp}>
-            <Help />
-          </IconButton>
-        </h3>
-        <TranslateWordHelp />
-        <TextField
-          autoFocus={true}
-          value={currentAnswer}
-          onChange={(e) => setCurrentAnswer(e.target.value)}
-          onKeyUp={(e: any) => {
-            if (e.key === "Enter" && currentAnswer) {
-              answerQuestion();
-            }
-          }}
-          onBlur={(e) => e.target.focus()}
-          focused
-        />
-      </StyledQuestionWrapper>
-    </>
+    <StyledQuestionWrapper>
+      {question.icon && (
+        <ImagePlaceholder>
+          <StyledImg src={question.icon} loading="lazy" />
+        </ImagePlaceholder>
+      )}
+      <h3>
+        {question.question}
+        <IconButton onClick={getQuestionHelp}>
+          <Help />
+        </IconButton>
+      </h3>
+      <TranslateWordHelp />
+      <TextField
+        autoFocus={true}
+        value={currentAnswer}
+        onChange={(e) => setCurrentAnswer(e.target.value)}
+        onKeyUp={(e: any) => {
+          if (e.key === "Enter" && currentAnswer) {
+            answerQuestion();
+          }
+        }}
+        onBlur={(e) => e.target.focus()}
+        focused
+      />
+    </StyledQuestionWrapper>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizApi from "./useQuizApi";
-import { Question } from "../types/Question";
+import { Question, QuestionCategory } from "../types/Question";
 import useHelp from "./useHelp";
 
 const useQuizActions = () => {
@@ -16,16 +16,21 @@ const useQuizActions = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [score, setScore] = useState<number[]>([]);
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<(string | number[][])[]>([]);
 
   const currentQuestion = useMemo(
     () => questions[currentQuestionIndex],
     [questions, currentQuestionIndex]
   );
-  const currentAnswer = useMemo(
-    () => answers[currentQuestionIndex] || "",
-    [currentQuestionIndex, answers]
-  );
+  const currentAnswer = useMemo(() => {
+    if (!currentQuestion) {
+      return "";
+    }
+    const defaultValue =
+      currentQuestion.category === QuestionCategory.TRANSLATE_WORD ? "" : [];
+
+    return answers[currentQuestionIndex] || defaultValue;
+  }, [currentQuestionIndex, answers, currentQuestion]);
 
   const setCurrentQuestionScore = useCallback(
     (isCorrectAnswer: boolean, withHelp: boolean) => {
@@ -67,14 +72,10 @@ const useQuizActions = () => {
     setStatus(EQuizStatus.IN_PROGRESS);
   }, []);
 
-  const answerQuestion = useCallback(async () => {
-    if (status !== EQuizStatus.IN_PROGRESS || !currentAnswer) {
-      return;
-    }
-
+  const answerTranslateWordQuestion = useCallback(async () => {
     const isCorrectAnswer = await answerQuestionApiCall(
-      currentQuestion.id,
-      currentAnswer
+      currentQuestion.id as number,
+      currentAnswer as string
     );
 
     if (isCorrectAnswer === undefined) {
@@ -85,16 +86,59 @@ const useQuizActions = () => {
     goToNextQuestion();
     resetHelp();
   }, [
-    status,
     currentQuestion,
     currentAnswer,
     goToNextQuestion,
     help,
     resetHelp,
+    setCurrentQuestionScore,
+  ]);
+
+  const answerWordMatchQuestion = useCallback(() => {
+    const wordCount = currentQuestion.question.length;
+    const correctMatches = (currentAnswer as number[][]).reduce(
+      (prev, answer) => {
+        if (answer[0] === answer[1]) {
+          return prev + 1;
+        }
+        return prev;
+      },
+      0
+    );
+
+    const isCorrect = wordCount === currentAnswer.length; // only correct matches
+    // all matches completed
+    if (wordCount === correctMatches) {
+      setCurrentQuestionScore(isCorrect, false);
+      goToNextQuestion();
+    }
+  }, [
+    currentQuestion,
+    currentAnswer,
+    goToNextQuestion,
+    setCurrentQuestionScore,
+  ]);
+
+  const answerQuestion = useCallback(() => {
+    if (status !== EQuizStatus.IN_PROGRESS || !currentAnswer) {
+      return;
+    }
+
+    if (currentQuestion.category === QuestionCategory.TRANSLATE_WORD) {
+      return answerTranslateWordQuestion();
+    }
+
+    answerWordMatchQuestion();
+  }, [
+    status,
+    currentQuestion,
+    currentAnswer,
+    answerTranslateWordQuestion,
+    answerWordMatchQuestion,
   ]);
 
   const setCurrentAnswer = useCallback(
-    (answer: string) => {
+    (answer: string | number[][]) => {
       setAnswers((prev) => {
         const next = [...prev];
         next[currentQuestionIndex] = answer;
