@@ -1,8 +1,8 @@
 import express from "express";
 import { DbWordQuestion, Question } from "../types/Question";
-import getTranslateWordQuestion from "./utils/getTranslateWordQuestion";
 import { getAudioBase64 } from "google-tts-api";
 import getQuestion from "./utils/getQuestion";
+import getQuestions from "./utils/getQuestions";
 
 const router = express.Router();
 
@@ -15,9 +15,7 @@ router.get("/", async (req, res) => {
   }
 
   try {
-    const questions: Question[] = await getTranslateWordQuestion(
-      Number(count) || 0
-    );
+    const questions: Question[] = await getQuestions(Number(count) || 0);
 
     res.status(200).json(questions);
   } catch (error) {

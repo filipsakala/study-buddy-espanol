@@ -1,14 +1,13 @@
-export type QuestionCategory = "TRANSLATE_WORD";
+export type QuestionCategory = "TRANSLATE_WORD" | "WORDS_MATCH";
 export type QuestionLearnGroup = "animals" | "numbers" | "clothes" | "food";
 
 export type Question = {
-  id: number;
+  id: number | number[];
   icon?: string; // base64 encoded icon
   category: QuestionCategory;
-  question: string;
-  answers: string[]; // possible answers can be empty for open answer questions
-  correctAnswer: string;
-  learnGroup: QuestionLearnGroup;
+  question: string | string[];
+  correctAnswer: string | string[];
+  learnGroup: QuestionLearnGroup | QuestionLearnGroup[];
 };
 
 export type DbWordQuestion = {

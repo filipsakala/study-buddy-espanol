@@ -13,11 +13,12 @@ const transform = (question: DbWordQuestion): Question => {
     correctAnswer: question.es,
     learnGroup: question.learn_group as QuestionLearnGroup,
     category: "TRANSLATE_WORD",
-    answers: [],
   };
 };
 
-const getTranslateWordQuestion = async (count: number): Promise<Question[]> => {
+const getTranslateWordQuestions = async (
+  count: number
+): Promise<Question[]> => {
   const dbQuestions = await db.query(
     "SELECT * FROM words ORDER BY random() LIMIT $1",
     count
@@ -26,4 +27,4 @@ const getTranslateWordQuestion = async (count: number): Promise<Question[]> => {
   return dbQuestions.map((dbQuestion: DbWordQuestion) => transform(dbQuestion));
 };
 
-export default getTranslateWordQuestion;
+export default getTranslateWordQuestions;
