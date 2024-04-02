@@ -1,42 +1,34 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
-import {
-  Button,
-  IconButton,
-  Tooltip,
-  TooltipProps,
-  Zoom,
-  tooltipClasses,
-} from "@mui/material";
+import { Button, IconButton, Snackbar } from "@mui/material";
 import styled from "styled-components";
 import { Close, HourglassTop } from "@mui/icons-material";
 import { QuestionCategory } from "../../../types/Question";
 
-const TOOLTIP_TIMEOUT_SECONDS = 3;
+const RESULT_TIMEOUT_SECONDS = 5;
 
-const StyledTooltip = styled(({ className, ...props }: TooltipProps) => {
-  return <Tooltip {...props} classes={{ popper: className }} />;
-})(() => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    fontSize: "1rem",
-  },
-}));
+const StyledSnackbar = styled(Snackbar)`
+  .MuiSnackbarContent-message {
+    flex: 1;
+  }
+`;
 
 const TimeoutBar = styled(`div`)`
+  margin-top: 5px;
   height: 3px;
   background: white;
 
   // tooltip keyframes with step every second of a tooltip timeout
   @keyframes timeout {
-    ${[...Array(TOOLTIP_TIMEOUT_SECONDS + 1)].map((_, i) => {
-      const percent = (i * 100) / TOOLTIP_TIMEOUT_SECONDS;
+    ${[...Array(RESULT_TIMEOUT_SECONDS + 1)].map((_, i) => {
+      const percent = (i * 100) / RESULT_TIMEOUT_SECONDS;
 
       return `${percent}% { width: ${percent}%;}`;
     })}
   }
 
-  animation: timeout ${TOOLTIP_TIMEOUT_SECONDS}s normal;
+  animation: timeout ${RESULT_TIMEOUT_SECONDS}s normal;
 `;
 
 const QuizInProgressActions = () => {
@@ -62,7 +54,7 @@ const QuizInProgressActions = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsTooltipForceClosed(true);
-    }, TOOLTIP_TIMEOUT_SECONDS * 1000);
+    }, RESULT_TIMEOUT_SECONDS * 1000);
   }, [currentQuestionIndex]);
 
   if (status !== EQuizStatus.IN_PROGRESS && status !== EQuizStatus.DONE) {
@@ -82,24 +74,26 @@ const QuizInProgressActions = () => {
         {lastQuestionScore > 0 && "yep 😍"}
         {lastQuestionScore < 0 &&
           `Wrong 😓 ${lastQuestion.question} = ${lastQuestion.correctAnswer}`}
-        <IconButton onClick={closeTooltip} size="small">
-          <Close htmlColor="white" />
-        </IconButton>
         <TimeoutBar />
       </>
     );
   }, [currentQuestionIndex, questions, isTooltipForceClosed]);
 
   return (
-    <StyledTooltip
-      open={Boolean(tooltipText)}
-      title={tooltipText}
-      TransitionComponent={Zoom}
-      TransitionProps={{ timeout: 100 }}
-      placement="bottom"
-      arrow
-    >
-      <div>
+    <>
+      <StyledSnackbar
+        open={Boolean(tooltipText)}
+        autoHideDuration={RESULT_TIMEOUT_SECONDS * 1000}
+        message={tooltipText}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        action={
+          <IconButton onClick={closeTooltip} size="small">
+            <Close htmlColor="white" />
+          </IconButton>
+        }
+        onClick={closeTooltip}
+      />
+      <>
         {questions[currentQuestionIndex] &&
           questions[currentQuestionIndex].category ===
             QuestionCategory.TRANSLATE_WORD &&
@@ -123,8 +117,8 @@ const QuizInProgressActions = () => {
             Start Quiz {isApiLoading && <HourglassTop />}
           </Button>
         )}
-      </div>
-    </StyledTooltip>
+      </>
+    </>
   );
 };
 
