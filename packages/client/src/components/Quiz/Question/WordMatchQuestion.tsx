@@ -15,17 +15,23 @@ type WordGroups = {
 
 const MatchColumns = styled("div")`
   display: flex;
-  gap: 100px;
+  gap: 1.5em;
 `;
 
 const MatchColumn = styled("div")`
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 1.5em;
 `;
 
 const StyledButton = styled(Button)`
+  display: inline-block;
   text-transform: lowercase;
+  height: 4.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: unset;
 `;
 
 const WordMatchQuestion = ({ question }: Props) => {
