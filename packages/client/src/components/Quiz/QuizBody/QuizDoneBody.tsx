@@ -78,10 +78,11 @@ const QuizDoneBody = () => {
         Your score is {correctAnswerCount} out of {score.length}
       </h2>
       <StyledImg src={studyBuddy} alt="Study buddy img" />
+
       <Table
         size="small"
         style={{
-          width: "95%",
+          maxWidth: "95vw",
           display: "block",
           overflowX: "auto",
           whiteSpace: "pre",
