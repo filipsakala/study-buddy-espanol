@@ -27,21 +27,24 @@ const QuizInProgressStatus = () => {
   );
   const questions = useContextSelector(QuizContext, (c) => c.questions);
   const score = useContextSelector(QuizContext, (c) => c.score);
+  const currentQuestion = useContextSelector(
+    QuizContext,
+    (c) => c.currentQuestion
+  );
 
   const learnGroup = useMemo(() => {
-    const currentQuestion = questions[currentQuestionIndex];
-
+    if (!currentQuestion) {
+      return;
+    }
     if (currentQuestion.category === QuestionCategory.TRANSLATE_WORD) {
-      return questions[currentQuestionIndex].learnGroup;
+      return currentQuestion.learnGroup;
     }
 
-    const groupSet = new Set(
-      questions[currentQuestionIndex].learnGroup as string[]
-    );
+    const groupSet = new Set(currentQuestion.learnGroup as string[]);
     return [...groupSet].join(", ");
-  }, [questions, currentQuestionIndex]);
+  }, [currentQuestion, questions, currentQuestionIndex]);
 
-  if (status !== EQuizStatus.IN_PROGRESS) {
+  if (status !== EQuizStatus.IN_PROGRESS || !currentQuestion) {
     return null;
   }
 
@@ -51,8 +54,7 @@ const QuizInProgressStatus = () => {
         Excersise {currentQuestionIndex + 1} ({learnGroup})
       </div>
       <div>
-        {questions[currentQuestionIndex].category ===
-        QuestionCategory.TRANSLATE_WORD ? (
+        {currentQuestion.category === QuestionCategory.TRANSLATE_WORD ? (
           <b>Translate this word</b>
         ) : (
           <b>Match these words</b>

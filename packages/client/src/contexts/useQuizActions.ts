@@ -3,8 +3,9 @@ import { EQuizStatus } from "../types/Quiz";
 import useQuizApi from "./useQuizApi";
 import { Question, QuestionCategory } from "../types/Question";
 import useHelp from "./useHelp";
+import { TQuizContext } from "./QuizContextProvider";
 
-const useQuizActions = () => {
+const useQuizActions = (): TQuizContext => {
   const {
     isApiLoading,
     hasApiError,
@@ -167,6 +168,7 @@ const useQuizActions = () => {
       startQuiz,
       answerQuestion,
       getQuestionHelp,
+      currentQuestion,
       currentAnswer,
       answers,
       setCurrentAnswer,
@@ -183,6 +185,7 @@ const useQuizActions = () => {
       startQuiz,
       answerQuestion,
       getQuestionHelp,
+      currentQuestion,
       currentAnswer,
       answers,
       setCurrentAnswer,

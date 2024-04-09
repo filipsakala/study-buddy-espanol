@@ -40,6 +40,10 @@ const QuizInProgressActions = () => {
     (c) => c.answerQuestion
   );
   const startQuiz = useContextSelector(QuizContext, (c) => c.startQuiz);
+  const currentQuestion = useContextSelector(
+    QuizContext,
+    (c) => c.currentQuestion
+  );
   const questions = useContextSelector(QuizContext, (c) => c.questions);
   const currentQuestionIndex = useContextSelector(
     QuizContext,
@@ -100,9 +104,8 @@ const QuizInProgressActions = () => {
         onClick={closeTooltip}
       />
       <>
-        {questions[currentQuestionIndex] &&
-          questions[currentQuestionIndex].category ===
-            QuestionCategory.TRANSLATE_WORD &&
+        {currentQuestion &&
+          currentQuestion.category === QuestionCategory.TRANSLATE_WORD &&
           status === EQuizStatus.IN_PROGRESS && (
             <Button
               variant="contained"

@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizActions from "./useQuizActions";
 import { Question } from "../types/Question";
@@ -9,6 +8,7 @@ export type TQuizContext = {
   startQuiz: () => void;
   answerQuestion: () => void;
   getQuestionHelp: () => void;
+  currentQuestion: Question | null;
   currentAnswer: string | number[][];
   answers: (string | number[][])[];
   setCurrentAnswer: (answer: string | number[][]) => void;
@@ -26,6 +26,7 @@ export const QuizContext = createContext<TQuizContext>({
   startQuiz: () => {},
   answerQuestion: () => {},
   getQuestionHelp: () => {},
+  currentQuestion: null,
   currentAnswer: "",
   answers: [],
   setCurrentAnswer: () => {},
@@ -43,56 +44,7 @@ type TQuizContextProvider = {
 };
 
 export const QuizContextProvider = ({ children }: TQuizContextProvider) => {
-  const {
-    status,
-    startQuiz,
-    answerQuestion,
-    getQuestionHelp,
-    currentAnswer,
-    answers,
-    setCurrentAnswer,
-    isApiLoading,
-    hasApiError,
-    questions,
-    currentQuestionIndex,
-    score,
-    help,
-    playAnswerAudio,
-  } = useQuizActions();
-
-  const contextValue = useMemo(
-    () => ({
-      status,
-      startQuiz,
-      answerQuestion,
-      getQuestionHelp,
-      currentAnswer,
-      answers,
-      setCurrentAnswer,
-      isApiLoading,
-      hasApiError,
-      questions,
-      currentQuestionIndex,
-      score,
-      help,
-      playAnswerAudio,
-    }),
-    [
-      status,
-      startQuiz,
-      answerQuestion,
-      currentAnswer,
-      answers,
-      setCurrentAnswer,
-      isApiLoading,
-      hasApiError,
-      questions,
-      currentQuestionIndex,
-      score,
-      help,
-      playAnswerAudio,
-    ]
-  );
+  const contextValue: TQuizContext = useQuizActions();
 
   return (
     <QuizContext.Provider value={contextValue}>{children}</QuizContext.Provider>

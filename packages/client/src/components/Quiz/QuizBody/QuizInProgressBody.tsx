@@ -5,7 +5,6 @@ import TranslateWordQuestion from "../Question/TranslateWordQuestion";
 import { styled } from "@mui/system";
 import WordMatchQuestion from "../Question/WordMatchQuestion";
 import { useContextSelector } from "use-context-selector";
-import { useMemo } from "react";
 
 const StyledQuestionWrapper = styled("div")`
   display: flex;
@@ -15,17 +14,12 @@ const StyledQuestionWrapper = styled("div")`
 
 const QuizInProgressBody = () => {
   const status = useContextSelector(QuizContext, (c) => c.status);
-  const questions = useContextSelector(QuizContext, (c) => c.questions);
-  const currentQuestionIndex = useContextSelector(
+  const currentQuestion = useContextSelector(
     QuizContext,
-    (c) => c.currentQuestionIndex
-  );
-  const currentQuestion = useMemo(
-    () => questions[currentQuestionIndex],
-    [questions, currentQuestionIndex]
+    (c) => c.currentQuestion
   );
 
-  if (status !== EQuizStatus.IN_PROGRESS) {
+  if (status !== EQuizStatus.IN_PROGRESS || !currentQuestion) {
     return null;
   }
 
