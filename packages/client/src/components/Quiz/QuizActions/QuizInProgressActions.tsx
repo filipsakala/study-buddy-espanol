@@ -1,10 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { Button, IconButton, Snackbar } from "@mui/material";
 import styled from "styled-components";
 import { Close, HourglassTop } from "@mui/icons-material";
 import { QuestionCategory } from "../../../types/Question";
+import { useContextSelector } from "use-context-selector";
 
 const RESULT_TIMEOUT_SECONDS = 5;
 
@@ -32,15 +33,20 @@ const TimeoutBar = styled(`div`)`
 `;
 
 const QuizInProgressActions = () => {
-  const {
-    status,
-    isApiLoading,
-    answerQuestion,
-    startQuiz,
-    questions,
-    currentQuestionIndex,
-    score,
-  } = useContext(QuizContext);
+  const status = useContextSelector(QuizContext, (c) => c.status);
+  const isApiLoading = useContextSelector(QuizContext, (c) => c.isApiLoading);
+  const answerQuestion = useContextSelector(
+    QuizContext,
+    (c) => c.answerQuestion
+  );
+  const startQuiz = useContextSelector(QuizContext, (c) => c.startQuiz);
+  const questions = useContextSelector(QuizContext, (c) => c.questions);
+  const currentQuestionIndex = useContextSelector(
+    QuizContext,
+    (c) => c.currentQuestionIndex
+  );
+  const score = useContextSelector(QuizContext, (c) => c.score);
+
   const [isTooltipForceClosed, setIsTooltipForceClosed] =
     useState<boolean>(false);
 

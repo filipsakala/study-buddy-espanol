@@ -1,8 +1,8 @@
-import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import studyBuddy from "../../../assets/study_buddy-450.png";
 import { styled } from "@mui/system";
+import { useContextSelector } from "use-context-selector";
 
 const StyledImg = styled("img")`
   max-height: 50vh;
@@ -10,7 +10,7 @@ const StyledImg = styled("img")`
 `;
 
 const QuizInitBody = () => {
-  const { status } = useContext(QuizContext);
+  const status = useContextSelector(QuizContext, (c) => c.status);
 
   if (status !== EQuizStatus.INIT) {
     return null;

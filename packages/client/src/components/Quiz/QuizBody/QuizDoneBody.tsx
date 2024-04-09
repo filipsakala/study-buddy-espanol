@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { Favorite, HeartBroken, RecordVoiceOver } from "@mui/icons-material";
@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { QuestionCategory } from "../../../types/Question";
+import { useContextSelector } from "use-context-selector";
 
 const Wrapper = styled("div")`
   display: flex;
@@ -55,8 +56,14 @@ const ScoreHeart = ({ score }: { score: number }) => {
 };
 
 const QuizDoneBody = () => {
-  const { status, score, questions, answers, playAnswerAudio } =
-    useContext(QuizContext);
+  const status = useContextSelector(QuizContext, (c) => c.status);
+  const score = useContextSelector(QuizContext, (c) => c.score);
+  const questions = useContextSelector(QuizContext, (c) => c.questions);
+  const answers = useContextSelector(QuizContext, (c) => c.answers);
+  const playAnswerAudio = useContextSelector(
+    QuizContext,
+    (c) => c.playAnswerAudio
+  );
 
   const correctAnswerCount = useMemo(() => {
     return score.reduce((prev, current) => {

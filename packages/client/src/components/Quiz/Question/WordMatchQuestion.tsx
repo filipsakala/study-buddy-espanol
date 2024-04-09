@@ -1,8 +1,9 @@
 import { Button, styled } from "@mui/material";
 import { Question } from "../../../types/Question";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import getRandomIndexes from "../../../utils/getRandomIndexes";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
+import { useContextSelector } from "use-context-selector";
 
 type Props = {
   question: Question;
@@ -35,8 +36,16 @@ const StyledButton = styled(Button)`
 `;
 
 const WordMatchQuestion = ({ question }: Props) => {
-  const { currentAnswer, setCurrentAnswer, answerQuestion } =
-    useContext(QuizContext);
+  const currentAnswer = useContextSelector(QuizContext, (c) => c.currentAnswer);
+  const setCurrentAnswer = useContextSelector(
+    QuizContext,
+    (c) => c.setCurrentAnswer
+  );
+  const answerQuestion = useContextSelector(
+    QuizContext,
+    (c) => c.answerQuestion
+  );
+
   const [selectedQuestionId, setSelectedQuestionId] = useState<
     number | undefined
   >();

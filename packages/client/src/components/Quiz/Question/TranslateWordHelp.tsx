@@ -1,6 +1,6 @@
-import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { styled } from "@mui/system";
+import { useContextSelector } from "use-context-selector";
 
 const StyledHelp = styled("div")`
   display: flex;
@@ -14,7 +14,7 @@ const Letter = styled("div")`
 `;
 
 const TranslateWordHelp = () => {
-  const { help } = useContext(QuizContext);
+  const help = useContextSelector(QuizContext, (c) => c.help);
 
   if (!help || !help.length) {
     return null;

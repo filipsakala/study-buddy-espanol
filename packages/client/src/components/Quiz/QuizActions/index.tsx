@@ -1,10 +1,10 @@
-import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import QuizInitActions from "./QuizInitActions";
 import { styled } from "@mui/material";
 import QuizInProgressActions from "./QuizInProgressActions";
 import Alert from "../../Alert";
+import { useContextSelector } from "use-context-selector";
 
 const StyledWrapper = styled("div")(
   ({ theme }) => `
@@ -28,7 +28,8 @@ const StyledAlert = styled(Alert)`
 `;
 
 const QuizActions = () => {
-  const { status, hasApiError } = useContext(QuizContext);
+  const status = useContextSelector(QuizContext, (c) => c.status);
+  const hasApiError = useContextSelector(QuizContext, (c) => c.hasApiError);
 
   return (
     <StyledWrapper>

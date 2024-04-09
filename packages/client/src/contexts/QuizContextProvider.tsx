@@ -1,7 +1,8 @@
-import { createContext, useMemo } from "react";
+import { useMemo } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizActions from "./useQuizActions";
 import { Question } from "../types/Question";
+import { createContext } from "use-context-selector";
 
 export type TQuizContext = {
   status: EQuizStatus;

@@ -1,9 +1,9 @@
 import { IconButton, TextField, styled } from "@mui/material";
 import { Question } from "../../../types/Question";
-import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { Help } from "@mui/icons-material";
 import TranslateWordHelp from "./TranslateWordHelp";
+import { useContextSelector } from "use-context-selector";
 
 type Props = {
   question: Question;
@@ -40,8 +40,19 @@ const ImagePlaceholder = styled("div")(
 );
 
 const TranslateWordQuestion = ({ question }: Props) => {
-  const { currentAnswer, setCurrentAnswer, answerQuestion, getQuestionHelp } =
-    useContext(QuizContext);
+  const currentAnswer = useContextSelector(QuizContext, (c) => c.currentAnswer);
+  const setCurrentAnswer = useContextSelector(
+    QuizContext,
+    (c) => c.setCurrentAnswer
+  );
+  const answerQuestion = useContextSelector(
+    QuizContext,
+    (c) => c.answerQuestion
+  );
+  const getQuestionHelp = useContextSelector(
+    QuizContext,
+    (c) => c.getQuestionHelp
+  );
 
   return (
     <StyledQuestionWrapper>

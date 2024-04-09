@@ -1,10 +1,10 @@
-import { useContext } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { styled } from "@mui/system";
 import QuizInitBody from "./QuizInitBody";
 import QuizInProgressBody from "./QuizInProgressBody";
 import QuizDoneBody from "./QuizDoneBody";
+import { useContextSelector } from "use-context-selector";
 
 const StyledWrapper = styled("div")`
   display: flex;
@@ -16,7 +16,7 @@ const StyledWrapper = styled("div")`
 `;
 
 const QuizBody = () => {
-  const { status } = useContext(QuizContext);
+  const status = useContextSelector(QuizContext, (c) => c.status);
 
   return (
     <StyledWrapper>

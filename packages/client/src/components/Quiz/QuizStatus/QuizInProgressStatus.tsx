@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { styled } from "@mui/system";
@@ -8,6 +8,7 @@ import {
   HeartBroken as HeartBrokenIcon,
 } from "@mui/icons-material";
 import { QuestionCategory } from "../../../types/Question";
+import { useContextSelector } from "use-context-selector";
 
 const StatusWrapper = styled("div")`
   display: flex;
@@ -19,8 +20,13 @@ const StatusWrapper = styled("div")`
 `;
 
 const QuizInProgressStatus = () => {
-  const { status, currentQuestionIndex, questions, score } =
-    useContext(QuizContext);
+  const status = useContextSelector(QuizContext, (c) => c.status);
+  const currentQuestionIndex = useContextSelector(
+    QuizContext,
+    (c) => c.currentQuestionIndex
+  );
+  const questions = useContextSelector(QuizContext, (c) => c.questions);
+  const score = useContextSelector(QuizContext, (c) => c.score);
 
   const learnGroup = useMemo(() => {
     const currentQuestion = questions[currentQuestionIndex];
