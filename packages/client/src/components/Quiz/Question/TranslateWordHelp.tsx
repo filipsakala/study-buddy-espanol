@@ -14,7 +14,7 @@ const Letter = styled("div")`
 `;
 
 const TranslateWordHelp = () => {
-  const help = useContextSelector(QuizContext, (c) => c.help);
+  const help = useContextSelector(QuizContext, (c) => c.currentQuestionHelp);
 
   if (!help || !help.length) {
     return null;

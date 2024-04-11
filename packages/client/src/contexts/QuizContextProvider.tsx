@@ -1,42 +1,40 @@
 import { EQuizStatus } from "../types/Quiz";
 import useQuizActions from "./useQuizActions";
-import { Question } from "../types/Question";
+import { QuizQuestion } from "../types/Question";
 import { createContext } from "use-context-selector";
 
 export type TQuizContext = {
-  status: EQuizStatus;
+  isApiLoading: boolean;
+  hasApiError: boolean;
+  quizStatus: EQuizStatus;
+  questions: QuizQuestion[];
+  currentQuestion: QuizQuestion;
+  currentQuestionHelp: string[];
+  currentAnswer: string | number[][];
+
   startQuiz: () => void;
   answerQuestion: () => void;
   getQuestionHelp: () => void;
-  currentQuestion: Question | null;
-  currentAnswer: string | number[][];
-  answers: (string | number[][])[];
-  setCurrentAnswer: (answer: string | number[][]) => void;
-  isApiLoading: boolean;
-  hasApiError: boolean;
-  questions: Question[];
-  currentQuestionIndex: number;
-  score: number[];
-  help: string[];
   playAnswerAudio: (questionId: number) => void;
+  setCurrentAnswer: React.Dispatch<React.SetStateAction<string | number[][]>>;
 };
 
 export const QuizContext = createContext<TQuizContext>({
-  status: EQuizStatus.INIT,
+  isApiLoading: false,
+  hasApiError: false,
+  quizStatus: EQuizStatus.INIT,
+  questions: [],
+  currentQuestion: {} as QuizQuestion,
+  currentQuestionHelp: [],
+  currentAnswer: "",
+
   startQuiz: () => {},
   answerQuestion: () => {},
   getQuestionHelp: () => {},
-  currentQuestion: null,
-  currentAnswer: "",
-  answers: [],
-  setCurrentAnswer: () => {},
-  isApiLoading: false,
-  hasApiError: false,
-  questions: [],
-  currentQuestionIndex: 0,
-  score: [],
-  help: [],
   playAnswerAudio: () => {},
+  setCurrentAnswer: (() => {}) as unknown as React.Dispatch<
+    React.SetStateAction<string | number[][]>
+  >,
 });
 
 type TQuizContextProvider = {

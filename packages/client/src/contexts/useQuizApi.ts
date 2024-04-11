@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import apiFetch from "../api/apiFetch";
-import { Question } from "../types/Question";
+import { DbQuestion } from "../types/Question";
 import { QUIZ_QUESTION_COUNT } from "../types/Quiz";
 
 const useQuizApi = () => {
@@ -8,7 +8,7 @@ const useQuizApi = () => {
   const [hasError, setHasError] = useState<boolean>(false);
 
   const getQuestions = useCallback(async (): Promise<
-    Question[] | undefined
+    DbQuestion[] | undefined
   > => {
     // some request already fired
     if (isLoading) {
@@ -17,7 +17,7 @@ const useQuizApi = () => {
 
     setHasError(false);
     setIsLoading(true);
-    const data = await apiFetch<Question[]>(
+    const data = await apiFetch<DbQuestion[]>(
       `/question?count=${QUIZ_QUESTION_COUNT}`
     );
     setIsLoading(false);
@@ -83,16 +83,13 @@ const useQuizApi = () => {
     [isLoading]
   );
 
-  return useMemo(
-    () => ({
-      isApiLoading: isLoading,
-      hasApiError: hasError,
-      getQuestionsApiCall: getQuestions,
-      answerQuestionApiCall: answerQuestion,
-      getAnswerSoundApiCall: getAnswerSound,
-    }),
-    [isLoading, hasError, getQuestions, answerQuestion, getAnswerSound]
-  );
+  return {
+    isApiLoading: isLoading,
+    hasApiError: hasError,
+    getQuestionsApiCall: getQuestions,
+    answerQuestionApiCall: answerQuestion,
+    getAnswerSoundApiCall: getAnswerSound,
+  };
 };
 
 export default useQuizApi;

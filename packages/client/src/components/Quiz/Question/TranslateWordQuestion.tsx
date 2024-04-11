@@ -1,13 +1,9 @@
 import { IconButton, TextField, styled } from "@mui/material";
-import { Question } from "../../../types/Question";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { Help } from "@mui/icons-material";
 import TranslateWordHelp from "./TranslateWordHelp";
 import { useContextSelector } from "use-context-selector";
-
-type Props = {
-  question: Question;
-};
+import { useCallback } from "react";
 
 const StyledQuestionWrapper = styled("div")(
   ({ theme }) => `
@@ -39,12 +35,7 @@ const ImagePlaceholder = styled("div")(
 `
 );
 
-const TranslateWordQuestion = ({ question }: Props) => {
-  const currentAnswer = useContextSelector(QuizContext, (c) => c.currentAnswer);
-  const setCurrentAnswer = useContextSelector(
-    QuizContext,
-    (c) => c.setCurrentAnswer
-  );
+const TranslateWordQuestion = () => {
   const answerQuestion = useContextSelector(
     QuizContext,
     (c) => c.answerQuestion
@@ -52,6 +43,29 @@ const TranslateWordQuestion = ({ question }: Props) => {
   const getQuestionHelp = useContextSelector(
     QuizContext,
     (c) => c.getQuestionHelp
+  );
+  const question = useContextSelector(QuizContext, (c) => c.currentQuestion);
+  const currentAnswer = useContextSelector(
+    QuizContext,
+    (c) => c.currentAnswer
+  ) as string;
+  const setCurrentAnswer = useContextSelector(
+    QuizContext,
+    (c) => c.setCurrentAnswer
+  ) as React.Dispatch<React.SetStateAction<string>>;
+
+  const handleAnswerChange = useCallback(
+    (e: any) => setCurrentAnswer(e.target.value),
+    [setCurrentAnswer]
+  );
+
+  const handleSubmitAnswer = useCallback(
+    (e: any) => {
+      if (e.key === "Enter" && currentAnswer) {
+        answerQuestion();
+      }
+    },
+    [currentAnswer, answerQuestion]
   );
 
   return (
@@ -71,12 +85,8 @@ const TranslateWordQuestion = ({ question }: Props) => {
       <TextField
         autoFocus={true}
         value={currentAnswer}
-        onChange={(e) => setCurrentAnswer(e.target.value)}
-        onKeyUp={(e: any) => {
-          if (e.key === "Enter" && currentAnswer) {
-            answerQuestion();
-          }
-        }}
+        onChange={handleAnswerChange}
+        onKeyUp={handleSubmitAnswer}
         onBlur={(e) => e.target.focus()}
         focused
       />

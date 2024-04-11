@@ -1,13 +1,8 @@
 import { Button, styled } from "@mui/material";
-import { Question } from "../../../types/Question";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import getRandomIndexes from "../../../utils/getRandomIndexes";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { useContextSelector } from "use-context-selector";
-
-type Props = {
-  question: Question;
-};
 
 type WordGroups = {
   questions: { id: number; question: string }[];
@@ -35,26 +30,33 @@ const StyledButton = styled(Button)`
   align-items: unset;
 `;
 
-const WordMatchQuestion = ({ question }: Props) => {
-  const currentAnswer = useContextSelector(QuizContext, (c) => c.currentAnswer);
-  const setCurrentAnswer = useContextSelector(
-    QuizContext,
-    (c) => c.setCurrentAnswer
-  );
+const WordMatchQuestion = () => {
   const answerQuestion = useContextSelector(
     QuizContext,
     (c) => c.answerQuestion
   );
-
+  const currentAnswer = useContextSelector(
+    QuizContext,
+    (c) => c.currentAnswer
+  ) as number[][];
+  const setCurrentAnswer = useContextSelector(
+    QuizContext,
+    (c) => c.setCurrentAnswer
+  ) as React.Dispatch<React.SetStateAction<number[][]>>;
   const [selectedQuestionId, setSelectedQuestionId] = useState<
     number | undefined
   >();
   const [selectedAnswerId, setSelectedAnswerId] = useState<
     number | undefined
   >();
+  const question = useContextSelector(QuizContext, (c) => c.currentQuestion);
 
   const wordGroups: WordGroups = useMemo(() => {
     const groups: WordGroups = { questions: [], answers: [] };
+
+    if (!question) {
+      return groups;
+    }
 
     // copy english ones in the first column
     groups.questions = (question.id as number[]).map((id, i) => ({
@@ -80,10 +82,7 @@ const WordMatchQuestion = ({ question }: Props) => {
 
       setSelectedQuestionId(id);
       if (selectedAnswerId) {
-        setCurrentAnswer([
-          ...(currentAnswer as number[][]),
-          [id, selectedAnswerId],
-        ]);
+        setCurrentAnswer((prev) => [...prev, [id, selectedAnswerId]]);
       }
     },
     [selectedQuestionId, selectedAnswerId]
@@ -99,10 +98,7 @@ const WordMatchQuestion = ({ question }: Props) => {
 
       setSelectedAnswerId(id);
       if (selectedQuestionId) {
-        setCurrentAnswer([
-          ...(currentAnswer as number[][]),
-          [selectedQuestionId, id],
-        ]);
+        setCurrentAnswer((prev) => [...prev, [selectedQuestionId, id]]);
       }
     },
     [selectedQuestionId, selectedAnswerId]
@@ -114,7 +110,7 @@ const WordMatchQuestion = ({ question }: Props) => {
       setSelectedAnswerId(undefined);
       answerQuestion();
     }
-  }, [currentAnswer, selectedQuestionId, selectedAnswerId, answerQuestion]);
+  }, [selectedQuestionId, selectedAnswerId, answerQuestion]);
 
   const getButtonVariant = useCallback(
     (isQuestion: boolean, questionId: number): "outlined" | "contained" => {
@@ -133,11 +129,15 @@ const WordMatchQuestion = ({ question }: Props) => {
   // Button is disabled only when it's answered correctly
   const getDisabledState = useCallback(
     (questionId: number): boolean => {
-      return (currentAnswer as number[][]).some(
+      if (!currentAnswer) {
+        return false;
+      }
+
+      return currentAnswer.some(
         ([qId, aId]) => qId === aId && qId === questionId
       );
     },
-    [currentAnswer]
+    [question, currentAnswer]
   );
 
   return (

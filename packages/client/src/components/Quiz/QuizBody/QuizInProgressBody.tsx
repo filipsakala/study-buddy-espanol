@@ -13,7 +13,7 @@ const StyledQuestionWrapper = styled("div")`
 `;
 
 const QuizInProgressBody = () => {
-  const status = useContextSelector(QuizContext, (c) => c.status);
+  const status = useContextSelector(QuizContext, (c) => c.quizStatus);
   const currentQuestion = useContextSelector(
     QuizContext,
     (c) => c.currentQuestion
@@ -26,10 +26,10 @@ const QuizInProgressBody = () => {
   return (
     <StyledQuestionWrapper>
       {currentQuestion.category === QuestionCategory.TRANSLATE_WORD && (
-        <TranslateWordQuestion question={currentQuestion} />
+        <TranslateWordQuestion />
       )}
       {currentQuestion.category === QuestionCategory.WORDS_MATCH && (
-        <WordMatchQuestion question={currentQuestion} />
+        <WordMatchQuestion />
       )}
     </StyledQuestionWrapper>
   );

@@ -28,7 +28,7 @@ const StyledAlert = styled(Alert)`
 `;
 
 const QuizActions = () => {
-  const status = useContextSelector(QuizContext, (c) => c.status);
+  const status = useContextSelector(QuizContext, (c) => c.quizStatus);
   const hasApiError = useContextSelector(QuizContext, (c) => c.hasApiError);
 
   return (

@@ -5,7 +5,7 @@ import { HourglassTop } from "@mui/icons-material";
 import { useContextSelector } from "use-context-selector";
 
 const QuizInitDoneActions = () => {
-  const status = useContextSelector(QuizContext, (c) => c.status);
+  const status = useContextSelector(QuizContext, (c) => c.quizStatus);
   const startQuiz = useContextSelector(QuizContext, (c) => c.startQuiz);
   const isApiLoading = useContextSelector(QuizContext, (c) => c.isApiLoading);
 

@@ -56,24 +56,22 @@ const ScoreHeart = ({ score }: { score: number }) => {
 };
 
 const QuizDoneBody = () => {
-  const status = useContextSelector(QuizContext, (c) => c.status);
-  const score = useContextSelector(QuizContext, (c) => c.score);
+  const status = useContextSelector(QuizContext, (c) => c.quizStatus);
   const questions = useContextSelector(QuizContext, (c) => c.questions);
-  const answers = useContextSelector(QuizContext, (c) => c.answers);
   const playAnswerAudio = useContextSelector(
     QuizContext,
     (c) => c.playAnswerAudio
   );
 
   const correctAnswerCount = useMemo(() => {
-    return score.reduce((prev, current) => {
+    return questions.reduce((prev, current) => {
       let newScore = prev;
-      if (current > 0) {
+      if (current.score > 0) {
         newScore = prev + 1;
       }
       return newScore;
     }, 0);
-  }, [score]);
+  }, [questions]);
 
   if (status !== EQuizStatus.DONE) {
     return null;
@@ -82,7 +80,7 @@ const QuizDoneBody = () => {
   return (
     <Wrapper>
       <h2>
-        Your score is {correctAnswerCount} out of {score.length}
+        Your score is {correctAnswerCount} out of {questions.length}
       </h2>
       <StyledImg src={studyBuddy} alt="Study buddy img" />
 
@@ -104,8 +102,7 @@ const QuizDoneBody = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {answers.map((answer, i) => {
-            const question = questions[i];
+          {questions.map((question, i) => {
             const isTranslateWord =
               question.category === QuestionCategory.TRANSLATE_WORD;
             const questionTextsById = isTranslateWord
@@ -133,8 +130,8 @@ const QuizDoneBody = () => {
               ? question.question
               : (question.question as string[]).join(", \r\n");
             const answerText = isTranslateWord
-              ? answer
-              : (answer as number[][])
+              ? question.answer
+              : (question.answer as number[][])
                   .map(
                     ([q, a]) => `${questionTextsById[q]}:${answerTextsById[a]}`
                   )
@@ -146,7 +143,7 @@ const QuizDoneBody = () => {
             return (
               <TableRow key={i}>
                 <TableCell>
-                  <ScoreHeart score={score[i]} />
+                  <ScoreHeart score={question.score} />
                 </TableCell>
                 <TableCell>{questionText}</TableCell>
                 <TableCell>{answerText}</TableCell>

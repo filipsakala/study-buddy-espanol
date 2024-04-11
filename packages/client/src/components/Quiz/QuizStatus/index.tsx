@@ -17,7 +17,7 @@ const StyledWrapper = styled("div")(
 );
 
 const QuizStatus = () => {
-  const status = useContextSelector(QuizContext, (c) => c.status);
+  const status = useContextSelector(QuizContext, (c) => c.quizStatus);
 
   if (status === EQuizStatus.INIT || status === EQuizStatus.DONE) {
     return;

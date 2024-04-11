@@ -16,7 +16,7 @@ const StyledWrapper = styled("div")`
 `;
 
 const QuizBody = () => {
-  const status = useContextSelector(QuizContext, (c) => c.status);
+  const status = useContextSelector(QuizContext, (c) => c.quizStatus);
 
   return (
     <StyledWrapper>

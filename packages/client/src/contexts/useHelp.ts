@@ -62,10 +62,7 @@ const useHelp = (
     });
   }, [help, currentQuestion, emptyIndexes]);
 
-  return useMemo(
-    () => ({ resetHelp, help, getQuestionHelp }),
-    [resetHelp, help, getQuestionHelp]
-  );
+  return { resetHelp, help, getQuestionHelp };
 };
 
 export default useHelp;

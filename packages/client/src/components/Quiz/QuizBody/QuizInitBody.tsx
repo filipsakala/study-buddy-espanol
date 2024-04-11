@@ -10,7 +10,7 @@ const StyledImg = styled("img")`
 `;
 
 const QuizInitBody = () => {
-  const status = useContextSelector(QuizContext, (c) => c.status);
+  const status = useContextSelector(QuizContext, (c) => c.quizStatus);
 
   if (status !== EQuizStatus.INIT) {
     return null;

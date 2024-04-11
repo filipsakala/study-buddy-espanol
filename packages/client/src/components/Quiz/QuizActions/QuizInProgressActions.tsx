@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { Button, IconButton, Snackbar } from "@mui/material";
@@ -6,8 +6,7 @@ import styled from "styled-components";
 import { Close, HourglassTop } from "@mui/icons-material";
 import { QuestionCategory } from "../../../types/Question";
 import { useContextSelector } from "use-context-selector";
-
-const RESULT_TIMEOUT_SECONDS = 5;
+import AnswerTooltip, { TOOLTIP_HIDE_TIMEOUT_SECONDS } from "./QuizTooltip";
 
 const StyledSnackbar = styled(Snackbar)`
   .MuiSnackbarContent-message {
@@ -15,25 +14,8 @@ const StyledSnackbar = styled(Snackbar)`
   }
 `;
 
-const TimeoutBar = styled(`div`)`
-  margin-top: 5px;
-  height: 3px;
-  background: white;
-
-  // tooltip keyframes with step every second of a tooltip timeout
-  @keyframes timeout {
-    ${[...Array(RESULT_TIMEOUT_SECONDS + 1)].map((_, i) => {
-      const percent = (i * 100) / RESULT_TIMEOUT_SECONDS;
-
-      return `${percent}% { width: ${percent}%;}`;
-    })}
-  }
-
-  animation: timeout ${RESULT_TIMEOUT_SECONDS}s normal;
-`;
-
 const QuizInProgressActions = () => {
-  const status = useContextSelector(QuizContext, (c) => c.status);
+  const status = useContextSelector(QuizContext, (c) => c.quizStatus);
   const isApiLoading = useContextSelector(QuizContext, (c) => c.isApiLoading);
   const answerQuestion = useContextSelector(
     QuizContext,
@@ -45,56 +27,29 @@ const QuizInProgressActions = () => {
     (c) => c.currentQuestion
   );
   const questions = useContextSelector(QuizContext, (c) => c.questions);
-  const currentQuestionIndex = useContextSelector(
-    QuizContext,
-    (c) => c.currentQuestionIndex
-  );
-  const score = useContextSelector(QuizContext, (c) => c.score);
 
-  const [isTooltipForceClosed, setIsTooltipForceClosed] =
-    useState<boolean>(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
 
-  const closeTooltip = useCallback(() => setIsTooltipForceClosed(true), []);
+  const closeTooltip = useCallback(() => setIsTooltipOpen(false), []);
 
   useEffect(() => {
-    setIsTooltipForceClosed(false);
-  }, [currentQuestionIndex]);
-
-  // hide tooltip after a while
-  useEffect(() => {
-    setTimeout(() => {
-      setIsTooltipForceClosed(true);
-    }, RESULT_TIMEOUT_SECONDS * 1000);
-  }, [currentQuestionIndex]);
+    setIsTooltipOpen(true);
+  }, [currentQuestion.index]);
 
   if (status !== EQuizStatus.IN_PROGRESS && status !== EQuizStatus.DONE) {
     return null;
   }
 
-  const tooltipText = useMemo(() => {
-    if (!currentQuestionIndex || isTooltipForceClosed) {
-      return;
-    }
-
-    const lastQuestionScore = score[currentQuestionIndex - 1];
-    const lastQuestion = questions[currentQuestionIndex - 1];
-
-    return (
-      <>
-        {lastQuestionScore > 0 && "yep 😍"}
-        {lastQuestionScore < 0 &&
-          `Wrong 😓 ${lastQuestion.question} = ${lastQuestion.correctAnswer}`}
-        <TimeoutBar />
-      </>
-    );
-  }, [currentQuestionIndex, questions, isTooltipForceClosed]);
-
   return (
     <>
       <StyledSnackbar
-        open={Boolean(tooltipText)}
-        autoHideDuration={RESULT_TIMEOUT_SECONDS * 1000}
-        message={tooltipText}
+        open={currentQuestion.index > 0 && isTooltipOpen}
+        autoHideDuration={TOOLTIP_HIDE_TIMEOUT_SECONDS * 1000}
+        message={
+          currentQuestion.index > 0 && (
+            <AnswerTooltip question={questions[currentQuestion.index - 1]} />
+          )
+        }
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         action={
           <IconButton onClick={closeTooltip} size="small">
@@ -102,6 +57,7 @@ const QuizInProgressActions = () => {
           </IconButton>
         }
         onClick={closeTooltip}
+        onClose={closeTooltip}
       />
       <>
         {currentQuestion &&
