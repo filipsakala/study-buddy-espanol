@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import questionsApi from "./questionsApi";
 import answersApi from "./answersApi";
+import codetablesApi from "./codetablesApi";
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/question", questionsApi);
 app.use("/answer", answersApi);
+app.use("/codetables", codetablesApi);
 
 app.listen(port, () => {
   console.log(`Study Buddy Espanol Server started at http://localhost:${port}`); //eslint-disable-line no-console
