@@ -1,5 +1,4 @@
 export type QuestionCategory = "TRANSLATE_WORD" | "WORDS_MATCH";
-export type QuestionLearnGroup = "animals" | "numbers" | "clothes" | "food";
 
 export type Question = {
   id: number | number[];
@@ -7,7 +6,7 @@ export type Question = {
   category: QuestionCategory;
   question: string | string[];
   correctAnswer: string | string[];
-  learnGroup: QuestionLearnGroup | QuestionLearnGroup[];
+  learnGroup: string | string[];
 };
 
 export type DbWordQuestion = {
@@ -15,5 +14,5 @@ export type DbWordQuestion = {
   icon: string;
   en: string;
   es: string;
-  learn_group: QuestionLearnGroup;
+  learn_group: string;
 };

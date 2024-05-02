@@ -7,7 +7,7 @@ import getQuestions from "./utils/getQuestions";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const { count } = req.query;
+  const { count, learnGroup } = req.query;
 
   if (!count || !Number(count) || Number(count) > 10) {
     res.status(400).json({ errorMessage: "Wrong input params: count" });
@@ -15,7 +15,10 @@ router.get("/", async (req, res) => {
   }
 
   try {
-    const questions: Question[] = await getQuestions(Number(count) || 0);
+    const questions: Question[] = await getQuestions(
+      Number(count) || 0,
+      learnGroup as any
+    );
 
     res.status(200).json(questions);
   } catch (error) {

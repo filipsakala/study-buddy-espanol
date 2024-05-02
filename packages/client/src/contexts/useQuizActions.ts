@@ -142,6 +142,7 @@ const useQuizActions = (): TQuizContext => {
       return answerWordMatchQuestion();
     }
   }, [
+    currentAnswer,
     quizStatus,
     currentQuestion,
     answerTranslateWordQuestion,

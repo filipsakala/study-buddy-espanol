@@ -25,14 +25,19 @@ const getQuestionCategories = (count: number) => {
   return { questionCategories, categoryCounts };
 };
 
-const getQuestions = async (count: number): Promise<Question[]> => {
+const getQuestions = async (
+  count: number,
+  learnGroup?: string | string[]
+): Promise<Question[]> => {
   const { questionCategories, categoryCounts } = getQuestionCategories(count);
 
   const translateWordQuestions: Question[] = await getTranslateWordQuestions(
-    categoryCounts.TRANSLATE_WORD
+    categoryCounts.TRANSLATE_WORD,
+    learnGroup
   );
   const wordMatchQuestions: Question[] = await getWordsMatchQuestions(
-    categoryCounts.WORDS_MATCH
+    categoryCounts.WORDS_MATCH,
+    learnGroup
   );
 
   // shuffle questions according to given order

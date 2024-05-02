@@ -60,8 +60,7 @@ const QuizInProgressActions = () => {
         onClose={closeTooltip}
       />
       <>
-        {currentQuestion &&
-          currentQuestion.category === QuestionCategory.TRANSLATE_WORD &&
+        {currentQuestion.category === QuestionCategory.TRANSLATE_WORD &&
           status === EQuizStatus.IN_PROGRESS && (
             <Button
               variant="contained"
