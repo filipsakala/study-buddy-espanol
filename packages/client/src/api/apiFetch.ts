@@ -1,10 +1,12 @@
+import apiConfig from "./apiConfig";
+
 // Wrapper for all BE API calls
 const apiFetch = <T>(
   endpoint: string,
   method: "GET" | "POST" = "GET",
   bodyObject?: any
 ): Promise<T | undefined> => {
-  return fetch(`${import.meta.env.VITE_API_URL}` + endpoint, {
+  return fetch(`${apiConfig.apiUrl}` + endpoint, {
     method,
     headers: {
       Accept: "application/json",

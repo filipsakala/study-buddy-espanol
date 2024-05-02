@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { Question } from "../types/Question";
+import { DbQuestion } from "../types/Question";
 
 const produceSpacedArray = (word: string): string[] => {
   return [...Array(word.length)].map((_, i) => {
@@ -14,7 +14,7 @@ const produceSpacedArray = (word: string): string[] => {
 // Help for a word is an array of letters for the correct answer
 // User can repeatedly ask for another random letter
 const useHelp = (
-  currentQuestion: Question,
+  currentQuestion: DbQuestion,
   setCurrentQuestionScore: (
     isCorrectAnswer: boolean,
     withHelp: boolean
