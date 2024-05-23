@@ -6,20 +6,12 @@ import QuizActions from "./components/Quiz/QuizActions";
 
 const PageWrapper = styled("div")(
   ({ theme }) => `
-  height: 100vh;
+  height: 100dvh;
   background: ${theme.palette.background.default};
   color: ${theme.palette.text.primary};
 
   display: grid;
   grid-template-rows: auto 1fr auto;
-
-  @media screen and (max-width: 767px) {
-    _::-webkit-full-page-media,
-    _:future,
-    :root {
-      padding-bottom: 65px;
-    }
-  }
 `
 );
 
