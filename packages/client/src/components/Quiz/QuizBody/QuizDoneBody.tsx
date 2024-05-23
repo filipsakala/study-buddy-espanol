@@ -3,7 +3,6 @@ import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
 import { Favorite, HeartBroken, RecordVoiceOver } from "@mui/icons-material";
 import { styled } from "@mui/system";
-import studyBuddy from "../../../assets/study_buddy2-300.png";
 import {
   IconButton,
   Table,
@@ -16,11 +15,11 @@ import { QuestionCategory } from "../../../types/Question";
 import { useContextSelector } from "use-context-selector";
 
 const Wrapper = styled("div")`
+  width: calc(100% - 20px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 15px;
+  padding: 10px;
 `;
 
 const StyledFavorite = styled(Favorite)`
@@ -43,16 +42,10 @@ const StyledFavorite = styled(Favorite)`
   animation: gelatine 1s infinite;
 `;
 
-const StyledImg = styled("img")`
-  max-height: 30vh;
-  max-width: 100%;
-`;
-
-const ScoreHeart = ({ score }: { score: number }) => {
-  if (score > 1) return <StyledFavorite color="error" fontSize="large" />;
-  else if (score === 1)
-    return <StyledFavorite color="warning" fontSize="large" />;
-  else return <HeartBroken color="error" fontSize="large" />;
+const ScoreHeart = ({ score, style }: { score: number; style?: Object }) => {
+  if (score > 1) return <StyledFavorite color="error" style={style} />;
+  else if (score === 1) return <StyledFavorite color="warning" style={style} />;
+  else return <HeartBroken color="error" style={style} />;
 };
 
 const QuizDoneBody = () => {
@@ -82,20 +75,16 @@ const QuizDoneBody = () => {
       <h2>
         Your score is {correctAnswerCount} out of {questions.length}
       </h2>
-      <StyledImg src={studyBuddy} alt="Study buddy img" />
 
       <Table
         size="small"
         style={{
-          maxWidth: "95vw",
-          display: "block",
+          width: "100%",
           overflowX: "auto",
-          whiteSpace: "pre",
         }}
       >
         <TableHead>
           <TableRow>
-            <TableCell>Excersise</TableCell>
             <TableCell>Question</TableCell>
             <TableCell>Your answer</TableCell>
             <TableCell>Correct</TableCell>
@@ -126,9 +115,7 @@ const QuizDoneBody = () => {
                   {}
                 );
 
-            const questionText = isTranslateWord
-              ? question.question
-              : (question.question as string[]).join(", \r\n");
+            const questionText = isTranslateWord ? question.question : "";
             const answerText = isTranslateWord
               ? question.answer
               : (question.answer as number[][])
@@ -143,9 +130,12 @@ const QuizDoneBody = () => {
             return (
               <TableRow key={i}>
                 <TableCell>
-                  <ScoreHeart score={question.score} />
+                  <ScoreHeart
+                    score={question.score}
+                    style={{ verticalAlign: "bottom" }}
+                  />{" "}
+                  {questionText}
                 </TableCell>
-                <TableCell>{questionText}</TableCell>
                 <TableCell>{answerText}</TableCell>
                 <TableCell>
                   {correctAnswerText}

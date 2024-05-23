@@ -10,8 +10,10 @@ type WordGroups = {
 };
 
 const MatchColumns = styled("div")`
-  display: flex;
-  gap: 1.5em;
+  display: grid;
+  grid-gap: 1.5em;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
 `;
 
 const MatchColumn = styled("div")`

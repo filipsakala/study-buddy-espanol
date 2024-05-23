@@ -1,4 +1,5 @@
 import { Chip, styled } from "@mui/material";
+import QuizStatus from "../components/Quiz/QuizStatus";
 
 const StyledHeader = styled("header")(
   ({ theme }) => `
@@ -23,13 +24,16 @@ const StyledAppName = styled("span")`
 
 const Header = () => {
   return (
-    <StyledHeader>
-      <a href="/" style={{ lineHeight: 0 }}>
-        <StyledLogo src="/logo-60.png" alt="Study buddy" />
-      </a>
-      <StyledAppName>Study Buddy Español</StyledAppName>
-      <Chip variant="outlined" label="Curso A1" />
-    </StyledHeader>
+    <div>
+      <StyledHeader>
+        <a href="/" style={{ lineHeight: 0 }}>
+          <StyledLogo src="/logo-60.png" alt="Study buddy" />
+        </a>
+        <StyledAppName>Study Buddy Español</StyledAppName>
+        <Chip variant="outlined" label="Curso A1" />
+      </StyledHeader>
+      <QuizStatus />
+    </div>
   );
 };
 

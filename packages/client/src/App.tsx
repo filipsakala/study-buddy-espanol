@@ -1,16 +1,17 @@
 import { styled } from "@mui/material";
 import Header from "./layout/Header";
 import Body from "./layout/Body";
+import { QuizContextProvider } from "./contexts/QuizContextProvider";
+import QuizActions from "./components/Quiz/QuizActions";
 
 const PageWrapper = styled("div")(
   ({ theme }) => `
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-width: 320px;
-  min-height: 100vh;
+  height: 100vh;
   background: ${theme.palette.background.default};
   color: ${theme.palette.text.primary};
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 
   @media screen and (max-width: 767px) {
     _::-webkit-full-page-media,
@@ -24,10 +25,13 @@ const PageWrapper = styled("div")(
 
 const App = () => {
   return (
-    <PageWrapper>
-      <Header />
-      <Body />
-    </PageWrapper>
+    <QuizContextProvider>
+      <PageWrapper>
+        <Header />
+        <Body />
+        <QuizActions />
+      </PageWrapper>
+    </QuizContextProvider>
   );
 };
 

@@ -5,6 +5,7 @@ import { styled } from "@mui/material";
 import QuizInProgressActions from "./QuizInProgressActions";
 import Alert from "../../Alert";
 import { useContextSelector } from "use-context-selector";
+import { QuestionCategory } from "../../../types/Question";
 
 const StyledWrapper = styled("div")(
   ({ theme }) => `
@@ -17,7 +18,6 @@ justify-content: center;
 padding: 10px 0;
 
 border-top: 1px solid ${theme.palette.divider};
-flex-grow: 1;
 `
 );
 
@@ -30,6 +30,17 @@ const StyledAlert = styled(Alert)`
 const QuizActions = () => {
   const status = useContextSelector(QuizContext, (c) => c.quizStatus);
   const hasApiError = useContextSelector(QuizContext, (c) => c.hasApiError);
+  const currentQuestion = useContextSelector(
+    QuizContext,
+    (c) => c.currentQuestion
+  );
+
+  if (
+    (status === EQuizStatus.IN_PROGRESS || status === EQuizStatus.DONE) &&
+    currentQuestion.category === QuestionCategory.WORDS_MATCH
+  ) {
+    return null;
+  }
 
   return (
     <StyledWrapper>

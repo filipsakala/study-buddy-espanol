@@ -1,15 +1,18 @@
 import { styled } from "@mui/system";
-import Quiz from "../components/Quiz";
+import QuizBody from "../components/Quiz/QuizBody";
 
 const StyledWrapper = styled("div")`
   display: flex;
+  flex-direction: column;
   flex: 1;
+
+  overflow-y: auto;
 `;
 
 const Body = () => {
   return (
     <StyledWrapper>
-      <Quiz />
+      <QuizBody />
     </StyledWrapper>
   );
 };
