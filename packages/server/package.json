@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon -r esm src/index.ts",
     "start": "node dist/src/index.js",
-    "build": "rm -rf dist && tsc"
+    "build": "rm -rf dist && NODE_OPTIONS=--max_old_space_size=2048 tsc"
   },
   "dependencies": {
     "cors": "^2.8.5",
