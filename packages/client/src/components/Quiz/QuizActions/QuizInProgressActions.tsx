@@ -42,23 +42,25 @@ const QuizInProgressActions = () => {
 
   return (
     <>
-      <StyledSnackbar
-        open={currentQuestion.index > 0 && isTooltipOpen}
-        autoHideDuration={TOOLTIP_HIDE_TIMEOUT_SECONDS * 1000}
-        message={
-          currentQuestion.index > 0 && (
-            <AnswerTooltip question={questions[currentQuestion.index - 1]} />
-          )
-        }
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        action={
-          <IconButton onClick={closeTooltip} size="small">
-            <Close htmlColor="white" />
-          </IconButton>
-        }
-        onClick={closeTooltip}
-        onClose={closeTooltip}
-      />
+      <div style={{ position: "absolute" }}>
+        <StyledSnackbar
+          open={currentQuestion.index > 0 && isTooltipOpen}
+          autoHideDuration={TOOLTIP_HIDE_TIMEOUT_SECONDS * 100000}
+          message={
+            currentQuestion.index > 0 && (
+              <AnswerTooltip question={questions[currentQuestion.index - 1]} />
+            )
+          }
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          action={
+            <IconButton onClick={closeTooltip} size="small">
+              <Close htmlColor="white" />
+            </IconButton>
+          }
+          onClick={closeTooltip}
+          onClose={closeTooltip}
+        />
+      </div>
       <>
         {currentQuestion.category === QuestionCategory.TRANSLATE_WORD &&
           status === EQuizStatus.IN_PROGRESS && (
