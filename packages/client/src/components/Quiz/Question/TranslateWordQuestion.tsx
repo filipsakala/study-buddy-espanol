@@ -5,20 +5,17 @@ import TranslateWordHelp from "./TranslateWordHelp";
 import { useContextSelector } from "use-context-selector";
 import { useCallback } from "react";
 
-const StyledQuestionWrapper = styled("div")(
-  ({ theme }) => `
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
+const StyledQuestionWrapper = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-min-width: 25vw;
+  min-width: 25vw;
 
-padding: 10px 10px 20px 10px;
-border: 1px solid ${theme.palette.divider};
-border-radius: 4px;
-`
-);
+  padding: 10px 10px 20px 10px;
+  border-radius: 4px;
+`;
 
 const StyledImg = styled("img")`
   width: 128px;

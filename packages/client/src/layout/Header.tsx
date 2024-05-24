@@ -8,19 +8,32 @@ const StyledHeader = styled("header")(
   padding: ${theme.spacing(2)};
   display: flex;
   align-items: center;
-  height: 30px;
-  padding:25px;
+  padding: 25px;
+
+  @media screen and (max-width: 599px) {
+    padding: 10px 25px;
+  }
+
 `
 );
 
 const StyledLogo = styled("img")`
   width: 3em;
   height: 3em;
+
+  @media screen and (max-width: 599px) {
+    width: 1.8em;
+    height: 1.8em;
+  }
 `;
 
 const StyledAppName = styled("span")`
   font-size: 1.5em;
   padding: 0 0.4em;
+
+  @media screen and (max-width: 599px) {
+    font-size: 0.9em;
+  }
 `;
 
 const Header = () => {
