@@ -1,5 +1,6 @@
 import { Chip, styled } from "@mui/material";
 import QuizStatus from "../components/Quiz/QuizStatus";
+import CorrectAnswerMessage from "../components/Quiz/QuizStatus/CorrectAnswerMessage";
 
 const StyledHeader = styled("header")(
   ({ theme }) => `
@@ -33,6 +34,7 @@ const Header = () => {
         <Chip variant="outlined" label="Curso A1" />
       </StyledHeader>
       <QuizStatus />
+      <CorrectAnswerMessage />
     </div>
   );
 };
