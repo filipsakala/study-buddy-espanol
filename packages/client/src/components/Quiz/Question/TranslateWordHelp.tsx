@@ -6,11 +6,16 @@ const StyledHelp = styled("div")`
   display: flex;
   gap: 5px;
   font-size: 2em;
+
+  flex-wrap: wrap;
 `;
 
 const Letter = styled("div")`
-  width: 1ch;
+  line-height: 1em;
+  height: 2ch;
+  width: 30px;
   text-align: center;
+  border-bottom: 2px solid;
 `;
 
 const TranslateWordHelp = () => {
@@ -22,9 +27,13 @@ const TranslateWordHelp = () => {
 
   return (
     <StyledHelp>
-      {help.map((letter, index) => (
-        <Letter key={index}>{letter || "_"}</Letter>
-      ))}
+      {help.map((letter, index) =>
+        letter === " " ? (
+          <>&nbsp;</>
+        ) : (
+          <Letter key={index}>{letter || " "}</Letter>
+        )
+      )}
     </StyledHelp>
   );
 };

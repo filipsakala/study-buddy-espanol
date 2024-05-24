@@ -12,7 +12,12 @@ const StatusWrapper = styled("div")`
   flex-wrap: wrap;
 
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 15px;
+
+  @media screen and (max-width: 820px) {
+    justify-content: flex-start;
+  }
 `;
 
 const QuizInProgressStatus = () => {
@@ -41,9 +46,7 @@ const QuizInProgressStatus = () => {
   return (
     <StatusWrapper>
       <div>
-        Excersise {currentQuestion.index + 1} ({learnGroup})
-      </div>
-      <div>
+        Excersise {currentQuestion.index + 1} ({learnGroup}) <br />
         {currentQuestion.category === QuestionCategory.TRANSLATE_WORD ? (
           <b>Translate this word</b>
         ) : (

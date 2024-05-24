@@ -1,9 +1,9 @@
 import { Settings } from "@mui/icons-material";
 import {
   Box,
+  Button,
   Chip,
   FormControl,
-  IconButton,
   InputLabel,
   MenuItem,
   Modal,
@@ -22,6 +22,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
+  maxWidth: "85%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -49,18 +50,18 @@ const QuizSettings = () => {
 
   return (
     <>
-      <IconButton onClick={handleOpen}>
-        <Settings />
-      </IconButton>
+      <Button variant="contained" onClick={handleOpen} startIcon={<Settings />}>
+        Quiz settings
+      </Button>
       <Modal open={isOpen} onClose={handleClose}>
         <Box sx={style}>
-          <Typography variant="h6" component="h2">
+          <Typography variant="h6" component="h2" mb={1}>
             Settings
           </Typography>
 
           <Chip variant="outlined" label="Curso A1" />
 
-          <FormControl sx={{ m: 1, width: "100%" }}>
+          <FormControl sx={{ m: 1, mb: 2, width: "100%" }}>
             <InputLabel id="learn-groups" sx={{ width: "auto" }}>
               Learn groups
             </InputLabel>
@@ -86,6 +87,10 @@ const QuizSettings = () => {
                 ))}
             </Select>
           </FormControl>
+
+          <Button onClick={handleClose} variant="contained" color="success">
+            Save and close
+          </Button>
         </Box>
       </Modal>
     </>

@@ -23,11 +23,7 @@ const QuizStatus = () => {
     return;
   }
 
-  return (
-    <StyledWrapper>
-      <QuizInProgressStatus />
-    </StyledWrapper>
-  );
+  return <QuizInProgressStatus />;
 };
 
 export default QuizStatus;

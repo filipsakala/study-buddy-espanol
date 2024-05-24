@@ -3,10 +3,12 @@ import { EQuizStatus } from "../../../types/Quiz";
 import studyBuddy from "../../../assets/study_buddy-450.png";
 import { styled } from "@mui/system";
 import { useContextSelector } from "use-context-selector";
+import QuizSettings from "../QuizSettings";
 
 const StyledWrapper = styled("div")`
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+  gap: 20px;
 
   align-items: center;
   justify-content: center;
@@ -28,6 +30,7 @@ const QuizInitBody = () => {
   return (
     <StyledWrapper>
       <StyledImg src={studyBuddy} alt="Study buddy img" />
+      <QuizSettings />
     </StyledWrapper>
   );
 };

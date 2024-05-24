@@ -1,7 +1,6 @@
 import { styled } from "@mui/material";
 import QuizStatus from "../components/Quiz/QuizStatus";
 import CorrectAnswerMessage from "../components/Quiz/QuizStatus/CorrectAnswerMessage";
-import QuizSettings from "../components/Quiz/QuizSettings";
 
 const StyledHeader = styled("header")(
   ({ theme }) => `
@@ -10,6 +9,8 @@ const StyledHeader = styled("header")(
   display: flex;
   align-items: center;
   padding: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
 
   @media screen and (max-width: 599px) {
     padding: 10px 25px;
@@ -39,17 +40,14 @@ const StyledAppName = styled("span")`
 
 const Header = () => {
   return (
-    <div>
-      <StyledHeader>
-        <a href="/" style={{ lineHeight: 0 }}>
-          <StyledLogo src="/logo-60.png" alt="Study buddy" />
-        </a>
-        <StyledAppName>Study Buddy Español</StyledAppName>
-        <QuizSettings />
-      </StyledHeader>
+    <StyledHeader>
+      <a href="/" style={{ lineHeight: 0 }}>
+        <StyledLogo src="/logo-60.png" alt="Study buddy" />
+      </a>
+      <StyledAppName>Study Buddy Español</StyledAppName>
       <QuizStatus />
       <CorrectAnswerMessage />
-    </div>
+    </StyledHeader>
   );
 };
 

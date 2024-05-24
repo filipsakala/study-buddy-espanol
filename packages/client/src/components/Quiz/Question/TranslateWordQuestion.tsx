@@ -1,4 +1,4 @@
-import { IconButton, TextField, styled } from "@mui/material";
+import { Button, TextField, styled } from "@mui/material";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { Help } from "@mui/icons-material";
 import TranslateWordHelp from "./TranslateWordHelp";
@@ -72,12 +72,17 @@ const TranslateWordQuestion = () => {
           <StyledImg src={question.icon} loading="lazy" />
         </ImagePlaceholder>
       )}
-      <h3>
-        {question.question}
-        <IconButton onClick={getQuestionHelp}>
-          <Help />
-        </IconButton>
-      </h3>
+      <h3 style={{ marginBottom: 5 }}>{question.question}</h3>
+      <Button
+        onClick={getQuestionHelp}
+        startIcon={<Help />}
+        size="small"
+        variant="outlined"
+        color="info"
+        sx={{ mb: 2 }}
+      >
+        Get hint
+      </Button>
       <TranslateWordHelp />
       <TextField
         autoFocus={true}
@@ -86,6 +91,7 @@ const TranslateWordQuestion = () => {
         onKeyUp={handleSubmitAnswer}
         onBlur={(e) => e.target.focus()}
         focused
+        sx={{ mt: 2 }}
       />
     </StyledQuestionWrapper>
   );

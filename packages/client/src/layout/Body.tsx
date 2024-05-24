@@ -6,6 +6,8 @@ const StyledWrapper = styled("div")`
   flex-direction: column;
   flex: 1;
 
+  background-color: #f3f3f3;
+
   overflow-y: auto;
 `;
 
