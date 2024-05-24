@@ -1,4 +1,4 @@
-import { Chip, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import QuizStatus from "../components/Quiz/QuizStatus";
 import CorrectAnswerMessage from "../components/Quiz/QuizStatus/CorrectAnswerMessage";
 import QuizSettings from "../components/Quiz/QuizSettings";
