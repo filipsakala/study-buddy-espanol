@@ -1,6 +1,7 @@
 import { Chip, styled } from "@mui/material";
 import QuizStatus from "../components/Quiz/QuizStatus";
 import CorrectAnswerMessage from "../components/Quiz/QuizStatus/CorrectAnswerMessage";
+import QuizSettings from "../components/Quiz/QuizSettings";
 
 const StyledHeader = styled("header")(
   ({ theme }) => `
@@ -44,7 +45,7 @@ const Header = () => {
           <StyledLogo src="/logo-60.png" alt="Study buddy" />
         </a>
         <StyledAppName>Study Buddy Español</StyledAppName>
-        <Chip variant="outlined" label="Curso A1" />
+        <QuizSettings />
       </StyledHeader>
       <QuizStatus />
       <CorrectAnswerMessage />

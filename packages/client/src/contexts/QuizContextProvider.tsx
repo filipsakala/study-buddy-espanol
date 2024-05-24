@@ -2,6 +2,7 @@ import { EQuizStatus } from "../types/Quiz";
 import useQuizActions from "./useQuizActions";
 import { QuizQuestion } from "../types/Question";
 import { createContext } from "use-context-selector";
+import { Codetables } from "../types/Codetables";
 
 export type TQuizContext = {
   isApiLoading: boolean;
@@ -11,12 +12,19 @@ export type TQuizContext = {
   currentQuestion: QuizQuestion;
   currentQuestionHelp: string[];
   currentAnswer: string | number[][];
+  codetables?: Codetables;
+  filter: {
+    learnGroups: string[];
+  };
 
   startQuiz: () => void;
   answerQuestion: () => void;
   getQuestionHelp: () => void;
   playAnswerAudio: (questionId: number) => void;
   setCurrentAnswer: React.Dispatch<React.SetStateAction<string | number[][]>>;
+  setFilterLearnGroups: React.Dispatch<
+    React.SetStateAction<string[] | undefined>
+  >;
 };
 
 export const QuizContext = createContext<TQuizContext>({
@@ -27,6 +35,10 @@ export const QuizContext = createContext<TQuizContext>({
   currentQuestion: {} as QuizQuestion,
   currentQuestionHelp: [],
   currentAnswer: "",
+  codetables: undefined,
+  filter: {
+    learnGroups: [],
+  },
 
   startQuiz: () => {},
   answerQuestion: () => {},
@@ -34,6 +46,9 @@ export const QuizContext = createContext<TQuizContext>({
   playAnswerAudio: () => {},
   setCurrentAnswer: (() => {}) as unknown as React.Dispatch<
     React.SetStateAction<string | number[][]>
+  >,
+  setFilterLearnGroups: (() => {}) as unknown as React.Dispatch<
+    React.SetStateAction<string[] | undefined>
   >,
 });
 

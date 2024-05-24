@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizApi from "./useQuizApi";
 import { QuizQuestion, DbQuestion, QuestionCategory } from "../types/Question";
 import useHelp from "./useHelp";
 import { TQuizContext } from "./QuizContextProvider";
+import { Codetables } from "../types/Codetables";
 
 const useQuizActions = (): TQuizContext => {
   const {
@@ -12,11 +13,34 @@ const useQuizActions = (): TQuizContext => {
     getQuestionsApiCall,
     answerQuestionApiCall,
     getAnswerSoundApiCall,
+    getCodetablesApiCall,
   } = useQuizApi();
   const [quizStatus, setQuizStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [currentAnswer, setCurrentAnswer] = useState<string | number[][]>("");
+  const [filterLearnGroups, setFilterLearnGroups] = useState<
+    string[] | undefined
+  >();
+  const [codetables, setCodetables] = useState<Codetables | undefined>();
+
+  useEffect(() => {
+    getCodetablesApiCall().then((data) => setCodetables(data));
+  }, []);
+
+  useEffect(() => {
+    const storedFilters = localStorage.getItem("filters");
+
+    if (storedFilters) {
+      setFilterLearnGroups(JSON.parse(storedFilters));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (filterLearnGroups !== undefined) {
+      localStorage.setItem("filters", JSON.stringify(filterLearnGroups));
+    }
+  }, [filterLearnGroups]);
 
   const currentQuestion = useMemo(
     () => questions[currentQuestionIndex],
@@ -50,7 +74,9 @@ const useQuizActions = (): TQuizContext => {
   } = useHelp(currentQuestion, setCurrentQuestionScore, goToNextQuestion);
 
   const startQuiz = useCallback(async () => {
-    const apiQuestions: DbQuestion[] | undefined = await getQuestionsApiCall();
+    const apiQuestions: DbQuestion[] | undefined = await getQuestionsApiCall(
+      filterLearnGroups
+    );
 
     if (!apiQuestions) {
       return;
@@ -68,7 +94,7 @@ const useQuizActions = (): TQuizContext => {
     resetHelp();
     setQuizStatus(EQuizStatus.IN_PROGRESS);
     setCurrentAnswer("");
-  }, []);
+  }, [filterLearnGroups]);
 
   const answerTranslateWordQuestion = useCallback(async () => {
     setQuestions((prev) => {
@@ -167,12 +193,17 @@ const useQuizActions = (): TQuizContext => {
     currentQuestion,
     currentQuestionHelp,
     currentAnswer,
+    codetables,
+    filter: {
+      learnGroups: filterLearnGroups || [],
+    },
 
     startQuiz,
     answerQuestion,
     getQuestionHelp,
     playAnswerAudio,
     setCurrentAnswer,
+    setFilterLearnGroups,
   };
 };
 

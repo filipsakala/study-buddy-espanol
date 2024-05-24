@@ -2,32 +2,41 @@ import { useCallback, useState } from "react";
 import apiFetch from "../api/apiFetch";
 import { DbQuestion } from "../types/Question";
 import { QUIZ_QUESTION_COUNT } from "../types/Quiz";
+import { Codetables } from "../types/Codetables";
 
 const useQuizApi = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
-  const getQuestions = useCallback(async (): Promise<
-    DbQuestion[] | undefined
-  > => {
-    // some request already fired
-    if (isLoading) {
-      return;
-    }
+  const getQuestions = useCallback(
+    async (learnGroup?: string[]): Promise<DbQuestion[] | undefined> => {
+      // some request already fired
+      if (isLoading) {
+        return;
+      }
 
-    setHasError(false);
-    setIsLoading(true);
-    const data = await apiFetch<DbQuestion[]>(
-      `/question?count=${QUIZ_QUESTION_COUNT}`
-    );
-    setIsLoading(false);
+      setHasError(false);
+      setIsLoading(true);
+      const urlParams = new URLSearchParams();
+      urlParams.append("count", String(QUIZ_QUESTION_COUNT));
 
-    // probably some error status
-    if (!data) {
-      setHasError(true);
-    }
-    return data;
-  }, [isLoading]);
+      if (learnGroup) {
+        learnGroup.forEach((group) => urlParams.append("learnGroup", group));
+      }
+
+      const data = await apiFetch<DbQuestion[]>(
+        `/question?` + urlParams.toString()
+      );
+      setIsLoading(false);
+
+      // probably some error status
+      if (!data) {
+        setHasError(true);
+      }
+      return data;
+    },
+    [isLoading]
+  );
 
   const answerQuestion = useCallback(
     async (
@@ -83,12 +92,27 @@ const useQuizApi = () => {
     [isLoading]
   );
 
+  const getCodetables = useCallback(async (): Promise<
+    Codetables | undefined
+  > => {
+    setHasError(false);
+
+    const data = await apiFetch<Codetables | undefined>(`/codetables`, "GET");
+
+    if (data === undefined) {
+      setHasError(true);
+    }
+
+    return data;
+  }, []);
+
   return {
     isApiLoading: isLoading,
     hasApiError: hasError,
     getQuestionsApiCall: getQuestions,
     answerQuestionApiCall: answerQuestion,
     getAnswerSoundApiCall: getAnswerSound,
+    getCodetablesApiCall: getCodetables,
   };
 };
 
