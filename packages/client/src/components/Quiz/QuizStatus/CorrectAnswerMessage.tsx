@@ -12,6 +12,7 @@ const SnackbarWrapper = styled("div")`
   left: 50%;
 
   width: 0;
+  height: 100%;
 
   @media screen and (max-width: 599px) {
     width: calc(100% - 16px);
