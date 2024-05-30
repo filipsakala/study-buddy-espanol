@@ -8,16 +8,18 @@ const transform = (questions: DbWordQuestion[]): Question => {
   const questionsByParams = questions.reduce(
     (prev: any, question) => {
       prev.id.push(question.id);
+      prev.icon.push(question.icon);
       prev.en.push(question.en);
       prev.es.push(question.es);
       prev.learn_group.push(question.learn_group);
       return prev;
     },
-    { id: [], en: [], es: [], learn_group: [] }
+    { id: [], icon: [], en: [], es: [], learn_group: [] }
   );
 
   return {
     id: questionsByParams.id,
+    icon: questionsByParams.icon,
     question: questionsByParams.en,
     correctAnswer: questionsByParams.es,
     learnGroup: questionsByParams.learn_group,

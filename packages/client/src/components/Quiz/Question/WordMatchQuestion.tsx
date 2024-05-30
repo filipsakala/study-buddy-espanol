@@ -5,7 +5,7 @@ import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { useContextSelector } from "use-context-selector";
 
 type WordGroups = {
-  questions: { id: number; question: string }[];
+  questions: { id: number; question: string; icon?: string }[];
   answers: { id: number; answer: string }[];
 };
 
@@ -24,12 +24,15 @@ const MatchColumn = styled("div")`
 `;
 
 const StyledButton = styled(Button)`
-  display: inline-block;
   text-transform: lowercase;
   height: 4.5em;
   overflow: hidden;
   text-overflow: ellipsis;
-  align-items: unset;
+`;
+
+const StyledImg = styled("img")`
+  width: 32px;
+  height: 32px;
 `;
 
 const WordMatchQuestion = () => {
@@ -64,6 +67,7 @@ const WordMatchQuestion = () => {
     groups.questions = (question.id as number[]).map((id, i) => ({
       id,
       question: question.question[i],
+      icon: question.icon && question.icon[i],
     }));
     // randomize second column
     const indexes = getRandomIndexes(question.question.length);
@@ -145,7 +149,7 @@ const WordMatchQuestion = () => {
   return (
     <MatchColumns>
       <MatchColumn>
-        {wordGroups.questions.map(({ id, question }) => {
+        {wordGroups.questions.map(({ id, question, icon }) => {
           return (
             <StyledButton
               key={id}
@@ -153,6 +157,7 @@ const WordMatchQuestion = () => {
               size="large"
               onClick={() => selectQuestion(id)}
               disabled={getDisabledState(id)}
+              startIcon={icon && <StyledImg src={icon} loading="lazy" />}
             >
               {question}
             </StyledButton>

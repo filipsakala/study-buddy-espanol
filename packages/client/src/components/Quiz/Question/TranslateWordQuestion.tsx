@@ -69,7 +69,7 @@ const TranslateWordQuestion = () => {
     <StyledQuestionWrapper>
       {question.icon && (
         <ImagePlaceholder>
-          <StyledImg src={question.icon} loading="lazy" />
+          <StyledImg src={question.icon as string} loading="lazy" />
         </ImagePlaceholder>
       )}
       <h3 style={{ marginBottom: 5 }}>{question.question}</h3>
