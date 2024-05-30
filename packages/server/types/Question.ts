@@ -1,4 +1,4 @@
-export type QuestionCategory = "TRANSLATE_WORD" | "WORDS_MATCH";
+export type QuestionCategory = "TRANSLATE_WORD" | "WORDS_MATCH" | "ARTICLES";
 
 export type Question = {
   id: number | number[];
@@ -7,6 +7,8 @@ export type Question = {
   question: string | string[];
   correctAnswer: string | string[];
   learnGroup: string | string[];
+  gender?: "M" | "F";
+  isSingular?: boolean;
 };
 
 export type DbWordQuestion = {
@@ -15,4 +17,6 @@ export type DbWordQuestion = {
   en: string;
   es: string;
   learn_group: string;
+  gender?: "M" | "F";
+  is_singular?: boolean;
 };
