@@ -47,11 +47,14 @@ const QuizInProgressStatus = () => {
     <StatusWrapper>
       <div>
         Excersise {currentQuestion.index + 1} ({learnGroup}) <br />
-        {currentQuestion.category === QuestionCategory.TRANSLATE_WORD ? (
-          <b>Translate this word</b>
-        ) : (
-          <b>Match these words</b>
-        )}
+        <b>
+          {currentQuestion.category === QuestionCategory.TRANSLATE_WORD &&
+            "Translate this word"}
+          {currentQuestion.category === QuestionCategory.ARTICLES &&
+            "Select correct articles"}
+          {currentQuestion.category === QuestionCategory.WORDS_MATCH &&
+            "Match these words"}
+        </b>
       </div>
       <QuizScore />
     </StatusWrapper>

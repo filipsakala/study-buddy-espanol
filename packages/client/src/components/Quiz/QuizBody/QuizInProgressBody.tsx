@@ -4,6 +4,7 @@ import { QuestionCategory } from "../../../types/Question";
 import TranslateWordQuestion from "../Question/TranslateWordQuestion";
 import WordMatchQuestion from "../Question/WordMatchQuestion";
 import { useContextSelector } from "use-context-selector";
+import ArticlesQuestion from "../Question/ArticlesQuestion";
 
 const QuizInProgressBody = () => {
   const status = useContextSelector(QuizContext, (c) => c.quizStatus);
@@ -23,6 +24,9 @@ const QuizInProgressBody = () => {
       )}
       {currentQuestion.category === QuestionCategory.WORDS_MATCH && (
         <WordMatchQuestion />
+      )}
+      {currentQuestion.category === QuestionCategory.ARTICLES && (
+        <ArticlesQuestion />
       )}
     </>
   );

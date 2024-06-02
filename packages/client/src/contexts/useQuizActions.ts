@@ -18,7 +18,9 @@ const useQuizActions = (): TQuizContext => {
   const [quizStatus, setQuizStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [currentAnswer, setCurrentAnswer] = useState<string | number[][]>("");
+  const [currentAnswer, setCurrentAnswer] = useState<
+    string | number[][] | string[]
+  >("");
   const [filterLearnGroups, setFilterLearnGroups] = useState<
     string[] | undefined
   >();
@@ -156,6 +158,34 @@ const useQuizActions = (): TQuizContext => {
     setCurrentQuestionScore,
   ]);
 
+  const answerArticlesQuestion = useCallback(() => {
+    const wordCount = currentQuestion.question.length;
+    const correctMatches = (currentAnswer as string[]).reduce(
+      (prev, answer, index) => {
+        if ((currentQuestion.gender as ("M" | "F")[])[index] === answer) {
+          return prev + 1;
+        }
+        return prev;
+      },
+      0
+    );
+
+    const isCorrect = wordCount === correctMatches; // only correct matches
+
+    setQuestions((prev) => {
+      const next = [...prev];
+      next[currentQuestion.index].answer = currentAnswer;
+      return next;
+    });
+    setCurrentQuestionScore(isCorrect, false);
+    goToNextQuestion();
+  }, [
+    currentAnswer,
+    currentQuestion,
+    goToNextQuestion,
+    setCurrentQuestionScore,
+  ]);
+
   const answerQuestion = useCallback(() => {
     if (quizStatus !== EQuizStatus.IN_PROGRESS || !currentAnswer) {
       return;
@@ -166,6 +196,9 @@ const useQuizActions = (): TQuizContext => {
     }
     if (currentQuestion.category === QuestionCategory.WORDS_MATCH) {
       return answerWordMatchQuestion();
+    }
+    if (currentQuestion.category === QuestionCategory.ARTICLES) {
+      return answerArticlesQuestion();
     }
   }, [
     currentAnswer,

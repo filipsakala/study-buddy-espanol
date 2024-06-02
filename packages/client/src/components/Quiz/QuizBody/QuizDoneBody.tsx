@@ -94,6 +94,7 @@ const QuizDoneBody = () => {
           {questions.map((question, i) => {
             const isTranslateWord =
               question.category === QuestionCategory.TRANSLATE_WORD;
+            const isArticles = question.category === QuestionCategory.ARTICLES;
             const questionTextsById = isTranslateWord
               ? {}
               : (question.question as string[]).reduce(
@@ -118,6 +119,12 @@ const QuizDoneBody = () => {
             const questionText = isTranslateWord ? question.question : "";
             const answerText = isTranslateWord
               ? question.answer
+              : isArticles
+              ? (question.answer as string[])
+                  .map(
+                    (answer, index) => `${question.question[index]} (${answer})`
+                  )
+                  .join(", \r\n")
               : (question.answer as number[][])
                   .map(
                     ([q, a]) => `${questionTextsById[q]}:${answerTextsById[a]}`
@@ -125,6 +132,8 @@ const QuizDoneBody = () => {
                   .join(", \r\n");
             const correctAnswerText = isTranslateWord
               ? question.correctAnswer
+              : isArticles
+              ? (question.gender as string[]).join(", \r\n")
               : (question.correctAnswer as string[]).join(", \r\n");
 
             return (

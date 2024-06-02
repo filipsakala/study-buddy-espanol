@@ -18,5 +18,5 @@ export type DbQuestion = {
 export type QuizQuestion = DbQuestion & {
   index: number;
   score: number;
-  answer: string | number[][];
+  answer: string | number[][] | string[];
 };
