@@ -6,7 +6,7 @@ import getWordsMatchQuestions from "./getWordsMatchQuestions";
 const TRANSLATE_WORD_QUESTION_PROBABILITY = 0.7;
 const ARTICLES_QUESTION_PROBABILITY = 0.1;
 
-const selectQuestionCategory = (): QuestionCategory => {
+const pickRandomCategory = (): QuestionCategory => {
   const randomNumber = Math.random();
 
   if (randomNumber < TRANSLATE_WORD_QUESTION_PROBABILITY) {
@@ -25,7 +25,7 @@ const getQuestionCategories = (count: number) => {
   const categoryCounts = { TRANSLATE_WORD: 0, WORDS_MATCH: 0, ARTICLES: 0 };
 
   const questionCategories = [...Array(count)].map((_) => {
-    const randomCategory = selectQuestionCategory();
+    const randomCategory = pickRandomCategory();
     categoryCounts[randomCategory] = categoryCounts[randomCategory] + 1;
     return randomCategory;
   });
@@ -70,6 +70,7 @@ const getQuestions = async (
     // WORD_MATCH
     const nextQuestion = wordMatchQuestions[wordMatchIndex];
     wordMatchIndex += 1;
+
     return nextQuestion;
   });
 };

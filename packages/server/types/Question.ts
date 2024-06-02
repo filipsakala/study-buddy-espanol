@@ -1,17 +1,20 @@
 export type QuestionCategory = "TRANSLATE_WORD" | "WORDS_MATCH" | "ARTICLES";
 
 export type Question = {
-  id: number | number[];
-  icon?: string; // base64 encoded icon
   category: QuestionCategory;
-  question: string | string[];
-  correctAnswer: string | string[];
-  learnGroup: string | string[];
-  gender?: "M" | "F";
-  isSingular?: boolean;
+  questions: {
+    id: number;
+    icon?: string;
+    textEn: string;
+    textEs?: string; // available only for some categories
+    randomizedAnswer?: string; // available only for some categories
+    learnGroup: string;
+    gender?: "M" | "F"; // available only for some categories
+    isSingular?: boolean; // available only for some categories
+  }[];
 };
 
-export type DbWordQuestion = {
+export type DbWord = {
   id: number;
   icon: string;
   en: string;

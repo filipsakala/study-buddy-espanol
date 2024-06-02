@@ -5,7 +5,7 @@ import { QuestionDoesNotExistError } from "./errors";
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const { questionId, answer } = req.body;
+  const { questionId, answer, category } = req.body;
 
   if (!questionId) {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });
@@ -17,8 +17,13 @@ router.post("/", async (req, res) => {
     return;
   }
 
+  if (!category) {
+    res.status(400).json({ errorMessage: "Wrong input params: category" });
+    return;
+  }
+
   try {
-    const result = await checkAnswer(questionId, answer);
+    const result = await checkAnswer(questionId, answer, category);
 
     res.status(200).json(result);
   } catch (error) {

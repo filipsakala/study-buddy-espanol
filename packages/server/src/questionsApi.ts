@@ -1,5 +1,5 @@
 import express from "express";
-import { DbWordQuestion, Question } from "../types/Question";
+import { DbWord, Question } from "../types/Question";
 import { getAudioBase64 } from "google-tts-api";
 import getQuestion from "./utils/getQuestion";
 import getQuestions from "./utils/getQuestions";
@@ -36,9 +36,7 @@ router.post("/sound", async (req, res) => {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });
     return;
   }
-  const question: DbWordQuestion | null | undefined = await getQuestion(
-    questionId
-  );
+  const question: DbWord | null | undefined = await getQuestion(questionId);
 
   if (!question) {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });

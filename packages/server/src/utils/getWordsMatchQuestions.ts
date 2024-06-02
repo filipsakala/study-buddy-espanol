@@ -1,29 +1,24 @@
 import db from "../../db";
-import { DbWordQuestion, Question } from "../../types/Question";
+import { DbWord, Question } from "../../types/Question";
+import getRandomIndexes from "./getRandomIndexes";
 import getSqlCondition from "./getSqlCondition";
 
 const WORDS_PER_QUESTION = 5;
 
-const transform = (questions: DbWordQuestion[]): Question => {
-  const questionsByParams = questions.reduce(
-    (prev: any, question) => {
-      prev.id.push(question.id);
-      prev.icon.push(question.icon);
-      prev.en.push(question.en);
-      prev.es.push(question.es);
-      prev.learn_group.push(question.learn_group);
-      return prev;
-    },
-    { id: [], icon: [], en: [], es: [], learn_group: [] }
+const transform = (questions: DbWord[]): Question => {
+  const answers = getRandomIndexes(questions.length).map(
+    (index) => questions[index].es
   );
 
   return {
-    id: questionsByParams.id,
-    icon: questionsByParams.icon,
-    question: questionsByParams.en,
-    correctAnswer: questionsByParams.es,
-    learnGroup: questionsByParams.learn_group,
     category: "WORDS_MATCH",
+    questions: questions.map((question, index) => ({
+      id: question.id,
+      icon: question.icon,
+      textEn: question.en,
+      randomizedAnswer: answers[index],
+      learnGroup: question.learn_group,
+    })),
   };
 };
 
@@ -38,7 +33,7 @@ const getWordsMatchQuestions = async (
   );
   // produce groups of words
   const dbQuestions = dbWords.reduce(
-    (prev: DbWordQuestion[][], dbWord: DbWordQuestion, i: number) => {
+    (prev: DbWord[][], dbWord: DbWord, i: number) => {
       const groupIndex = Math.floor(i / WORDS_PER_QUESTION);
       prev[groupIndex].push(dbWord);
       return prev;
@@ -46,9 +41,7 @@ const getWordsMatchQuestions = async (
     [...Array(count)].map(() => [])
   );
 
-  return dbQuestions.map((dbQuestion: DbWordQuestion[]) =>
-    transform(dbQuestion)
-  );
+  return dbQuestions.map(transform);
 };
 
 export default getWordsMatchQuestions;

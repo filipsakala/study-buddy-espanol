@@ -1,15 +1,18 @@
 import db from "../../db";
-import { DbWordQuestion, Question } from "../../types/Question";
+import { DbWord, Question } from "../../types/Question";
 import getSqlCondition from "./getSqlCondition";
 
-const transform = (question: DbWordQuestion): Question => {
+const transform = (question: DbWord): Question => {
   return {
-    id: question.id,
-    icon: question.icon,
-    question: question.en,
-    correctAnswer: question.es,
-    learnGroup: question.learn_group,
     category: "TRANSLATE_WORD",
+    questions: [
+      {
+        id: question.id,
+        icon: question.icon,
+        textEn: question.en,
+        learnGroup: question.learn_group,
+      },
+    ],
   };
 };
 
@@ -24,7 +27,7 @@ const getTranslateWordQuestions = async (
     [count, ...whereParams]
   );
 
-  return dbQuestions.map((dbQuestion: DbWordQuestion) => transform(dbQuestion));
+  return dbQuestions.map(transform);
 };
 
 export default getTranslateWordQuestions;

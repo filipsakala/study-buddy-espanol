@@ -1,5 +1,4 @@
-import db from "../../db";
-import { DbWordQuestion } from "../../types/Question";
+import { DbWord, QuestionCategory } from "../../types/Question";
 import { QuestionDoesNotExistError } from "../errors";
 import getQuestion from "./getQuestion";
 
@@ -13,22 +12,33 @@ const normalizeAnswer = (answer: string): string => {
     .replace(/[\u0300-\u036f]/g, "");
 };
 
+const performCheck = (answered: string, correct: string): boolean => {
+  const normalizedAnswer = normalizeAnswer(answered);
+  const normalizedCorrectAnswer = normalizeAnswer(correct);
+
+  return normalizedCorrectAnswer === normalizedAnswer;
+};
+
 const checkAnswer = async (
   questionId: number,
-  answer: string
+  answer: string,
+  category: QuestionCategory
 ): Promise<boolean> => {
-  const question: DbWordQuestion | null | undefined = await getQuestion(
-    questionId
-  );
+  const question: DbWord | null | undefined = await getQuestion(questionId);
 
   if (!question) {
     throw new QuestionDoesNotExistError("Question does not exist");
   }
 
-  const normalizedCorrectAnswer = normalizeAnswer(question.es);
-  const normalizedAnswer = normalizeAnswer(answer);
+  if (category === "TRANSLATE_WORD" || category === "WORDS_MATCH") {
+    return performCheck(answer, question.es);
+  }
 
-  return normalizedCorrectAnswer === normalizedAnswer;
+  if (category === "ARTICLES" && question.gender) {
+    return performCheck(answer, question.gender);
+  }
+
+  return false;
 };
 
 export default checkAnswer;
