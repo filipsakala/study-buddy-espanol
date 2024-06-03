@@ -26,7 +26,7 @@ const getArticlesQuestions = async (
   const { whereConditions, whereParams } = getSqlCondition(learn_group);
 
   const dbWords = await db.query(
-    `SELECT * FROM words WHERE ${whereConditions}` +
+    `SELECT * FROM words WHERE ${whereConditions} ` +
       `AND gender IS NOT NULL ` +
       `AND is_singular IS NOT NULL ` +
       `ORDER BY random() LIMIT $1`,
