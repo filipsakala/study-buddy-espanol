@@ -13,6 +13,7 @@ const QuestionWrapper = styled("div")`
 
 const ArticleWordWrapper = styled("div")`
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 2em;
 `;
@@ -34,14 +35,14 @@ const StyledButton = styled(Button)`
 `;
 
 const StyledImg = styled("img")`
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
 `;
 
 const ImagePlaceholder = styled("div")(
   ({ theme }) => `
-    width: 64px;
-    height: 64px;
+    width: 32px;
+    height: 32px;
   
     // invert black in the dark mode
     ${theme.palette.mode === "dark" && "filter: invert(1) hue-rotate(180deg);"}
@@ -78,7 +79,7 @@ const ArticlesQuestion = () => {
 
   useEffect(() => {
     setIsCorrect([]);
-  }, [currentQuestion]);
+  }, [currentQuestion.index]);
 
   const selectAnswer = useCallback(
     (index: number, selectedGender: "M" | "F") => {

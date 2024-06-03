@@ -1,6 +1,5 @@
 import { styled } from "@mui/material";
 import QuizStatus from "../components/Quiz/QuizStatus";
-import CorrectAnswerMessage from "../components/Quiz/QuizStatus/CorrectAnswerMessage";
 
 const StyledHeader = styled("header")(
   ({ theme }) => `
@@ -46,7 +45,6 @@ const Header = () => {
       </a>
       <StyledAppName>Study Buddy Español</StyledAppName>
       <QuizStatus />
-      <CorrectAnswerMessage />
     </StyledHeader>
   );
 };

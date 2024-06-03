@@ -62,7 +62,7 @@ const WordMatchQuestion = () => {
   useEffect(() => {
     setIsCorrectQuestion([]);
     setIsCorrectAnswer([]);
-  }, [currentQuestion]);
+  }, [currentQuestion.index]);
 
   const handleAnswer = useCallback(
     (questionId: number, answer: string) => {

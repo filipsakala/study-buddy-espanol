@@ -1,12 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizApi from "./useQuizApi";
 import { QuizQuestion, DbQuestion } from "../types/Question";
 import useHelp from "./useHelp";
 import { TQuizContext } from "./QuizContextProvider";
-import { Codetables } from "../types/Codetables";
+import useCodetables from "./useCodetables";
 
 const useQuizActions = (): TQuizContext => {
+  const [quizStatus, setQuizStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [currentAnswer, setCurrentAnswer] = useState<string[]>([]);
+
   const {
     isApiLoading,
     hasApiError,
@@ -16,32 +21,8 @@ const useQuizActions = (): TQuizContext => {
     getAnswerSoundApiCall,
     getCodetablesApiCall,
   } = useQuizApi();
-  const [quizStatus, setQuizStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
-  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [currentAnswer, setCurrentAnswer] = useState<string[]>([]);
-  const [filterLearnGroups, setFilterLearnGroups] = useState<
-    string[] | undefined
-  >();
-  const [codetables, setCodetables] = useState<Codetables | undefined>();
-
-  useEffect(() => {
-    getCodetablesApiCall().then((data) => setCodetables(data));
-  }, []);
-
-  useEffect(() => {
-    const storedFilters = localStorage.getItem("filters");
-
-    if (storedFilters) {
-      setFilterLearnGroups(JSON.parse(storedFilters));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (filterLearnGroups !== undefined) {
-      localStorage.setItem("filters", JSON.stringify(filterLearnGroups));
-    }
-  }, [filterLearnGroups]);
+  const { codetables, filterLearnGroups, setFilterLearnGroups } =
+    useCodetables(getCodetablesApiCall);
 
   const currentQuestion = useMemo(
     () => questions[currentQuestionIndex],
@@ -49,16 +30,19 @@ const useQuizActions = (): TQuizContext => {
   );
 
   const setCurrentQuestionScore = useCallback(
-    (isCorrectAnswer: boolean, withHelp: boolean) => {
+    (questionIndex: number, isCorrectAnswer: boolean, withHelp: boolean) => {
       const questionScore = isCorrectAnswer ? (withHelp ? 1 : 2) : -1;
       setQuestions((prevState) => {
         // do not change negative score
-        if (prevState[currentQuestionIndex].score === -1) {
+        if (
+          prevState[currentQuestionIndex].questions[questionIndex].score === -1
+        ) {
           return prevState;
         }
 
         const nextState = [...prevState];
-        nextState[currentQuestionIndex].score = questionScore;
+        nextState[currentQuestionIndex].questions[questionIndex].score =
+          questionScore;
         return nextState;
       });
     },
@@ -96,14 +80,19 @@ const useQuizActions = (): TQuizContext => {
     const quizQuestions: QuizQuestion[] = apiQuestions.map((q, index) => ({
       ...q,
       index,
-      score: 0,
+      questions: q.questions.map((qq) => ({
+        ...qq,
+        correctAnswer: "",
+        yourAnswer: "",
+        score: 0,
+      })),
     }));
 
     setQuestions(quizQuestions);
     setCurrentQuestionIndex(0);
     resetHelp();
-    setQuizStatus(EQuizStatus.IN_PROGRESS);
     setCurrentAnswer([]);
+    setQuizStatus(EQuizStatus.IN_PROGRESS);
   }, [filterLearnGroups]);
 
   const answerQuestion = useCallback(
@@ -116,17 +105,19 @@ const useQuizActions = (): TQuizContext => {
         return false;
       }
 
-      const isCorrectAnswer = await answerQuestionApiCall(
+      const answerResult = await answerQuestionApiCall(
         questionId,
         answer,
         currentQuestion.category
       );
 
-      if (isCorrectAnswer === undefined) {
+      if (answerResult === undefined) {
         return false;
       }
 
+      const { result: isCorrectAnswer, correctAnswer } = answerResult;
       if (isCorrectAnswer) {
+        // to keep track of correct pairs in word matches
         setCurrentAnswer((prev) => {
           const next = [...prev];
           next[questionIndex] = answer;
@@ -134,7 +125,29 @@ const useQuizActions = (): TQuizContext => {
         });
       }
 
+      setQuestions((prev) => {
+        const next = [...prev];
+        const nextQuestions = [...next[currentQuestion.index].questions];
+        // do not update already saved answer
+        if (nextQuestions[questionIndex].yourAnswer) {
+          return prev;
+        }
+
+        nextQuestions[questionIndex] = {
+          ...nextQuestions[questionIndex],
+          yourAnswer: answer,
+          correctAnswer: correctAnswer as string,
+        };
+
+        next[currentQuestion.index] = {
+          ...next[currentQuestion.index],
+          questions: nextQuestions,
+        };
+        return next;
+      });
+
       setCurrentQuestionScore(
+        questionIndex,
         isCorrectAnswer,
         Boolean(currentQuestionHelp.length)
       );

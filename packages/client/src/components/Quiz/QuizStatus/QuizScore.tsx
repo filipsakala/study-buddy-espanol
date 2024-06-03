@@ -6,6 +6,21 @@ import {
   HeartBroken as HeartBrokenIcon,
 } from "@mui/icons-material";
 
+export const ScoreHeart = ({ score }: { score: number }) => {
+  // incorrect
+  if (score < 0) {
+    return <HeartBrokenIcon color="error" />;
+  }
+  // correct with help
+  if (score === 1) {
+    return <FavoriteBorderIcon color="warning" />;
+  }
+  // correct
+  if (score > 1) {
+    return <FavoriteBorderIcon color="error" />;
+  }
+};
+
 const QuizScore = () => {
   const questions = useContextSelector(QuizContext, (c) => c.questions);
   const currentQuestion = useContextSelector(
@@ -16,26 +31,17 @@ const QuizScore = () => {
   return (
     <div>
       {questions.map((question, i) => {
-        // next questions
-        if (i > currentQuestion.index) {
-          return <FavoriteIcon key={i} color="disabled" />;
-        }
-        // not answered
-        if (question.score === 0 && currentQuestion.index === i) {
-          return <FavoriteIcon key={i} color="error" />;
-        }
-        // incorrect
-        if (question.score < 0) {
-          return <HeartBrokenIcon key={i} color="error" />;
-        }
-        // correct with help
-        if (question.score === 1) {
-          return <FavoriteBorderIcon key={i} color="warning" />;
-        }
-        // correct
-        if (question.score > 1) {
-          return <FavoriteBorderIcon key={i} color="error" />;
-        }
+        return question.questions.map((q) => {
+          // next questions
+          if (i > currentQuestion.index) {
+            return <FavoriteIcon key={q.id} color="disabled" />;
+          }
+          // not answered
+          if (q.score === 0 && currentQuestion.index === i) {
+            return <FavoriteIcon key={q.id} color="error" />;
+          }
+          return <ScoreHeart key={q.id} score={q.score} />;
+        });
       })}
     </div>
   );

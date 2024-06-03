@@ -23,7 +23,7 @@ const checkAnswer = async (
   questionId: number,
   answer: string,
   category: QuestionCategory
-): Promise<boolean> => {
+): Promise<{ result: boolean; correctAnswer?: string }> => {
   const question: DbWord | null | undefined = await getQuestion(questionId);
 
   if (!question) {
@@ -31,14 +31,16 @@ const checkAnswer = async (
   }
 
   if (category === "TRANSLATE_WORD" || category === "WORDS_MATCH") {
-    return performCheck(answer, question.es);
+    const result = performCheck(answer, question.es);
+    return { result, correctAnswer: question.es };
   }
 
   if (category === "ARTICLES" && question.gender) {
-    return performCheck(answer, question.gender);
+    const result = performCheck(answer, question.gender);
+    return { result, correctAnswer: question.gender };
   }
 
-  return false;
+  return { result: false };
 };
 
 export default checkAnswer;

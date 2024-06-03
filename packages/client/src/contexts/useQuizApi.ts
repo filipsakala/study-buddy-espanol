@@ -75,7 +75,7 @@ const useQuizApi = () => {
       questionId: number,
       answer: string,
       category: QuestionCategory
-    ): Promise<boolean | undefined> => {
+    ): Promise<{ result: boolean; correctAnswer?: string } | undefined> => {
       // some request already fired
       if (isLoading) {
         return;
@@ -83,7 +83,9 @@ const useQuizApi = () => {
 
       setHasError(false);
       setIsLoading(true);
-      const data = await apiFetch<boolean | undefined>(`/answer`, "POST", {
+      const data = await apiFetch<
+        { result: boolean; correctAnswer?: string } | undefined
+      >(`/answer`, "POST", {
         questionId,
         answer,
         category,

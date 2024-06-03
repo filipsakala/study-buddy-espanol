@@ -6,6 +6,7 @@ import { DbQuestion } from "../types/Question";
 const useHelp = (
   currentQuestion: DbQuestion,
   setCurrentQuestionScore: (
+    questionIndex: number,
     isCorrectAnswer: boolean,
     withHelp: boolean
   ) => void,
@@ -29,7 +30,7 @@ const useHelp = (
     const hasEmptyIndex = helpWord?.split("").some((char) => char === "_");
 
     if (!hasEmptyIndex) {
-      setCurrentQuestionScore(false, true);
+      setCurrentQuestionScore(0, false, true);
       goToNextQuestion();
       resetHelp();
       return;
