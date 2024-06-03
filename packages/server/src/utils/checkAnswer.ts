@@ -1,4 +1,4 @@
-import { DbWord, QuestionCategory } from "../../types/Question";
+import { DbWord, ExerciseCategory } from "../../types/Exercise";
 import { QuestionDoesNotExistError } from "../errors";
 import getQuestion from "./getQuestion";
 
@@ -22,7 +22,7 @@ const performCheck = (answered: string, correct: string): boolean => {
 const checkAnswer = async (
   questionId: number,
   answer: string,
-  category: QuestionCategory
+  category: ExerciseCategory
 ): Promise<{ result: boolean; correctAnswer?: string }> => {
   const question: DbWord | null | undefined = await getQuestion(questionId);
 

@@ -1,7 +1,7 @@
-export type QuestionCategory = "TRANSLATE_WORD" | "WORDS_MATCH" | "ARTICLES";
+export type ExerciseCategory = "TRANSLATE_WORD" | "WORDS_MATCH" | "ARTICLES";
 
-export type Question = {
-  category: QuestionCategory;
+export type Exercise = {
+  category: ExerciseCategory;
   questions: {
     id: number;
     icon?: string;

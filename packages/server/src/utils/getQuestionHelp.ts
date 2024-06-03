@@ -1,4 +1,4 @@
-import { DbWord } from "../../types/Question";
+import { DbWord } from "../../types/Exercise";
 import { IncorrectCurrentHelpError } from "../errors";
 
 const checkCurrentHelp = (helpWord: string, currentHelp: string): boolean => {

@@ -1,5 +1,5 @@
 import db from "../../db";
-import { DbWord } from "../../types/Question";
+import { DbWord } from "../../types/Exercise";
 
 const getQuestion = (
   questionId: number

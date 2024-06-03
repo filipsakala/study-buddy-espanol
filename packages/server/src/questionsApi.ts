@@ -1,8 +1,8 @@
 import express from "express";
-import { DbWord, Question } from "../types/Question";
+import { DbWord, Exercise } from "../types/Exercise";
 import { getAudioBase64 } from "google-tts-api";
 import getQuestion from "./utils/getQuestion";
-import getQuestions from "./utils/getQuestions";
+import getExercises from "./utils/getExercises";
 import getQuestionHelp from "./utils/getQuestionHelp";
 import { IncorrectCurrentHelpError } from "./errors";
 
@@ -17,17 +17,17 @@ router.get("/", async (req, res) => {
   }
 
   try {
-    const questions: Question[] = await getQuestions(
+    const exercises: Exercise[] = await getExercises(
       Number(count) || 0,
       learnGroup as any
     );
 
-    res.status(200).json(questions);
+    res.status(200).json(exercises);
   } catch (error) {
     console.error(error);
     res
       .status(500)
-      .json({ errorMessage: "General server error while loading questions" });
+      .json({ errorMessage: "General server error while loading exercises" });
   }
 });
 
@@ -39,16 +39,16 @@ router.get("/help", async (req, res) => {
     return;
   }
 
-  const question: DbWord | null | undefined = await getQuestion(Number(id));
+  const exercise: DbWord | null | undefined = await getQuestion(Number(id));
 
-  if (!question) {
+  if (!exercise) {
     res.status(400).json({ errorMessage: "Wrong input params: id" });
     return;
   }
 
   try {
     const currentHelp = current === undefined ? undefined : String(current);
-    const help = getQuestionHelp(question, currentHelp);
+    const help = getQuestionHelp(exercise, currentHelp);
     res.status(200).json(help);
   } catch (error) {
     if (error instanceof IncorrectCurrentHelpError) {
@@ -70,15 +70,15 @@ router.post("/sound", async (req, res) => {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });
     return;
   }
-  const question: DbWord | null | undefined = await getQuestion(questionId);
+  const exercise: DbWord | null | undefined = await getQuestion(questionId);
 
-  if (!question) {
+  if (!exercise) {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });
     return;
   }
 
   try {
-    const audioBase64 = await getAudioBase64(question.es, {
+    const audioBase64 = await getAudioBase64(exercise.es, {
       lang: "es",
       slow: false,
       host: "https://translate.google.com",
