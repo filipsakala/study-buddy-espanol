@@ -32,10 +32,12 @@ const QuizInProgressStatus = () => {
       return;
     }
     if (currentQuestion.category === QuestionCategory.TRANSLATE_WORD) {
-      return currentQuestion.learnGroup;
+      return currentQuestion.questions[0].learnGroup;
     }
 
-    const groupSet = new Set(currentQuestion.learnGroup as string[]);
+    const groupSet = new Set(
+      currentQuestion.questions.map(({ learnGroup }) => learnGroup)
+    );
     return [...groupSet].join(", ");
   }, [currentQuestion]);
 

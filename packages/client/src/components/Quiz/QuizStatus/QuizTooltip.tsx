@@ -32,8 +32,7 @@ const AnswerTooltip = ({ question }: Props) => {
   return (
     <>
       {Number(question.score) > 0 && "yep 😍"}
-      {Number(question.score) < 0 &&
-        `Wrong 😓 ${question.question} = ${question.correctAnswer}`}
+      {Number(question.score) < 0 && `Wrong 😓`}
       <TimeoutBar />
     </>
   );

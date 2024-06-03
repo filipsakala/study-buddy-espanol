@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import apiFetch from "../api/apiFetch";
-import { DbQuestion } from "../types/Question";
+import { DbQuestion, QuestionCategory } from "../types/Question";
 import { QUIZ_QUESTION_COUNT } from "../types/Quiz";
 import { Codetables } from "../types/Codetables";
 
@@ -73,7 +73,8 @@ const useQuizApi = () => {
   const answerQuestion = useCallback(
     async (
       questionId: number,
-      answer: string
+      answer: string,
+      category: QuestionCategory
     ): Promise<boolean | undefined> => {
       // some request already fired
       if (isLoading) {
@@ -85,6 +86,7 @@ const useQuizApi = () => {
       const data = await apiFetch<boolean | undefined>(`/answer`, "POST", {
         questionId,
         answer,
+        category,
       });
       setIsLoading(false);
 

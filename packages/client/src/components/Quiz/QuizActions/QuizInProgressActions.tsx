@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { HourglassTop } from "@mui/icons-material";
 import { QuestionCategory } from "../../../types/Question";
 import { useContextSelector } from "use-context-selector";
+import { useCallback } from "react";
 
 const QuizInProgressActions = () => {
   const status = useContextSelector(QuizContext, (c) => c.quizStatus);
@@ -17,11 +18,17 @@ const QuizInProgressActions = () => {
     QuizContext,
     (c) => c.currentQuestion
   );
+  const currentAnswer = useContextSelector(QuizContext, (c) => c.currentAnswer);
+
+  const submitQuestion = useCallback(() => {
+    if (currentQuestion.category === QuestionCategory.TRANSLATE_WORD) {
+      answerQuestion(currentQuestion.questions[0].id, currentAnswer[0]);
+    }
+  }, [answerQuestion, currentQuestion, currentAnswer]);
 
   if (status !== EQuizStatus.IN_PROGRESS && status !== EQuizStatus.DONE) {
     return null;
   }
-
   return (
     <>
       {currentQuestion.category === QuestionCategory.TRANSLATE_WORD &&
@@ -30,7 +37,7 @@ const QuizInProgressActions = () => {
             variant="contained"
             color="success"
             disabled={isApiLoading}
-            onClick={answerQuestion}
+            onClick={submitQuestion}
           >
             Submit answer {isApiLoading && <HourglassTop />}
           </Button>

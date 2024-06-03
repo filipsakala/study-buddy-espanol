@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizApi from "./useQuizApi";
-import { QuizQuestion, DbQuestion, QuestionCategory } from "../types/Question";
+import { QuizQuestion, DbQuestion } from "../types/Question";
 import useHelp from "./useHelp";
 import { TQuizContext } from "./QuizContextProvider";
 import { Codetables } from "../types/Codetables";
@@ -19,9 +19,7 @@ const useQuizActions = (): TQuizContext => {
   const [quizStatus, setQuizStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [currentAnswer, setCurrentAnswer] = useState<
-    string | number[][] | string[]
-  >("");
+  const [currentAnswer, setCurrentAnswer] = useState<string[]>([]);
   const [filterLearnGroups, setFilterLearnGroups] = useState<
     string[] | undefined
   >();
@@ -54,6 +52,11 @@ const useQuizActions = (): TQuizContext => {
     (isCorrectAnswer: boolean, withHelp: boolean) => {
       const questionScore = isCorrectAnswer ? (withHelp ? 1 : 2) : -1;
       setQuestions((prevState) => {
+        // do not change negative score
+        if (prevState[currentQuestionIndex].score === -1) {
+          return prevState;
+        }
+
         const nextState = [...prevState];
         nextState[currentQuestionIndex].score = questionScore;
         return nextState;
@@ -67,7 +70,7 @@ const useQuizActions = (): TQuizContext => {
       setQuizStatus(EQuizStatus.DONE);
     }
     setCurrentQuestionIndex((prev) => Math.min(prev + 1, questions.length - 1));
-    setCurrentAnswer("");
+    setCurrentAnswer([]);
   }, [currentQuestionIndex, questions]);
 
   const {
@@ -94,125 +97,72 @@ const useQuizActions = (): TQuizContext => {
       ...q,
       index,
       score: 0,
-      answer: q.category === QuestionCategory.TRANSLATE_WORD ? "" : [],
     }));
 
     setQuestions(quizQuestions);
     setCurrentQuestionIndex(0);
     resetHelp();
     setQuizStatus(EQuizStatus.IN_PROGRESS);
-    setCurrentAnswer("");
+    setCurrentAnswer([]);
   }, [filterLearnGroups]);
 
-  const answerTranslateWordQuestion = useCallback(async () => {
-    setQuestions((prev) => {
-      const next = [...prev];
-      next[currentQuestion.index].answer = currentAnswer;
-      return next;
-    });
-    const isCorrectAnswer = await answerQuestionApiCall(
-      currentQuestion.id as number,
-      currentAnswer as string
-    );
+  const answerQuestion = useCallback(
+    async (
+      questionId: number,
+      answer: string,
+      questionIndex: number = 0
+    ): Promise<boolean> => {
+      if (quizStatus !== EQuizStatus.IN_PROGRESS || !answer) {
+        return false;
+      }
 
-    if (isCorrectAnswer === undefined) {
-      return;
-    }
+      const isCorrectAnswer = await answerQuestionApiCall(
+        questionId,
+        answer,
+        currentQuestion.category
+      );
 
-    setCurrentQuestionScore(
-      isCorrectAnswer,
-      Boolean(currentQuestionHelp.length)
-    );
-    goToNextQuestion();
-    resetHelp();
-  }, [
-    currentAnswer,
-    currentQuestion,
-    goToNextQuestion,
-    currentQuestionHelp,
-    resetHelp,
-    setCurrentQuestionScore,
-  ]);
+      if (isCorrectAnswer === undefined) {
+        return false;
+      }
 
-  const answerWordMatchQuestion = useCallback(() => {
-    const wordCount = currentQuestion.question.length;
-    const correctMatches = (currentAnswer as number[][]).reduce(
-      (prev, answer) => {
-        if (answer[0] === answer[1]) {
+      if (isCorrectAnswer) {
+        setCurrentAnswer((prev) => {
+          const next = [...prev];
+          next[questionIndex] = answer;
+          return next;
+        });
+      }
+
+      setCurrentQuestionScore(
+        isCorrectAnswer,
+        Boolean(currentQuestionHelp.length)
+      );
+
+      const answeredCount = currentAnswer.reduce((prev, a) => {
+        if (a !== undefined) {
           return prev + 1;
         }
         return prev;
-      },
-      0
-    );
+      }, 1);
+      const isAnswered = currentQuestion.questions.length <= answeredCount;
+      if (isAnswered) {
+        resetHelp();
+        setCurrentAnswer([]);
+        goToNextQuestion();
+      }
 
-    const isCorrect = wordCount === currentAnswer.length; // only correct matches
-    // all matches completed
-    if (wordCount === correctMatches) {
-      setQuestions((prev) => {
-        const next = [...prev];
-        next[currentQuestion.index].answer = currentAnswer;
-        return next;
-      });
-      setCurrentQuestionScore(isCorrect, false);
-      goToNextQuestion();
-    }
-  }, [
-    currentAnswer,
-    currentQuestion,
-    goToNextQuestion,
-    setCurrentQuestionScore,
-  ]);
-
-  const answerArticlesQuestion = useCallback(() => {
-    const wordCount = currentQuestion.question.length;
-    const correctMatches = (currentAnswer as string[]).reduce(
-      (prev, answer, index) => {
-        if ((currentQuestion.gender as ("M" | "F")[])[index] === answer) {
-          return prev + 1;
-        }
-        return prev;
-      },
-      0
-    );
-
-    const isCorrect = wordCount === correctMatches; // only correct matches
-
-    setQuestions((prev) => {
-      const next = [...prev];
-      next[currentQuestion.index].answer = currentAnswer;
-      return next;
-    });
-    setCurrentQuestionScore(isCorrect, false);
-    goToNextQuestion();
-  }, [
-    currentAnswer,
-    currentQuestion,
-    goToNextQuestion,
-    setCurrentQuestionScore,
-  ]);
-
-  const answerQuestion = useCallback(() => {
-    if (quizStatus !== EQuizStatus.IN_PROGRESS || !currentAnswer) {
-      return;
-    }
-
-    if (currentQuestion.category === QuestionCategory.TRANSLATE_WORD) {
-      return answerTranslateWordQuestion();
-    }
-    if (currentQuestion.category === QuestionCategory.WORDS_MATCH) {
-      return answerWordMatchQuestion();
-    }
-    if (currentQuestion.category === QuestionCategory.ARTICLES) {
-      return answerArticlesQuestion();
-    }
-  }, [
-    currentAnswer,
-    quizStatus,
-    currentQuestion,
-    answerTranslateWordQuestion,
-    answerWordMatchQuestion,
-  ]);
+      return isCorrectAnswer;
+    },
+    [
+      currentAnswer,
+      quizStatus,
+      currentQuestion,
+      currentQuestionHelp,
+      goToNextQuestion,
+      resetHelp,
+    ]
+  );
 
   const playAnswerAudio = useCallback(
     async (questionId: number) => {

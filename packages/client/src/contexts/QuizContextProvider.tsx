@@ -10,20 +10,22 @@ export type TQuizContext = {
   quizStatus: EQuizStatus;
   questions: QuizQuestion[];
   currentQuestion: QuizQuestion;
-  currentQuestionHelp: string[];
-  currentAnswer: string | number[][] | string[];
+  currentQuestionHelp: string;
+  currentAnswer: string[];
   codetables?: Codetables;
   filter: {
     learnGroups: string[];
   };
 
   startQuiz: () => void;
-  answerQuestion: () => void;
+  answerQuestion: (
+    questionId: number,
+    answer: string,
+    questionIndex?: number
+  ) => Promise<boolean>;
   getQuestionHelp: () => void;
   playAnswerAudio: (questionId: number) => void;
-  setCurrentAnswer: React.Dispatch<
-    React.SetStateAction<string | number[][] | string[]>
-  >;
+  setCurrentAnswer: React.Dispatch<React.SetStateAction<string[]>>;
   setFilterLearnGroups: React.Dispatch<
     React.SetStateAction<string[] | undefined>
   >;
@@ -35,19 +37,19 @@ export const QuizContext = createContext<TQuizContext>({
   quizStatus: EQuizStatus.INIT,
   questions: [],
   currentQuestion: {} as QuizQuestion,
-  currentQuestionHelp: [],
-  currentAnswer: "",
+  currentQuestionHelp: "",
+  currentAnswer: [],
   codetables: undefined,
   filter: {
     learnGroups: [],
   },
 
   startQuiz: () => {},
-  answerQuestion: () => {},
+  answerQuestion: () => Promise.resolve(false),
   getQuestionHelp: () => {},
   playAnswerAudio: () => {},
   setCurrentAnswer: (() => {}) as unknown as React.Dispatch<
-    React.SetStateAction<string | number[][] | string[]>
+    React.SetStateAction<string[]>
   >,
   setFilterLearnGroups: (() => {}) as unknown as React.Dispatch<
     React.SetStateAction<string[] | undefined>

@@ -1,13 +1,7 @@
 import { Button, styled } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import getRandomIndexes from "../../../utils/getRandomIndexes";
+import { useCallback, useEffect, useState } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { useContextSelector } from "use-context-selector";
-
-type WordGroups = {
-  questions: { id: number; question: string; icon?: string }[];
-  answers: { id: number; answer: string }[];
-};
 
 const MatchColumns = styled("div")`
   display: grid;
@@ -35,48 +29,67 @@ const StyledImg = styled("img")`
   height: 32px;
 `;
 
+const getButtonVariant = (isSelected: boolean): "outlined" | "contained" => {
+  return isSelected ? "contained" : "outlined";
+};
+
+const getColor = (isCorrect?: boolean): "primary" | "error" | "success" => {
+  if (isCorrect === undefined) {
+    return "primary";
+  }
+  if (isCorrect) {
+    return "success";
+  }
+  return "error";
+};
+
 const WordMatchQuestion = () => {
   const answerQuestion = useContextSelector(
     QuizContext,
     (c) => c.answerQuestion
   );
-  const currentAnswer = useContextSelector(
-    QuizContext,
-    (c) => c.currentAnswer
-  ) as number[][];
-  const setCurrentAnswer = useContextSelector(
-    QuizContext,
-    (c) => c.setCurrentAnswer
-  ) as React.Dispatch<React.SetStateAction<number[][]>>;
   const [selectedQuestionId, setSelectedQuestionId] = useState<
     number | undefined
   >();
-  const [selectedAnswerId, setSelectedAnswerId] = useState<
-    number | undefined
-  >();
-  const question = useContextSelector(QuizContext, (c) => c.currentQuestion);
+  const [selectedAnswer, setSelectedAnswer] = useState<string>();
+  const currentQuestion = useContextSelector(
+    QuizContext,
+    (c) => c.currentQuestion
+  );
+  const [isCorrectQuestion, setIsCorrectQuestion] = useState<boolean[]>([]);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean[]>([]);
 
-  const wordGroups: WordGroups = useMemo(() => {
-    const groups: WordGroups = { questions: [], answers: [] };
+  useEffect(() => {
+    setIsCorrectQuestion([]);
+    setIsCorrectAnswer([]);
+  }, [currentQuestion]);
 
-    if (!question) {
-      return groups;
-    }
+  const handleAnswer = useCallback(
+    (questionId: number, answer: string) => {
+      const questionIndex = currentQuestion.questions.findIndex(
+        ({ id }) => questionId === id
+      );
+      const answerIndex = currentQuestion.questions.findIndex(
+        ({ randomizedAnswer }) => randomizedAnswer === answer
+      );
 
-    // copy english ones in the first column
-    groups.questions = (question.id as number[]).map((id, i) => ({
-      id,
-      question: question.question[i],
-      icon: question.icon && question.icon[i],
-    }));
-    // randomize second column
-    const indexes = getRandomIndexes(question.question.length);
-    groups.answers = indexes.map((i) => ({
-      id: (question.id as number[])[i],
-      answer: question.correctAnswer[i],
-    }));
-    return groups;
-  }, [question]);
+      answerQuestion(questionId, answer, questionIndex).then((isCorrect) => {
+        setIsCorrectQuestion((prev) => {
+          const next = [...prev];
+          next[questionIndex] = isCorrect;
+          return next;
+        });
+        setIsCorrectAnswer((prev) => {
+          const next = [...prev];
+          next[answerIndex] = isCorrect;
+          return next;
+        });
+        setSelectedAnswer(undefined);
+        setSelectedQuestionId(undefined);
+      });
+    },
+    [answerQuestion]
+  );
 
   const selectQuestion = useCallback(
     (id: number) => {
@@ -87,94 +100,68 @@ const WordMatchQuestion = () => {
       }
 
       setSelectedQuestionId(id);
-      if (selectedAnswerId) {
-        setCurrentAnswer((prev) => [...prev, [id, selectedAnswerId]]);
+
+      if (selectedAnswer) {
+        handleAnswer(id, selectedAnswer);
       }
     },
-    [selectedQuestionId, selectedAnswerId]
+    [selectedQuestionId, selectedAnswer, handleAnswer]
   );
 
   const selectAnswer = useCallback(
-    (id: number) => {
+    (answer: string) => {
       // unselect selected
-      if (selectedAnswerId === id) {
-        setSelectedAnswerId(undefined);
+      if (selectedAnswer === answer) {
+        setSelectedAnswer(undefined);
         return;
       }
 
-      setSelectedAnswerId(id);
+      setSelectedAnswer(answer);
+
       if (selectedQuestionId) {
-        setCurrentAnswer((prev) => [...prev, [selectedQuestionId, id]]);
+        handleAnswer(selectedQuestionId, answer);
       }
     },
-    [selectedQuestionId, selectedAnswerId]
-  );
-
-  useEffect(() => {
-    if (selectedQuestionId && selectedAnswerId) {
-      setSelectedQuestionId(undefined);
-      setSelectedAnswerId(undefined);
-      answerQuestion();
-    }
-  }, [selectedQuestionId, selectedAnswerId, answerQuestion]);
-
-  const getButtonVariant = useCallback(
-    (isQuestion: boolean, questionId: number): "outlined" | "contained" => {
-      const isSelected = isQuestion
-        ? selectedQuestionId === questionId
-        : selectedAnswerId === questionId;
-
-      if (isSelected) {
-        return "contained";
-      }
-      return "outlined";
-    },
-    [selectedQuestionId, selectedAnswerId]
-  );
-
-  // Button is disabled only when it's answered correctly
-  const getDisabledState = useCallback(
-    (questionId: number): boolean => {
-      if (!currentAnswer) {
-        return false;
-      }
-
-      return currentAnswer.some(
-        ([qId, aId]) => qId === aId && qId === questionId
-      );
-    },
-    [question, currentAnswer]
+    [selectedQuestionId, selectedAnswer, handleAnswer]
   );
 
   return (
     <MatchColumns>
       <MatchColumn>
-        {wordGroups.questions.map(({ id, question, icon }) => {
+        {currentQuestion.questions.map((question, index) => {
           return (
             <StyledButton
-              key={id}
-              variant={getButtonVariant(true, id)}
+              key={question.id}
+              variant={getButtonVariant(question.id === selectedQuestionId)}
+              color={getColor(isCorrectQuestion[index])}
               size="large"
-              onClick={() => selectQuestion(id)}
-              disabled={getDisabledState(id)}
-              startIcon={icon && <StyledImg src={icon} loading="lazy" />}
+              onClick={() => selectQuestion(question.id)}
+              disabled={isCorrectQuestion[index]}
+              startIcon={
+                question.icon && (
+                  <StyledImg src={question.icon} loading="lazy" />
+                )
+              }
             >
-              {question}
+              {question.textEn}
             </StyledButton>
           );
         })}
       </MatchColumn>
       <MatchColumn>
-        {wordGroups.answers.map(({ id, answer }) => {
+        {currentQuestion.questions.map((question, index) => {
           return (
             <StyledButton
-              key={id}
-              variant={getButtonVariant(false, id)}
+              key={question.id}
+              variant={getButtonVariant(
+                question.randomizedAnswer === selectedAnswer
+              )}
+              color={getColor(isCorrectAnswer[index])}
               size="large"
-              onClick={() => selectAnswer(id)}
-              disabled={getDisabledState(id)}
+              onClick={() => selectAnswer(question.randomizedAnswer as string)}
+              disabled={isCorrectAnswer[index]}
             >
-              {answer}
+              {question.randomizedAnswer}
             </StyledButton>
           );
         })}

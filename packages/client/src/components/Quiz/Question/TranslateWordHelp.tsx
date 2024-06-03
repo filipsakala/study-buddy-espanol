@@ -1,5 +1,6 @@
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { styled } from "@mui/system";
+import { Fragment } from "react";
 import { useContextSelector } from "use-context-selector";
 
 const StyledHelp = styled("div")`
@@ -27,13 +28,15 @@ const TranslateWordHelp = () => {
 
   return (
     <StyledHelp>
-      {help.map((letter, index) =>
-        letter === " " ? (
-          <>&nbsp;</>
-        ) : (
-          <Letter key={index}>{letter || " "}</Letter>
-        )
-      )}
+      {help
+        .split("")
+        .map((letter, index) =>
+          letter === " " ? (
+            <Fragment key={index}>&nbsp;</Fragment>
+          ) : (
+            <Letter key={index}>{letter === "_" ? " " : letter}</Letter>
+          )
+        )}
     </StyledHelp>
   );
 };

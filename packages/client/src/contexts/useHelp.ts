@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { DbQuestion } from "../types/Question";
 
 // Help for a word is an array of letters for the correct answer
@@ -15,19 +15,18 @@ const useHelp = (
     current?: string
   ) => Promise<string | undefined>
 ) => {
-  const [help, setHelp] = useState<string | undefined>();
+  const [help, setHelp] = useState<string>("");
 
-  const resetHelp = useCallback(() => setHelp(undefined), []);
+  const resetHelp = useCallback(() => setHelp(""), []);
 
   const getQuestionHelp = useCallback(async () => {
     const helpWord = await getQuestionHelpApiCall(
       currentQuestion.questions[0].id,
-      help
+      help.length ? help : undefined
     );
-    setHelp(helpWord);
 
     // if all indexes were filled, move to the next question
-    const hasEmptyIndex = helpWord?.split("").some((char) => char !== "_");
+    const hasEmptyIndex = helpWord?.split("").some((char) => char === "_");
 
     if (!hasEmptyIndex) {
       setCurrentQuestionScore(false, true);
@@ -35,7 +34,16 @@ const useHelp = (
       resetHelp();
       return;
     }
-  }, [help, currentQuestion]);
+
+    setHelp(helpWord || "");
+  }, [
+    help,
+    getQuestionHelpApiCall,
+    currentQuestion,
+    goToNextQuestion,
+    setCurrentQuestionScore,
+    resetHelp,
+  ]);
 
   return { resetHelp, help, getQuestionHelp };
 };

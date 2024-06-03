@@ -41,38 +41,41 @@ const TranslateWordQuestion = () => {
     QuizContext,
     (c) => c.getQuestionHelp
   );
-  const question = useContextSelector(QuizContext, (c) => c.currentQuestion);
+  const question = useContextSelector(
+    QuizContext,
+    (c) => c.currentQuestion.questions[0]
+  );
   const currentAnswer = useContextSelector(
     QuizContext,
-    (c) => c.currentAnswer
+    (c) => c.currentAnswer[0] || ""
   ) as string;
   const setCurrentAnswer = useContextSelector(
     QuizContext,
     (c) => c.setCurrentAnswer
-  ) as React.Dispatch<React.SetStateAction<string>>;
+  ) as React.Dispatch<React.SetStateAction<string[]>>;
 
   const handleAnswerChange = useCallback(
-    (e: any) => setCurrentAnswer(e.target.value),
+    (e: any) => setCurrentAnswer([e.target.value]),
     [setCurrentAnswer]
   );
 
   const handleSubmitAnswer = useCallback(
     (e: any) => {
       if (e.key === "Enter" && currentAnswer) {
-        answerQuestion();
+        answerQuestion(question.id, currentAnswer);
       }
     },
-    [currentAnswer, answerQuestion]
+    [question, currentAnswer, answerQuestion]
   );
 
   return (
     <StyledQuestionWrapper>
       {question.icon && (
         <ImagePlaceholder>
-          <StyledImg src={question.icon as string} loading="lazy" />
+          <StyledImg src={question.icon} loading="lazy" />
         </ImagePlaceholder>
       )}
-      <h3 style={{ marginBottom: 5 }}>{question.question}</h3>
+      <h3 style={{ marginBottom: 5 }}>{question.textEn}</h3>
       <Button
         onClick={getQuestionHelp}
         startIcon={<Help />}

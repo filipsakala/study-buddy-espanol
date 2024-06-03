@@ -1,6 +1,5 @@
 import { useContextSelector } from "use-context-selector";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
-import { QuestionCategory } from "../../../types/Question";
 import {
   FavoriteTwoTone as FavoriteIcon,
   Favorite as FavoriteBorderIcon,
@@ -17,30 +16,25 @@ const QuizScore = () => {
   return (
     <div>
       {questions.map((question, i) => {
-        const useId = (
-          question.category === QuestionCategory.TRANSLATE_WORD
-            ? question.id
-            : (question.id as number[])[0]
-        ) as number;
         // next questions
         if (i > currentQuestion.index) {
-          return <FavoriteIcon key={useId} color="disabled" />;
+          return <FavoriteIcon key={i} color="disabled" />;
         }
         // not answered
         if (question.score === 0 && currentQuestion.index === i) {
-          return <FavoriteIcon key={useId} color="error" />;
+          return <FavoriteIcon key={i} color="error" />;
         }
         // incorrect
         if (question.score < 0) {
-          return <HeartBrokenIcon key={useId} color="error" />;
+          return <HeartBrokenIcon key={i} color="error" />;
         }
         // correct with help
         if (question.score === 1) {
-          return <FavoriteBorderIcon key={useId} color="warning" />;
+          return <FavoriteBorderIcon key={i} color="warning" />;
         }
         // correct
         if (question.score > 1) {
-          return <FavoriteBorderIcon key={useId} color="error" />;
+          return <FavoriteBorderIcon key={i} color="error" />;
         }
       })}
     </div>

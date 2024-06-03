@@ -1,5 +1,5 @@
 import { Button, Typography, styled } from "@mui/material";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { useContextSelector } from "use-context-selector";
 
@@ -48,95 +48,87 @@ const ImagePlaceholder = styled("div")(
   `
 );
 
+const getButtonVariant = (isSelected: boolean): "outlined" | "contained" => {
+  return isSelected ? "contained" : "outlined";
+};
+
+const getButtonColor = (
+  isCorrect?: boolean
+): "error" | "success" | "primary" => {
+  if (isCorrect === undefined) {
+    return "primary";
+  }
+  if (isCorrect) {
+    return "success";
+  }
+  return "error";
+};
+
 const ArticlesQuestion = () => {
   const answerQuestion = useContextSelector(
     QuizContext,
     (c) => c.answerQuestion
   );
-  const currentAnswer = useContextSelector(
+  const currentAnswer = useContextSelector(QuizContext, (c) => c.currentAnswer);
+  const currentQuestion = useContextSelector(
     QuizContext,
-    (c) => c.currentAnswer
-  ) as string[];
-  const setCurrentAnswer = useContextSelector(
-    QuizContext,
-    (c) => c.setCurrentAnswer
-  ) as React.Dispatch<React.SetStateAction<string[]>>;
-  const question = useContextSelector(QuizContext, (c) => c.currentQuestion);
-
-  const getButtonVariant = useCallback(
-    (questionIndex: number, gender: "M" | "F"): "outlined" | "contained" => {
-      const isSelected = currentAnswer[questionIndex] === gender;
-
-      if (isSelected) {
-        return "contained";
-      }
-      return "outlined";
-    },
-    [currentAnswer]
+    (c) => c.currentQuestion
   );
+  const [isCorrect, setIsCorrect] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    setIsCorrect([]);
+  }, [currentQuestion]);
 
   const selectAnswer = useCallback(
     (index: number, selectedGender: "M" | "F") => {
-      setCurrentAnswer((prev) => {
-        const next = [...prev];
-        next[index] = selectedGender;
-        return next;
-      });
-    },
-    [setCurrentAnswer]
-  );
+      if (currentAnswer[index] !== undefined) {
+        return;
+      }
 
-  useEffect(() => {
-    const isAnswered = [...Array(question?.question?.length)].reduce(
-      (prev, _, index) => {
-        if (currentAnswer[index] === undefined) {
-          return false;
+      const answeredQuestion = currentQuestion.questions[index];
+
+      answerQuestion(answeredQuestion.id, selectedGender, index).then(
+        (isCorrect) => {
+          setIsCorrect((prev) => {
+            const next = [...prev];
+            next[index] = isCorrect;
+            return next;
+          });
         }
-        return prev;
-      },
-      true
-    );
-
-    if (isAnswered) {
-      answerQuestion();
-    }
-  }, [question, currentAnswer]);
+      );
+    },
+    [currentQuestion, answerQuestion, currentAnswer]
+  );
 
   return (
     <QuestionWrapper>
-      {(question.id as number[]).map((id, index) => (
-        <ArticleWordWrapper key={id}>
+      {currentQuestion.questions.map((question, index) => (
+        <ArticleWordWrapper key={question.id}>
           <div>
             <StyledButton
-              variant={getButtonVariant(index, "M")}
+              variant={getButtonVariant(currentAnswer[index] === "M")}
+              color={getButtonColor(isCorrect[index])}
               size="large"
               onClick={() => selectAnswer(index, "M")}
             >
-              {(question.isSingular as boolean[])[index] ? "el" : "los"}
+              {question.isSingular ? "el" : "los"}
             </StyledButton>
             <StyledButton
-              variant={getButtonVariant(index, "F")}
+              variant={getButtonVariant(currentAnswer[index] === "F")}
+              color={getButtonColor(isCorrect[index])}
               size="large"
               onClick={() => selectAnswer(index, "F")}
             >
-              {(question.isSingular as boolean[])[index] ? "la" : "las"}
+              {question.isSingular ? "la" : "las"}
             </StyledButton>
           </div>
           <ImagePlaceholder>
-            {(question.icon as string[])[index] && (
-              <StyledImg
-                src={(question.icon as string[])[index]}
-                loading="lazy"
-              />
-            )}
+            {question.icon && <StyledImg src={question.icon} loading="lazy" />}
           </ImagePlaceholder>
           <Word>
-            <Typography variant="h6">
-              {question.correctAnswer[index]}
-            </Typography>
-            <Typography variant="caption">
-              {question.question[index]}
-            </Typography>
+            <Typography variant="h6">{question.textEs}</Typography>
+            <Typography variant="caption">{question.textEn}</Typography>
           </Word>
         </ArticleWordWrapper>
       ))}
