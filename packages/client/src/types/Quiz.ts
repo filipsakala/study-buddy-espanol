@@ -5,4 +5,4 @@ export enum EQuizStatus {
 }
 
 // Number of questions to load per quiz
-export const QUIZ_QUESTION_COUNT = 10;
+export const QUIZ_EXERCISE_COUNT = 10;

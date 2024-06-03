@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
-import { DbQuestion } from "../types/Question";
+import { DbExercise } from "../types/Question";
 
 // Help for a word is an array of letters for the correct answer
 // User can repeatedly ask for another random letter
 const useHelp = (
-  currentQuestion: DbQuestion,
+  currentExercise: DbExercise,
   setCurrentQuestionScore: (
     questionIndex: number,
     isCorrectAnswer: boolean,
@@ -22,7 +22,7 @@ const useHelp = (
 
   const getQuestionHelp = useCallback(async () => {
     const helpWord = await getQuestionHelpApiCall(
-      currentQuestion.questions[0].id,
+      currentExercise.questions[0].id,
       help.length ? help : undefined
     );
 
@@ -40,7 +40,7 @@ const useHelp = (
   }, [
     help,
     getQuestionHelpApiCall,
-    currentQuestion,
+    currentExercise,
     goToNextQuestion,
     setCurrentQuestionScore,
     resetHelp,

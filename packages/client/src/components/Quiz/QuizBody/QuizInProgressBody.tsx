@@ -1,32 +1,32 @@
 import { QuizContext } from "../../../contexts/QuizContextProvider";
 import { EQuizStatus } from "../../../types/Quiz";
-import { QuestionCategory } from "../../../types/Question";
-import TranslateWordQuestion from "../Question/TranslateWordQuestion";
-import WordMatchQuestion from "../Question/WordMatchQuestion";
+import { ExerciseCategory } from "../../../types/Question";
+import TranslateWordExercise from "../Exercise/TranslateWordExercise";
+import WordMatchExercise from "../Exercise/WordMatchExercise";
 import { useContextSelector } from "use-context-selector";
-import ArticlesQuestion from "../Question/ArticlesQuestion";
+import ArticlesExercise from "../Exercise/ArticlesExercise";
 
 const QuizInProgressBody = () => {
   const status = useContextSelector(QuizContext, (c) => c.quizStatus);
-  const currentQuestion = useContextSelector(
+  const currentExercise = useContextSelector(
     QuizContext,
-    (c) => c.currentQuestion
+    (c) => c.currentExercise
   );
 
-  if (status !== EQuizStatus.IN_PROGRESS || !currentQuestion) {
+  if (status !== EQuizStatus.IN_PROGRESS || !currentExercise) {
     return null;
   }
 
   return (
     <>
-      {currentQuestion.category === QuestionCategory.TRANSLATE_WORD && (
-        <TranslateWordQuestion />
+      {currentExercise.category === ExerciseCategory.TRANSLATE_WORD && (
+        <TranslateWordExercise />
       )}
-      {currentQuestion.category === QuestionCategory.WORDS_MATCH && (
-        <WordMatchQuestion />
+      {currentExercise.category === ExerciseCategory.WORDS_MATCH && (
+        <WordMatchExercise />
       )}
-      {currentQuestion.category === QuestionCategory.ARTICLES && (
-        <ArticlesQuestion />
+      {currentExercise.category === ExerciseCategory.ARTICLES && (
+        <ArticlesExercise />
       )}
     </>
   );

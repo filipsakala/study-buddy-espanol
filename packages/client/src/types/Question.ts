@@ -1,4 +1,4 @@
-export enum QuestionCategory {
+export enum ExerciseCategory {
   TRANSLATE_WORD = "TRANSLATE_WORD",
   WORDS_MATCH = "WORDS_MATCH",
   ARTICLES = "ARTICLES",
@@ -15,12 +15,12 @@ type Question = {
   isSingular?: boolean; // available only for some categories
 };
 
-export type DbQuestion = {
-  category: QuestionCategory;
+export type DbExercise = {
+  category: ExerciseCategory;
   questions: Question[];
 };
 
-export type QuizQuestion = Omit<DbQuestion, "questions"> & {
+export type QuizExercise = Omit<DbExercise, "questions"> & {
   index: number;
   questions: (Question & {
     correctAnswer: string;

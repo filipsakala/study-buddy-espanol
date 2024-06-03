@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import apiFetch from "../api/apiFetch";
-import { DbQuestion, QuestionCategory } from "../types/Question";
-import { QUIZ_QUESTION_COUNT } from "../types/Quiz";
+import { DbExercise, ExerciseCategory } from "../types/Question";
+import { QUIZ_EXERCISE_COUNT } from "../types/Quiz";
 import { Codetables } from "../types/Codetables";
 
 const useQuizApi = () => {
@@ -9,7 +9,7 @@ const useQuizApi = () => {
   const [hasError, setHasError] = useState<boolean>(false);
 
   const getQuestions = useCallback(
-    async (learnGroup?: string[]): Promise<DbQuestion[] | undefined> => {
+    async (learnGroup?: string[]): Promise<DbExercise[] | undefined> => {
       // some request already fired
       if (isLoading) {
         return;
@@ -18,13 +18,13 @@ const useQuizApi = () => {
       setHasError(false);
       setIsLoading(true);
       const urlParams = new URLSearchParams();
-      urlParams.append("count", String(QUIZ_QUESTION_COUNT));
+      urlParams.append("count", String(QUIZ_EXERCISE_COUNT));
 
       if (learnGroup) {
         learnGroup.forEach((group) => urlParams.append("learnGroup", group));
       }
 
-      const data = await apiFetch<DbQuestion[]>(
+      const data = await apiFetch<DbExercise[]>(
         `/question?` + urlParams.toString()
       );
       setIsLoading(false);
@@ -74,7 +74,7 @@ const useQuizApi = () => {
     async (
       questionId: number,
       answer: string,
-      category: QuestionCategory
+      category: ExerciseCategory
     ): Promise<{ result: boolean; correctAnswer?: string } | undefined> => {
       // some request already fired
       if (isLoading) {

@@ -43,7 +43,7 @@ const getColor = (isCorrect?: boolean): "primary" | "error" | "success" => {
   return "error";
 };
 
-const WordMatchQuestion = () => {
+const WordMatchExercise = () => {
   const answerQuestion = useContextSelector(
     QuizContext,
     (c) => c.answerQuestion
@@ -52,9 +52,9 @@ const WordMatchQuestion = () => {
     number | undefined
   >();
   const [selectedAnswer, setSelectedAnswer] = useState<string>();
-  const currentQuestion = useContextSelector(
+  const currentExercise = useContextSelector(
     QuizContext,
-    (c) => c.currentQuestion
+    (c) => c.currentExercise
   );
   const [isCorrectQuestion, setIsCorrectQuestion] = useState<boolean[]>([]);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean[]>([]);
@@ -62,14 +62,14 @@ const WordMatchQuestion = () => {
   useEffect(() => {
     setIsCorrectQuestion([]);
     setIsCorrectAnswer([]);
-  }, [currentQuestion.index]);
+  }, [currentExercise.index]);
 
   const handleAnswer = useCallback(
     (questionId: number, answer: string) => {
-      const questionIndex = currentQuestion.questions.findIndex(
+      const questionIndex = currentExercise.questions.findIndex(
         ({ id }) => questionId === id
       );
-      const answerIndex = currentQuestion.questions.findIndex(
+      const answerIndex = currentExercise.questions.findIndex(
         ({ randomizedAnswer }) => randomizedAnswer === answer
       );
 
@@ -128,7 +128,7 @@ const WordMatchQuestion = () => {
   return (
     <MatchColumns>
       <MatchColumn>
-        {currentQuestion.questions.map((question, index) => {
+        {currentExercise.questions.map((question, index) => {
           return (
             <StyledButton
               key={question.id}
@@ -149,7 +149,7 @@ const WordMatchQuestion = () => {
         })}
       </MatchColumn>
       <MatchColumn>
-        {currentQuestion.questions.map((question, index) => {
+        {currentExercise.questions.map((question, index) => {
           return (
             <StyledButton
               key={question.id}
@@ -170,4 +170,4 @@ const WordMatchQuestion = () => {
   );
 };
 
-export default WordMatchQuestion;
+export default WordMatchExercise;

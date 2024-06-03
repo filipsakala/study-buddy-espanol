@@ -32,7 +32,7 @@ const ImagePlaceholder = styled("div")(
 `
 );
 
-const TranslateWordQuestion = () => {
+const TranslateWordExercise = () => {
   const answerQuestion = useContextSelector(
     QuizContext,
     (c) => c.answerQuestion
@@ -43,7 +43,7 @@ const TranslateWordQuestion = () => {
   );
   const question = useContextSelector(
     QuizContext,
-    (c) => c.currentQuestion.questions[0]
+    (c) => c.currentExercise.questions[0]
   );
   const currentAnswer = useContextSelector(
     QuizContext,
@@ -100,4 +100,4 @@ const TranslateWordQuestion = () => {
   );
 };
 
-export default TranslateWordQuestion;
+export default TranslateWordExercise;

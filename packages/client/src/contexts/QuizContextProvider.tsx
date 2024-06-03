@@ -1,6 +1,6 @@
 import { EQuizStatus } from "../types/Quiz";
 import useQuizActions from "./useQuizActions";
-import { QuizQuestion } from "../types/Question";
+import { QuizExercise } from "../types/Question";
 import { createContext } from "use-context-selector";
 import { Codetables } from "../types/Codetables";
 
@@ -8,8 +8,8 @@ export type TQuizContext = {
   isApiLoading: boolean;
   hasApiError: boolean;
   quizStatus: EQuizStatus;
-  questions: QuizQuestion[];
-  currentQuestion: QuizQuestion;
+  exercises: QuizExercise[];
+  currentExercise: QuizExercise;
   currentQuestionHelp: string;
   currentAnswer: string[];
   codetables?: Codetables;
@@ -35,8 +35,8 @@ export const QuizContext = createContext<TQuizContext>({
   isApiLoading: false,
   hasApiError: false,
   quizStatus: EQuizStatus.INIT,
-  questions: [],
-  currentQuestion: {} as QuizQuestion,
+  exercises: [],
+  currentExercise: {} as QuizExercise,
   currentQuestionHelp: "",
   currentAnswer: [],
   codetables: undefined,

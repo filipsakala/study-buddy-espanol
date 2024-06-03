@@ -22,22 +22,22 @@ export const ScoreHeart = ({ score }: { score: number }) => {
 };
 
 const QuizScore = () => {
-  const questions = useContextSelector(QuizContext, (c) => c.questions);
-  const currentQuestion = useContextSelector(
+  const exercises = useContextSelector(QuizContext, (c) => c.exercises);
+  const currentExercise = useContextSelector(
     QuizContext,
-    (c) => c.currentQuestion
+    (c) => c.currentExercise
   );
 
   return (
     <div>
-      {questions.map((question, i) => {
-        return question.questions.map((q) => {
+      {exercises.map((exercise, i) => {
+        return exercise.questions.map((q) => {
           // next questions
-          if (i > currentQuestion.index) {
+          if (i > currentExercise.index) {
             return <FavoriteIcon key={q.id} color="disabled" />;
           }
           // not answered
-          if (q.score === 0 && currentQuestion.index === i) {
+          if (q.score === 0 && currentExercise.index === i) {
             return <FavoriteIcon key={q.id} color="error" />;
           }
           return <ScoreHeart key={q.id} score={q.score} />;

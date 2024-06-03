@@ -65,21 +65,21 @@ const getButtonColor = (
   return "error";
 };
 
-const ArticlesQuestion = () => {
+const ArticlesExercise = () => {
   const answerQuestion = useContextSelector(
     QuizContext,
     (c) => c.answerQuestion
   );
   const currentAnswer = useContextSelector(QuizContext, (c) => c.currentAnswer);
-  const currentQuestion = useContextSelector(
+  const currentExercise = useContextSelector(
     QuizContext,
-    (c) => c.currentQuestion
+    (c) => c.currentExercise
   );
   const [isCorrect, setIsCorrect] = useState<boolean[]>([]);
 
   useEffect(() => {
     setIsCorrect([]);
-  }, [currentQuestion.index]);
+  }, [currentExercise.index]);
 
   const selectAnswer = useCallback(
     (index: number, selectedGender: "M" | "F") => {
@@ -87,7 +87,7 @@ const ArticlesQuestion = () => {
         return;
       }
 
-      const answeredQuestion = currentQuestion.questions[index];
+      const answeredQuestion = currentExercise.questions[index];
 
       answerQuestion(answeredQuestion.id, selectedGender, index).then(
         (isCorrect) => {
@@ -99,12 +99,12 @@ const ArticlesQuestion = () => {
         }
       );
     },
-    [currentQuestion, answerQuestion, currentAnswer]
+    [currentExercise, answerQuestion, currentAnswer]
   );
 
   return (
     <QuestionWrapper>
-      {currentQuestion.questions.map((question, index) => (
+      {currentExercise.questions.map((question, index) => (
         <ArticleWordWrapper key={question.id}>
           <div>
             <StyledButton
@@ -137,4 +137,4 @@ const ArticlesQuestion = () => {
   );
 };
 
-export default ArticlesQuestion;
+export default ArticlesExercise;

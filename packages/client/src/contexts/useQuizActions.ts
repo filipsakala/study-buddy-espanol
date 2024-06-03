@@ -1,15 +1,15 @@
 import { useCallback, useMemo, useState } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizApi from "./useQuizApi";
-import { QuizQuestion, DbQuestion } from "../types/Question";
+import { QuizExercise, DbExercise } from "../types/Question";
 import useHelp from "./useHelp";
 import { TQuizContext } from "./QuizContextProvider";
 import useCodetables from "./useCodetables";
 
 const useQuizActions = (): TQuizContext => {
   const [quizStatus, setQuizStatus] = useState<EQuizStatus>(EQuizStatus.INIT);
-  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [exercises, setExercises] = useState<QuizExercise[]>([]);
+  const [currentExerciseIndex, setCurrentExerciseIndex] = useState<number>(0);
   const [currentAnswer, setCurrentAnswer] = useState<string[]>([]);
 
   const {
@@ -24,60 +24,60 @@ const useQuizActions = (): TQuizContext => {
   const { codetables, filterLearnGroups, setFilterLearnGroups } =
     useCodetables(getCodetablesApiCall);
 
-  const currentQuestion = useMemo(
-    () => questions[currentQuestionIndex],
-    [questions, currentQuestionIndex]
+  const currentExercise = useMemo(
+    () => exercises[currentExerciseIndex],
+    [exercises, currentExerciseIndex]
   );
 
   const setCurrentQuestionScore = useCallback(
     (questionIndex: number, isCorrectAnswer: boolean, withHelp: boolean) => {
       const questionScore = isCorrectAnswer ? (withHelp ? 1 : 2) : -1;
-      setQuestions((prevState) => {
+      setExercises((prevState) => {
         // do not change negative score
         if (
-          prevState[currentQuestionIndex].questions[questionIndex].score === -1
+          prevState[currentExerciseIndex].questions[questionIndex].score === -1
         ) {
           return prevState;
         }
 
         const nextState = [...prevState];
-        nextState[currentQuestionIndex].questions[questionIndex].score =
+        nextState[currentExerciseIndex].questions[questionIndex].score =
           questionScore;
         return nextState;
       });
     },
-    [currentQuestionIndex]
+    [currentExerciseIndex]
   );
 
   const goToNextQuestion = useCallback(() => {
-    if (currentQuestionIndex + 1 >= questions.length) {
+    if (currentExerciseIndex + 1 >= exercises.length) {
       setQuizStatus(EQuizStatus.DONE);
     }
-    setCurrentQuestionIndex((prev) => Math.min(prev + 1, questions.length - 1));
+    setCurrentExerciseIndex((prev) => Math.min(prev + 1, exercises.length - 1));
     setCurrentAnswer([]);
-  }, [currentQuestionIndex, questions]);
+  }, [currentExerciseIndex, exercises]);
 
   const {
     resetHelp,
     help: currentQuestionHelp,
     getQuestionHelp,
   } = useHelp(
-    currentQuestion,
+    currentExercise,
     setCurrentQuestionScore,
     goToNextQuestion,
     getQuestionHelpApiCall
   );
 
   const startQuiz = useCallback(async () => {
-    const apiQuestions: DbQuestion[] | undefined = await getQuestionsApiCall(
+    const apiExercises: DbExercise[] | undefined = await getQuestionsApiCall(
       filterLearnGroups
     );
 
-    if (!apiQuestions) {
+    if (!apiExercises) {
       return;
     }
 
-    const quizQuestions: QuizQuestion[] = apiQuestions.map((q, index) => ({
+    const quizExercises: QuizExercise[] = apiExercises.map((q, index) => ({
       ...q,
       index,
       questions: q.questions.map((qq) => ({
@@ -88,8 +88,8 @@ const useQuizActions = (): TQuizContext => {
       })),
     }));
 
-    setQuestions(quizQuestions);
-    setCurrentQuestionIndex(0);
+    setExercises(quizExercises);
+    setCurrentExerciseIndex(0);
     resetHelp();
     setCurrentAnswer([]);
     setQuizStatus(EQuizStatus.IN_PROGRESS);
@@ -108,7 +108,7 @@ const useQuizActions = (): TQuizContext => {
       const answerResult = await answerQuestionApiCall(
         questionId,
         answer,
-        currentQuestion.category
+        currentExercise.category
       );
 
       if (answerResult === undefined) {
@@ -125,9 +125,9 @@ const useQuizActions = (): TQuizContext => {
         });
       }
 
-      setQuestions((prev) => {
+      setExercises((prev) => {
         const next = [...prev];
-        const nextQuestions = [...next[currentQuestion.index].questions];
+        const nextQuestions = [...next[currentExercise.index].questions];
         // do not update already saved answer
         if (nextQuestions[questionIndex].yourAnswer) {
           return prev;
@@ -139,8 +139,8 @@ const useQuizActions = (): TQuizContext => {
           correctAnswer: correctAnswer as string,
         };
 
-        next[currentQuestion.index] = {
-          ...next[currentQuestion.index],
+        next[currentExercise.index] = {
+          ...next[currentExercise.index],
           questions: nextQuestions,
         };
         return next;
@@ -158,7 +158,7 @@ const useQuizActions = (): TQuizContext => {
         }
         return prev;
       }, 1);
-      const isAnswered = currentQuestion.questions.length <= answeredCount;
+      const isAnswered = currentExercise.questions.length <= answeredCount;
       if (isAnswered) {
         resetHelp();
         setCurrentAnswer([]);
@@ -170,7 +170,7 @@ const useQuizActions = (): TQuizContext => {
     [
       currentAnswer,
       quizStatus,
-      currentQuestion,
+      currentExercise,
       currentQuestionHelp,
       goToNextQuestion,
       resetHelp,
@@ -191,8 +191,8 @@ const useQuizActions = (): TQuizContext => {
     isApiLoading,
     hasApiError,
     quizStatus,
-    questions,
-    currentQuestion,
+    exercises,
+    currentExercise,
     currentQuestionHelp,
     currentAnswer,
     codetables,
