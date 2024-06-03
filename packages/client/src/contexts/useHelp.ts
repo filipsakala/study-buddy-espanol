@@ -1,16 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { DbQuestion } from "../types/Question";
 
-const produceSpacedArray = (word: string): string[] => {
-  return [...Array(word.length)].map((_, i) => {
-    // duplicate spaces between words
-    if (word[i] === " ") {
-      return " ";
-    }
-    return "";
-  });
-};
-
 // Help for a word is an array of letters for the correct answer
 // User can repeatedly ask for another random letter
 const useHelp = (
@@ -19,48 +9,33 @@ const useHelp = (
     isCorrectAnswer: boolean,
     withHelp: boolean
   ) => void,
-  goToNextQuestion: () => void
+  goToNextQuestion: () => void,
+  getQuestionHelpApiCall: (
+    id: number,
+    current?: string
+  ) => Promise<string | undefined>
 ) => {
-  const [help, setHelp] = useState<string[]>([]);
+  const [help, setHelp] = useState<string | undefined>();
 
-  const resetHelp = useCallback(() => setHelp([]), []);
+  const resetHelp = useCallback(() => setHelp(undefined), []);
 
-  const emptyIndexes = useMemo(() => {
-    return help.reduce((prevIndexes: number[], currentHelp, currentIndex) => {
-      const nextIndexes = [...prevIndexes];
+  const getQuestionHelp = useCallback(async () => {
+    const helpWord = await getQuestionHelpApiCall(
+      currentQuestion.questions[0].id,
+      help
+    );
+    setHelp(helpWord);
 
-      if (!currentHelp) {
-        nextIndexes.push(currentIndex);
-      }
+    // if all indexes were filled, move to the next question
+    const hasEmptyIndex = helpWord?.split("").some((char) => char !== "_");
 
-      return nextIndexes;
-    }, []);
-  }, [help]);
-
-  const getQuestionHelp = useCallback(() => {
-    const correctAnswer = currentQuestion.correctAnswer;
-    // just show number of letters for given answer
-    if (!help.length) {
-      setHelp(produceSpacedArray(correctAnswer as string));
-      return;
-    }
-    // all indexes already filled, nothing to do
-    if (emptyIndexes.length <= 1) {
+    if (!hasEmptyIndex) {
       setCurrentQuestionScore(false, true);
       goToNextQuestion();
       resetHelp();
       return;
     }
-    // get random index from the answer and set it as non-empty
-    const randomIndexInRange = Math.floor(Math.random() * emptyIndexes.length);
-    const randomEmptyIndex = emptyIndexes[randomIndexInRange];
-
-    setHelp((prev) => {
-      const next = [...prev];
-      next[randomEmptyIndex] = correctAnswer[randomEmptyIndex];
-      return next;
-    });
-  }, [help, currentQuestion, emptyIndexes]);
+  }, [help, currentQuestion]);
 
   return { resetHelp, help, getQuestionHelp };
 };

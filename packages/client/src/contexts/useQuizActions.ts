@@ -11,6 +11,7 @@ const useQuizActions = (): TQuizContext => {
     isApiLoading,
     hasApiError,
     getQuestionsApiCall,
+    getQuestionHelpApiCall,
     answerQuestionApiCall,
     getAnswerSoundApiCall,
     getCodetablesApiCall,
@@ -73,7 +74,12 @@ const useQuizActions = (): TQuizContext => {
     resetHelp,
     help: currentQuestionHelp,
     getQuestionHelp,
-  } = useHelp(currentQuestion, setCurrentQuestionScore, goToNextQuestion);
+  } = useHelp(
+    currentQuestion,
+    setCurrentQuestionScore,
+    goToNextQuestion,
+    getQuestionHelpApiCall
+  );
 
   const startQuiz = useCallback(async () => {
     const apiQuestions: DbQuestion[] | undefined = await getQuestionsApiCall(

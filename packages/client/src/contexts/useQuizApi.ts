@@ -38,6 +38,38 @@ const useQuizApi = () => {
     [isLoading]
   );
 
+  const getQuestionHelp = useCallback(
+    async (
+      questionId: number,
+      currentHelp?: string
+    ): Promise<string | undefined> => {
+      // some request already fired
+      if (isLoading) {
+        return;
+      }
+
+      setHasError(false);
+      setIsLoading(true);
+      const urlParams = new URLSearchParams();
+      urlParams.append("id", String(questionId));
+      if (currentHelp) {
+        urlParams.append("current", currentHelp);
+      }
+
+      const data = await apiFetch<string>(
+        `/question/help?` + urlParams.toString()
+      );
+      setIsLoading(false);
+
+      // probably some error status
+      if (!data) {
+        setHasError(true);
+      }
+      return data;
+    },
+    [isLoading]
+  );
+
   const answerQuestion = useCallback(
     async (
       questionId: number,
@@ -110,6 +142,7 @@ const useQuizApi = () => {
     isApiLoading: isLoading,
     hasApiError: hasError,
     getQuestionsApiCall: getQuestions,
+    getQuestionHelpApiCall: getQuestionHelp,
     answerQuestionApiCall: answerQuestion,
     getAnswerSoundApiCall: getAnswerSound,
     getCodetablesApiCall: getCodetables,

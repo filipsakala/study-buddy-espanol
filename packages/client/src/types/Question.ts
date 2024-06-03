@@ -5,18 +5,20 @@ export enum QuestionCategory {
 }
 
 export type DbQuestion = {
-  id: number | number[];
-  icon?: string | string[]; // base64 encoded icon
   category: QuestionCategory;
-  question: string | string[];
-  correctAnswer: string | string[];
-  learnGroup: string | string[];
-  gender?: ("M" | "F") | ("M" | "F")[];
-  isSingular?: boolean | boolean[];
+  questions: {
+    id: number;
+    icon?: string;
+    textEn: string;
+    textEs?: string; // available only for some categories
+    randomizedAnswer?: string; // available only for some categories
+    learnGroup: string;
+    gender?: "M" | "F"; // available only for some categories
+    isSingular?: boolean; // available only for some categories
+  }[];
 };
 
 export type QuizQuestion = DbQuestion & {
   index: number;
   score: number;
-  answer: string | number[][] | string[];
 };
