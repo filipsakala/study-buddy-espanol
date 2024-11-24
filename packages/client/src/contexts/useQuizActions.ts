@@ -21,8 +21,13 @@ const useQuizActions = (): TQuizContext => {
     getAnswerSoundApiCall,
     getCodetablesApiCall,
   } = useQuizApi();
-  const { codetables, filterLearnGroups, setFilterLearnGroups } =
-    useCodetables(getCodetablesApiCall);
+  const {
+    codetables,
+    filterLearnGroups,
+    setFilterLearnGroups,
+    filterCourses,
+    setFilterCourses,
+  } = useCodetables(getCodetablesApiCall);
 
   const currentExercise = useMemo(
     () => exercises[currentExerciseIndex],
@@ -70,7 +75,8 @@ const useQuizActions = (): TQuizContext => {
 
   const startQuiz = useCallback(async () => {
     const apiExercises: DbExercise[] | undefined = await getQuestionsApiCall(
-      filterLearnGroups
+      filterLearnGroups,
+      filterCourses
     );
 
     if (!apiExercises) {
@@ -93,7 +99,7 @@ const useQuizActions = (): TQuizContext => {
     resetHelp();
     setCurrentAnswer([]);
     setQuizStatus(EQuizStatus.IN_PROGRESS);
-  }, [filterLearnGroups]);
+  }, [filterLearnGroups, filterCourses]);
 
   const answerQuestion = useCallback(
     async (
@@ -197,6 +203,7 @@ const useQuizActions = (): TQuizContext => {
     currentAnswer,
     codetables,
     filter: {
+      courses: filterCourses || [],
       learnGroups: filterLearnGroups || [],
     },
 
@@ -206,6 +213,7 @@ const useQuizActions = (): TQuizContext => {
     playAnswerAudio,
     setCurrentAnswer,
     setFilterLearnGroups,
+    setFilterCourses,
   };
 };
 

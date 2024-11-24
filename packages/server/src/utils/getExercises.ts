@@ -33,23 +33,27 @@ const getExerciseCategories = (count: number) => {
   return { exerciseCategories, categoryCounts };
 };
 
-const getQuestions = async (
+const getExercises = async (
   count: number,
-  learnGroup?: string | string[]
+  learnGroup?: string | string[],
+  course?: string
 ): Promise<Exercise[]> => {
   const { exerciseCategories, categoryCounts } = getExerciseCategories(count);
 
   const translateWordExercises: Exercise[] = await getTranslateWordQuestions(
     categoryCounts.TRANSLATE_WORD,
-    learnGroup
+    learnGroup,
+    course
   );
   const articlesExercises: Exercise[] = await getArticlesQuestions(
     categoryCounts.ARTICLES,
-    learnGroup
+    learnGroup,
+    course
   );
   const wordMatchExercises: Exercise[] = await getWordsMatchQuestions(
     categoryCounts.WORDS_MATCH,
-    learnGroup
+    learnGroup,
+    course
   );
 
   // shuffle exercises according to given order
@@ -68,4 +72,4 @@ const getQuestions = async (
   });
 };
 
-export default getQuestions;
+export default getExercises;

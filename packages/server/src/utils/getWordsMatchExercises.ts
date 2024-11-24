@@ -24,9 +24,10 @@ const transform = (exercises: DbWord[]): Exercise => {
 
 const getWordsMatchExercises = async (
   count: number,
-  learn_group?: string | string[]
+  learn_group?: string | string[],
+  course?: string
 ): Promise<Exercise[]> => {
-  const { whereConditions, whereParams } = getSqlCondition(learn_group);
+  const { whereConditions, whereParams } = getSqlCondition(learn_group, course);
   const dbWords = await db.query(
     `SELECT * FROM words WHERE ${whereConditions} ORDER BY random() LIMIT $1`,
     [count * WORDS_PER_EXERCISE, ...whereParams]

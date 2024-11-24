@@ -9,7 +9,7 @@ import { IncorrectCurrentHelpError } from "./errors";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const { count, learnGroup } = req.query;
+  const { count, learnGroup, course } = req.query;
 
   if (!count || !Number(count) || Number(count) > 10) {
     res.status(400).json({ errorMessage: "Wrong input params: count" });
@@ -19,7 +19,8 @@ router.get("/", async (req, res) => {
   try {
     const exercises: Exercise[] = await getExercises(
       Number(count) || 0,
-      learnGroup as any
+      learnGroup as any,
+      course as any
     );
 
     res.status(200).json(exercises);

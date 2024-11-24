@@ -9,7 +9,10 @@ const useQuizApi = () => {
   const [hasError, setHasError] = useState<boolean>(false);
 
   const getQuestions = useCallback(
-    async (learnGroup?: string[]): Promise<DbExercise[] | undefined> => {
+    async (
+      learnGroup?: string[],
+      course?: string[]
+    ): Promise<DbExercise[] | undefined> => {
       // some request already fired
       if (isLoading) {
         return;
@@ -22,6 +25,9 @@ const useQuizApi = () => {
 
       if (learnGroup) {
         learnGroup.forEach((group) => urlParams.append("learnGroup", group));
+      }
+      if (course) {
+        course.forEach((group) => urlParams.append("course", group));
       }
 
       const data = await apiFetch<DbExercise[]>(

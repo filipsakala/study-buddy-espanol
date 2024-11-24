@@ -1,10 +1,12 @@
-const getSqlCondition = (learn_group?: string | string[]) => {
+const getSqlCondition = (learn_group?: string | string[], course?: string) => {
   const whereConditions = [];
-  const whereParams = [];
+  const whereParams = [learn_group, course];
 
   if (learn_group !== undefined) {
     whereConditions.push(`learn_group in ($2:csv)`);
-    whereParams.push(learn_group);
+  }
+  if (course !== undefined) {
+    whereConditions.push(`course in ($3:csv)`);
   }
   return {
     whereConditions: whereConditions.join(" AND ") || "TRUE",

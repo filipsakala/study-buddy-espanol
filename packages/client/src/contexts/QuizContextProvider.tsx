@@ -14,6 +14,7 @@ export type TQuizContext = {
   currentAnswer: string[];
   codetables?: Codetables;
   filter: {
+    courses: string[];
     learnGroups: string[];
   };
 
@@ -29,6 +30,7 @@ export type TQuizContext = {
   setFilterLearnGroups: React.Dispatch<
     React.SetStateAction<string[] | undefined>
   >;
+  setFilterCourses: React.Dispatch<React.SetStateAction<string[] | undefined>>;
 };
 
 export const QuizContext = createContext<TQuizContext>({
@@ -41,6 +43,7 @@ export const QuizContext = createContext<TQuizContext>({
   currentAnswer: [],
   codetables: undefined,
   filter: {
+    courses: ["A1"],
     learnGroups: [],
   },
 
@@ -52,6 +55,9 @@ export const QuizContext = createContext<TQuizContext>({
     React.SetStateAction<string[]>
   >,
   setFilterLearnGroups: (() => {}) as unknown as React.Dispatch<
+    React.SetStateAction<string[] | undefined>
+  >,
+  setFilterCourses: (() => {}) as unknown as React.Dispatch<
     React.SetStateAction<string[] | undefined>
   >,
 });

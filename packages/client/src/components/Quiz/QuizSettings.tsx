@@ -35,6 +35,10 @@ const QuizSettings = () => {
     QuizContext,
     (c) => c.setFilterLearnGroups
   );
+  const setFilterCourses = useContextSelector(
+    QuizContext,
+    (c) => c.setFilterCourses
+  );
   const codetables = useContextSelector(QuizContext, (c) => c.codetables);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -48,6 +52,10 @@ const QuizSettings = () => {
     []
   );
 
+  const handleChangeCourses = useCallback((course: string) => {
+    setFilterCourses([course]);
+  }, []);
+
   return (
     <>
       <Button variant="contained" onClick={handleOpen} startIcon={<Settings />}>
@@ -59,7 +67,16 @@ const QuizSettings = () => {
             Settings
           </Typography>
 
-          <Chip variant="outlined" label="Curso A1" />
+          {codetables?.courses?.map((c) => (
+            <Chip
+              key={c}
+              variant="outlined"
+              label={c}
+              clickable
+              onClick={() => handleChangeCourses(c)}
+              color={filter?.courses?.includes?.(c) ? "success" : "info"}
+            />
+          ))}
 
           <FormControl sx={{ m: 1, mb: 2, width: "100%" }}>
             <InputLabel id="learn-groups" sx={{ width: "auto" }}>
@@ -79,12 +96,11 @@ const QuizSettings = () => {
                 </Box>
               )}
             >
-              {codetables?.learnGroups &&
-                codetables.learnGroups.map((learnGroup) => (
-                  <MenuItem key={learnGroup} value={learnGroup}>
-                    {learnGroup}
-                  </MenuItem>
-                ))}
+              {codetables?.learnGroups?.map((learnGroup) => (
+                <MenuItem key={learnGroup} value={learnGroup}>
+                  {learnGroup}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
