@@ -20,12 +20,13 @@ export type TQuizContext = {
 
   startQuiz: () => void;
   answerQuestion: (
-    questionId: number,
+    questionId: string,
     answer: string,
-    questionIndex?: number
-  ) => Promise<boolean>;
+    questionIndex?: number,
+    questionParam?: string | number
+  ) => Promise<{ result: boolean; correctAnswer?: string } | undefined>;
   getQuestionHelp: () => void;
-  playAnswerAudio: (questionId: number) => void;
+  playAnswerAudio: (questionId: string) => void;
   setCurrentAnswer: React.Dispatch<React.SetStateAction<string[]>>;
   setFilterLearnGroups: React.Dispatch<
     React.SetStateAction<string[] | undefined>
@@ -43,12 +44,12 @@ export const QuizContext = createContext<TQuizContext>({
   currentAnswer: [],
   codetables: undefined,
   filter: {
-    courses: ["A1"],
+    courses: ["A2"],
     learnGroups: [],
   },
 
   startQuiz: () => {},
-  answerQuestion: () => Promise.resolve(false),
+  answerQuestion: () => Promise.resolve({ result: false }),
   getQuestionHelp: () => {},
   playAnswerAudio: () => {},
   setCurrentAnswer: (() => {}) as unknown as React.Dispatch<

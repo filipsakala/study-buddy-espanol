@@ -3,8 +3,10 @@ import apiFetch from "../api/apiFetch";
 import { DbExercise, ExerciseCategory } from "../types/Question";
 import { QUIZ_EXERCISE_COUNT } from "../types/Quiz";
 import { Codetables } from "../types/Codetables";
+import { useSnackbar } from "notistack";
 
 const useQuizApi = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
@@ -46,7 +48,7 @@ const useQuizApi = () => {
 
   const getQuestionHelp = useCallback(
     async (
-      questionId: number,
+      questionId: string,
       currentHelp?: string
     ): Promise<string | undefined> => {
       // some request already fired
@@ -78,9 +80,10 @@ const useQuizApi = () => {
 
   const answerQuestion = useCallback(
     async (
-      questionId: number,
+      questionId: string,
       answer: string,
-      category: ExerciseCategory
+      category: ExerciseCategory,
+      questionParam?: string | number
     ): Promise<{ result: boolean; correctAnswer?: string } | undefined> => {
       // some request already fired
       if (isLoading) {
@@ -95,6 +98,7 @@ const useQuizApi = () => {
         questionId,
         answer,
         category,
+        questionParam,
       });
       setIsLoading(false);
 
@@ -102,13 +106,21 @@ const useQuizApi = () => {
         setHasError(true);
       }
 
+      if (data?.result === true) {
+        enqueueSnackbar({ message: "Correct!", variant: "success" });
+      } else {
+        enqueueSnackbar({
+          message: data?.correctAnswer ?? "That was incorrect :(",
+          variant: "error",
+        });
+      }
       return data;
     },
-    [isLoading]
+    [isLoading, enqueueSnackbar]
   );
 
   const getAnswerSound = useCallback(
-    async (questionId: number): Promise<string | undefined> => {
+    async (questionId: string): Promise<string | undefined> => {
       // some request already fired
       if (isLoading) {
         return;

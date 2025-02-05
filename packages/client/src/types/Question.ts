@@ -2,15 +2,17 @@ export enum ExerciseCategory {
   TRANSLATE_WORD = "TRANSLATE_WORD",
   WORDS_MATCH = "WORDS_MATCH",
   ARTICLES = "ARTICLES",
+  PRETERITO_PERFECTO = "PRETERITO_PERFECTO",
+  PRETERITO_INDEFINIDO = "PRETERITO_INDEFINIDO",
 }
 
 type Question = {
-  id: number;
+  id: string;
   icon?: string;
-  textEn: string;
+  textEn?: string;
   textEs?: string; // available only for some categories
   randomizedAnswer?: string; // available only for some categories
-  learnGroup: string;
+  learnGroup?: string;
   gender?: "M" | "F"; // available only for some categories
   isSingular?: boolean; // available only for some categories
 };

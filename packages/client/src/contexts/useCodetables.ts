@@ -5,14 +5,16 @@ const useCodetables = (
   getCodetablesApiCall: () => Promise<Codetables | undefined>
 ) => {
   const [codetables, setCodetables] = useState<Codetables | undefined>();
-  const [filterCourses, setFilterCourses] = useState<string[] | undefined>();
+  const [filterCourses, setFilterCourses] = useState<string[] | undefined>([
+    "A2",
+  ]);
   const [filterLearnGroups, setFilterLearnGroups] = useState<
     string[] | undefined
   >();
 
   useEffect(() => {
     getCodetablesApiCall().then((data) => setCodetables(data));
-  }, []);
+  }, [getCodetablesApiCall]);
 
   // get filters from local storage to the context
   useEffect(() => {

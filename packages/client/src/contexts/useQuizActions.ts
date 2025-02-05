@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { EQuizStatus } from "../types/Quiz";
 import useQuizApi from "./useQuizApi";
-import { QuizExercise, DbExercise } from "../types/Question";
+import { QuizExercise, DbExercise, ExerciseCategory } from "../types/Question";
 import useHelp from "./useHelp";
 import { TQuizContext } from "./QuizContextProvider";
 import useCodetables from "./useCodetables";
@@ -99,26 +99,29 @@ const useQuizActions = (): TQuizContext => {
     resetHelp();
     setCurrentAnswer([]);
     setQuizStatus(EQuizStatus.IN_PROGRESS);
-  }, [filterLearnGroups, filterCourses]);
+  }, [filterLearnGroups, filterCourses, getQuestionsApiCall, resetHelp]);
 
   const answerQuestion = useCallback(
     async (
-      questionId: number,
+      questionId: string,
       answer: string,
       questionIndex: number = 0
-    ): Promise<boolean> => {
+    ): Promise<{ result: boolean; correctAnswer?: string } | undefined> => {
       if (quizStatus !== EQuizStatus.IN_PROGRESS || !answer) {
-        return false;
+        return { result: false };
       }
 
       const answerResult = await answerQuestionApiCall(
         questionId,
         answer,
-        currentExercise.category
+        currentExercise.category,
+        currentExercise.category === ExerciseCategory.PRETERITO_INDEFINIDO
+          ? currentExercise.questions[questionIndex].randomizedAnswer
+          : undefined
       );
 
       if (answerResult === undefined) {
-        return false;
+        return { result: false };
       }
 
       const { result: isCorrectAnswer, correctAnswer } = answerResult;
@@ -158,20 +161,27 @@ const useQuizActions = (): TQuizContext => {
         Boolean(currentQuestionHelp.length)
       );
 
-      const answeredCount = currentAnswer.reduce((prev, a) => {
-        if (a !== undefined) {
-          return prev + 1;
-        }
-        return prev;
-      }, 1);
+      const answeredCount = currentAnswer.reduce(
+        (prev, a) => {
+          if (a !== undefined) {
+            return prev + 1;
+          }
+          return prev;
+        },
+        currentExercise.category === ExerciseCategory.ARTICLES ||
+          currentExercise.category === ExerciseCategory.WORDS_MATCH
+          ? 1
+          : 0
+      );
       const isAnswered = currentExercise.questions.length <= answeredCount;
+
       if (isAnswered) {
         resetHelp();
         setCurrentAnswer([]);
         goToNextQuestion();
       }
 
-      return isCorrectAnswer;
+      return answerResult;
     },
     [
       currentAnswer,
@@ -180,14 +190,16 @@ const useQuizActions = (): TQuizContext => {
       currentQuestionHelp,
       goToNextQuestion,
       resetHelp,
+      answerQuestionApiCall,
+      setCurrentQuestionScore,
     ]
   );
 
   const playAnswerAudio = useCallback(
-    async (questionId: number) => {
+    async (questionId: string) => {
       const audioBase64 = await getAnswerSoundApiCall(questionId);
 
-      let audio = new Audio("data:audio/wav;base64," + audioBase64);
+      const audio = new Audio("data:audio/wav;base64," + audioBase64);
       audio.play();
     },
     [getAnswerSoundApiCall]

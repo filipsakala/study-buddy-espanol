@@ -48,7 +48,9 @@ const QuizInProgressStatus = () => {
   return (
     <StatusWrapper>
       <div>
-        Excersise {currentExercise.index + 1} ({learnGroup}) <br />
+        Excersise {currentExercise.index + 1}{" "}
+        {!!learnGroup && `(${learnGroup})`}
+        <br />
         <b>
           {currentExercise.category === ExerciseCategory.TRANSLATE_WORD &&
             "Translate this word"}
@@ -56,6 +58,10 @@ const QuizInProgressStatus = () => {
             "Select correct articles"}
           {currentExercise.category === ExerciseCategory.WORDS_MATCH &&
             "Match these words"}
+          {currentExercise.category === ExerciseCategory.PRETERITO_PERFECTO &&
+            "Form pretérito perfecto"}
+          {currentExercise.category === ExerciseCategory.PRETERITO_INDEFINIDO &&
+            "Form preterito indefinido"}
         </b>
       </div>
       <QuizScore />

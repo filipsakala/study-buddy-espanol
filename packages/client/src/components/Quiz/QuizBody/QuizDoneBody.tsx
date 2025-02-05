@@ -49,13 +49,6 @@ const FloatRight = styled("div")`
 `;
 
 const formatAnswer = (answer: string, category: ExerciseCategory) => {
-  if (
-    category === ExerciseCategory.TRANSLATE_WORD ||
-    category === ExerciseCategory.WORDS_MATCH
-  ) {
-    return answer;
-  }
-
   if (category === ExerciseCategory.ARTICLES) {
     if (answer === "M") {
       return "♂️ el/los";
@@ -110,9 +103,7 @@ const QuizDoneBody = () => {
             <CorrectAnswer key={question.id}>
               <Typography variant="h6">
                 {question.textEn}
-                <IconButton
-                  onClick={() => playAnswerAudio(question.id as number)}
-                >
+                <IconButton onClick={() => playAnswerAudio(question.id)}>
                   <RecordVoiceOver />
                 </IconButton>
                 <FloatRight>
@@ -123,6 +114,10 @@ const QuizDoneBody = () => {
                     {category === ExerciseCategory.WORDS_MATCH && "Match words"}
                     {category === ExerciseCategory.ARTICLES &&
                       "Select articles"}
+                    {category === ExerciseCategory.PRETERITO_PERFECTO &&
+                      "Pretérito perfecto"}
+                    {category === ExerciseCategory.PRETERITO_INDEFINIDO &&
+                      "Pretérito indefinido"}
                   </Typography>
                   <ScoreHeart score={question.score} />
                 </FloatRight>

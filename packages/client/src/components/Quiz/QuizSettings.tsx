@@ -49,12 +49,15 @@ const QuizSettings = () => {
     (event: SelectChangeEvent<string[]>) => {
       setFilterLearnGroups(event.target.value as string[]);
     },
-    []
+    [setFilterLearnGroups]
   );
 
-  const handleChangeCourses = useCallback((course: string) => {
-    setFilterCourses([course]);
-  }, []);
+  const handleChangeCourses = useCallback(
+    (course: string) => {
+      setFilterCourses([course]);
+    },
+    [setFilterCourses]
+  );
 
   return (
     <>

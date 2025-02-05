@@ -49,7 +49,7 @@ const WordMatchExercise = () => {
     (c) => c.answerQuestion
   );
   const [selectedQuestionId, setSelectedQuestionId] = useState<
-    number | undefined
+    string | undefined
   >();
   const [selectedAnswer, setSelectedAnswer] = useState<string>();
   const currentExercise = useContextSelector(
@@ -65,7 +65,7 @@ const WordMatchExercise = () => {
   }, [currentExercise.index]);
 
   const handleAnswer = useCallback(
-    (questionId: number, answer: string) => {
+    (questionId: string, answer: string) => {
       const questionIndex = currentExercise.questions.findIndex(
         ({ id }) => questionId === id
       );
@@ -73,26 +73,26 @@ const WordMatchExercise = () => {
         ({ randomizedAnswer }) => randomizedAnswer === answer
       );
 
-      answerQuestion(questionId, answer, questionIndex).then((isCorrect) => {
+      answerQuestion(questionId, answer, questionIndex).then((response) => {
         setIsCorrectQuestion((prev) => {
           const next = [...prev];
-          next[questionIndex] = isCorrect;
+          next[questionIndex] = response?.result || false;
           return next;
         });
         setIsCorrectAnswer((prev) => {
           const next = [...prev];
-          next[answerIndex] = isCorrect;
+          next[answerIndex] = response?.result || false;
           return next;
         });
         setSelectedAnswer(undefined);
         setSelectedQuestionId(undefined);
       });
     },
-    [answerQuestion]
+    [answerQuestion, currentExercise.questions]
   );
 
   const selectQuestion = useCallback(
-    (id: number) => {
+    (id: string) => {
       // unselect selected
       if (selectedQuestionId === id) {
         setSelectedQuestionId(undefined);

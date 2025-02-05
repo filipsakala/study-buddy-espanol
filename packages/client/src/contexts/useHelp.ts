@@ -12,7 +12,7 @@ const useHelp = (
   ) => void,
   goToNextQuestion: () => void,
   getQuestionHelpApiCall: (
-    id: number,
+    id: string,
     current?: string
   ) => Promise<string | undefined>
 ) => {

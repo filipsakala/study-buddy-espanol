@@ -1,4 +1,4 @@
-import { DbWord, ExerciseCategory } from "../../types/Exercise";
+import { DbVerb, DbWord, ExerciseCategory } from "../../types/Exercise";
 import { QuestionDoesNotExistError } from "../errors";
 import getQuestion from "./getQuestion";
 
@@ -19,28 +19,44 @@ const performCheck = (answered: string, correct: string): boolean => {
   return normalizedCorrectAnswer === normalizedAnswer;
 };
 
+const getCorrectAnswerParam = (
+  category: ExerciseCategory | string,
+  questionParam?: string
+): keyof DbWord | keyof DbVerb => {
+  switch (category) {
+    case "TRANSLATE_WORD":
+    case "WORDS_MATCH":
+      return "es";
+    case "ARTICLES":
+      return "gender";
+    case "PRETERITO_PERFECTO":
+      return "participio";
+    case "PRETERITO_INDEFINIDO":
+      return `preterito_indefinido_${questionParam}` as keyof DbVerb;
+    default:
+      throw new QuestionDoesNotExistError(`Unknown category ${category}`);
+  }
+};
+
 const checkAnswer = async (
-  questionId: number,
+  questionId: string,
   answer: string,
-  category: ExerciseCategory
+  category: ExerciseCategory | string,
+  questionParam?: string
 ): Promise<{ result: boolean; correctAnswer?: string }> => {
-  const question: DbWord | null | undefined = await getQuestion(questionId);
+  const question: DbWord | DbVerb | null | undefined = await getQuestion(
+    questionId
+  );
 
   if (!question) {
     throw new QuestionDoesNotExistError("Question does not exist");
   }
 
-  if (category === "TRANSLATE_WORD" || category === "WORDS_MATCH") {
-    const result = performCheck(answer, question.es);
-    return { result, correctAnswer: question.es };
-  }
-
-  if (category === "ARTICLES" && question.gender) {
-    const result = performCheck(answer, question.gender);
-    return { result, correctAnswer: question.gender };
-  }
-
-  return { result: false };
+  const answerParam = getCorrectAnswerParam(category, questionParam);
+  // @ts-ignore
+  const correctAnswer = question[answerParam];
+  const result = performCheck(answer, correctAnswer);
+  return { result, correctAnswer };
 };
 
 export default checkAnswer;

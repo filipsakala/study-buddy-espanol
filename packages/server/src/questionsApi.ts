@@ -1,5 +1,5 @@
 import express from "express";
-import { DbWord, Exercise } from "../types/Exercise";
+import { DbVerb, DbWord, Exercise, isDbWord } from "../types/Exercise";
 import { getAudioBase64 } from "google-tts-api";
 import getQuestion from "./utils/getQuestion";
 import getExercises from "./utils/getExercises";
@@ -33,14 +33,16 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/help", async (req, res) => {
-  const { id, current } = req.query;
+  const { id, current, category } = req.query;
 
-  if (!id || !Number(id)) {
+  if (!id) {
     res.status(400).json({ errorMessage: "Wrong input params: id, current" });
     return;
   }
 
-  const exercise: DbWord | null | undefined = await getQuestion(Number(id));
+  const exercise: DbWord | DbVerb | null | undefined = await getQuestion(
+    id as string
+  );
 
   if (!exercise) {
     res.status(400).json({ errorMessage: "Wrong input params: id" });
@@ -49,7 +51,7 @@ router.get("/help", async (req, res) => {
 
   try {
     const currentHelp = current === undefined ? undefined : String(current);
-    const help = getQuestionHelp(exercise, currentHelp);
+    const help = getQuestionHelp(exercise, currentHelp, String(category));
     res.status(200).json(help);
   } catch (error) {
     if (error instanceof IncorrectCurrentHelpError) {
@@ -71,7 +73,9 @@ router.post("/sound", async (req, res) => {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });
     return;
   }
-  const exercise: DbWord | null | undefined = await getQuestion(questionId);
+  const exercise: DbWord | DbVerb | null | undefined = await getQuestion(
+    questionId
+  );
 
   if (!exercise) {
     res.status(400).json({ errorMessage: "Wrong input params: questionId" });
@@ -79,12 +83,15 @@ router.post("/sound", async (req, res) => {
   }
 
   try {
-    const audioBase64 = await getAudioBase64(exercise.es, {
-      lang: "es",
-      slow: false,
-      host: "https://translate.google.com",
-      timeout: 10000,
-    });
+    const audioBase64 = await getAudioBase64(
+      isDbWord(exercise) ? exercise.es : exercise.infinitivo,
+      {
+        lang: "es",
+        slow: false,
+        host: "https://translate.google.com",
+        timeout: 10000,
+      }
+    );
 
     res.status(200).json(audioBase64);
   } catch (error) {

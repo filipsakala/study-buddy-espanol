@@ -90,10 +90,10 @@ const ArticlesExercise = () => {
       const answeredQuestion = currentExercise.questions[index];
 
       answerQuestion(answeredQuestion.id, selectedGender, index).then(
-        (isCorrect) => {
+        (response) => {
           setIsCorrect((prev) => {
             const next = [...prev];
-            next[index] = isCorrect;
+            next[index] = response?.result || false;
             return next;
           });
         }

@@ -5,6 +5,8 @@ import TranslateWordExercise from "../Exercise/TranslateWordExercise";
 import WordMatchExercise from "../Exercise/WordMatchExercise";
 import { useContextSelector } from "use-context-selector";
 import ArticlesExercise from "../Exercise/ArticlesExercise";
+import PreteritoPerfectoExercise from "../Exercise/PreteritoPerfectoExercise";
+import PreteritoIndefinidoExercise from "../Exercise/PreteritoIndefinidoExercise";
 
 const QuizInProgressBody = () => {
   const status = useContextSelector(QuizContext, (c) => c.quizStatus);
@@ -27,6 +29,12 @@ const QuizInProgressBody = () => {
       )}
       {currentExercise.category === ExerciseCategory.ARTICLES && (
         <ArticlesExercise />
+      )}
+      {currentExercise.category === ExerciseCategory.PRETERITO_PERFECTO && (
+        <PreteritoPerfectoExercise />
+      )}
+      {currentExercise.category === ExerciseCategory.PRETERITO_INDEFINIDO && (
+        <PreteritoIndefinidoExercise />
       )}
     </>
   );

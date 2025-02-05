@@ -3,6 +3,7 @@ import Header from "./layout/Header";
 import Body from "./layout/Body";
 import { QuizContextProvider } from "./contexts/QuizContextProvider";
 import QuizActions from "./components/Quiz/QuizActions";
+import { SnackbarProvider } from "notistack";
 
 const PageWrapper = styled("div")(
   ({ theme }) => `
@@ -17,13 +18,15 @@ const PageWrapper = styled("div")(
 
 const App = () => {
   return (
-    <QuizContextProvider>
-      <PageWrapper>
-        <Header />
-        <Body />
-        <QuizActions />
-      </PageWrapper>
-    </QuizContextProvider>
+    <SnackbarProvider anchorOrigin={{ horizontal: "center", vertical: "top" }}>
+      <QuizContextProvider>
+        <PageWrapper>
+          <Header />
+          <Body />
+          <QuizActions />
+        </PageWrapper>
+      </QuizContextProvider>
+    </SnackbarProvider>
   );
 };
 
